@@ -125,7 +125,9 @@
   }
 
   function guar(d) {
-    const two = String(d.company).slice(0, 2);
+    // 公章上的两个字；英文版用公司名的首字母
+    const en = typeof LANG !== 'undefined' && LANG === 'en';
+    const two = en ? tr(d.company).split(' ').map((w) => w[0]).join('').slice(0, 3) : String(d.company).slice(0, 2);
     return `<div class="dx dx-guar">
       <div class="lh">${pix(ICON.house, { X: '#5a3d1e', o: '#e8d2a4' })}<span class="f" data-f="guar.company">${E(d.company)}</span></div>
       <div class="ttl">担 保 函</div>

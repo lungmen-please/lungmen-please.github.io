@@ -48,13 +48,28 @@ function altApp(a) {
 }
 
 // —— 姓名、证件号 ——
+// 英文版直接取英文名（lang-en.js 的 I18N.names），不走翻译词典
+const EN_NAMES = (nation) => (typeof LANG !== 'undefined' && LANG === 'en' && typeof I18N !== 'undefined' && I18N.names[nation]) || null;
 function genName(nation) {
-  const N = NATIONS[nation];
+  const N = NATIONS[nation], E = EN_NAMES(nation);
+  if (E) return E.cn ? `${pick(E.last)} ${pick(E.first)}` : `${pick(E.first)} ${pick(E.last)}`;
   return N.cn ? pick(N.last) + pick(N.first) : pick(N.first) + '·' + pick(N.last);
 }
 function genIdno(nation) { return `${NATIONS[nation].code}-${ri(1000, 9999)}-${ri(100, 999)}`; }
 
+// 英文名改一个字母：换成长得像或读着像的
+const LETTER_SWAP = { a: 'e', e: 'a', i: 'y', y: 'i', o: 'u', u: 'o', m: 'n', n: 'm', s: 'z', z: 's', c: 'k', k: 'c', t: 'd', d: 't',
+  v: 'w', w: 'v', l: 'r', r: 'l', b: 'p', p: 'b', g: 'j', j: 'g', f: 'v', h: 'n', x: 'z', q: 'k' };
+function alterNameEn(n) {
+  const c = [...n];
+  const idx = c.map((ch, i) => (i > 0 && LETTER_SWAP[ch] && c[i - 1] !== ' ' && c[i - 1] !== '-' ? i : -1)).filter((i) => i >= 0);
+  if (!idx.length) return n + 'e';
+  const i = pick(idx);
+  c[i] = LETTER_SWAP[c[i]];
+  return c.join('');
+}
 function alterName(n) {
+  if (/^[\x20-\x7e]+$/.test(n)) return alterNameEn(n);
   const chars = [...n];
   const idx = chars.map((c, i) => (NAME_SWAP[c] ? i : -1)).filter((i) => i >= 0);
   if (idx.length) {
@@ -91,7 +106,7 @@ function makeTraveler(o = {}) {
   const race = o.race || wpick(NATIONS[nation].races);
   const app = Object.assign(genApp(race), o.app || {});
   app.race = race;
-  const name = o.name || genName(nation), idno = genIdno(nation);
+  const name = o.name ? (typeof tr === 'function' ? tr(o.name) : o.name) : genName(nation), idno = genIdno(nation);
   const t = {
     nation, race, app, photo: app, photoDiff: false, name, infected: false, crystals: [], items: [], flaws: [], detain: false,
     docs: {}, hatOff: false, expr: 'neutral', voice: 120 + ri(0, 120),
@@ -231,7 +246,7 @@ function tutorChen() {
 function visitHoshiguma() {
   const egg = typeof EGGS !== 'undefined' && EGGS.dress;
   const t = egg
-    ? makeTraveler({ nation: 'lungmen', race: 'oni', name: '星熊', app: { hat: null, style: 'long', hair: [56, 96, 74], eye: [234, 172, 52], top: 'suit', cloth: [52, 56, 70], tie: [150, 40, 40], glasses: false, acc: null } })
+    ? makeTraveler({ nation: 'lungmen', race: 'oni', name: '星熊', app: { hat: null, glasses: false, acc: null } })
     : makeTraveler({ nation: 'lungmen', race: 'perro', app: { hat: null, top: 'uniform', cloth: [36, 46, 84], glasses: false } });
   t.items = [];
   t.voice = 110;

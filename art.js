@@ -528,11 +528,11 @@ const BODY_L = [[20, 80], [20.4, 73], [22, 67.6], [25.6, 63.6], [31.4, 60.4], [3
 const BODY = [...BODY_L, ...BODY_L.map(([x, y]) => [PW - x, y]).reverse()];
 function palette(a) {
   const c = a.cloth || CLOTHES[0], h = hash(a);
-  let acc = ACCENTS[h % ACCENTS.length];
-  if (Math.abs(lum(acc) - lum(c)) < 40) acc = ACCENTS[(h + 2) % ACCENTS.length];
+  let acc = a.accent || ACCENTS[h % ACCENTS.length];
+  if (!a.accent && Math.abs(lum(acc) - lum(c)) < 40) acc = ACCENTS[(h + 2) % ACCENTS.length];
   const strap = lum(c) < 70 ? [96, 94, 104] : [40, 38, 46];
   const inner = lum(c) < 70 ? [214, 212, 210] : [40, 40, 48];
-  acc = mix(acc, c, 0.12);
+  if (!a.accent) acc = mix(acc, c, 0.12);
   return { c, acc, strap, inner, metal: [196, 198, 208] };
 }
 function drawBody(L, a, P) {
@@ -550,6 +550,7 @@ function drawBody(L, a, P) {
       L.poly([[44, 56], [52, 56], [48, 62]], inner);
       break;
   }
+  if (a.x && a.x.fill) a.x.fill(L, P);
 }
 function bodyPost(L, a, P) {
   const { c, acc, strap, metal } = P, cd = dk(c, 1), cd2 = dk(c, 2), gold = [230, 186, 84];
@@ -616,6 +617,7 @@ function bodyPost(L, a, P) {
       break;
     }
   }
+  if (a.x && a.x.body) a.x.body(L, P);
   if (a.badge) {
     // 罗德岛徽章
     const bx = 60, by = 70;
@@ -646,6 +648,7 @@ function drawCollar(L, a, P) {
       L.poly([[43, 57.5], [44, 52], [48, 55], [52, 52], [53, 57.5], [48, 60]], [240, 238, 234]);
       break;
   }
+  if (a.x && a.x.collar) a.x.collar(L, P);
 }
 function collarPost(L, a, P) {
   const { acc } = P;
@@ -657,6 +660,7 @@ function collarPost(L, a, P) {
   } else if (a.top === 'uniform') {
     for (let x = 42; x <= 54; x++) { for (let y = 50; y < 54; y++) if (L.get(x, y)) { L.set(x, y, acc); break; } }
   }
+  if (a.x && a.x.collarPost) a.x.collarPost(L, P);
 }
 
 function drawHat(L, a) {
@@ -728,6 +732,8 @@ const WING = (L) => {
 };
 
 // 画一个人。o: {hatOff, expr}
+// a.x 是可选的自定义图层（彩蛋角色用）：tail / wing / back / backPost / fill / body / collar / collarPost /
+// face / front / hair / top / halo / over，分别替换或追加对应部件，画在同一套明暗和描边流程里。
 function drawPerson(a, o = {}) {
   const M = new Pix();
   a = a.hair ? a : Object.assign({}, a, { hair: HAIRS[0] });
@@ -737,11 +743,14 @@ function drawPerson(a, o = {}) {
   const R = a.race, expr = o.expr || 'neutral';
   const skd = mix(sk[1], [196, 110, 150], 0.12);
   const P = palette(a);
+  const X = a.x || {};
 
-  if (TAILS[R]) layer(M, (L) => TAILS[R](L, fc, a), { post: (L) => tailPost(L, R, a) });
-  if (R === 'sankta') layer(M, WING);
+  if (X.tail) layer(M, (L) => X.tail(L, fc, a), { post: X.tailPost });
+  else if (TAILS[R]) layer(M, (L) => TAILS[R](L, fc, a), { post: (L) => tailPost(L, R, a) });
+  if (X.wing) layer(M, X.wing, { shade: false });
+  else if (R === 'sankta') layer(M, WING);
   if (hat === 'hood') layer(M, (L) => L.ell(48, 34, 21, 22, dk(a.hatColor || [110, 60, 52], 1)), { hl: false });
-  else layer(M, (L) => drawBackHair(L, a), { hl: false, post: (L) => { for (let i = 0; i < L.c.length; i++) if (L.c[i]) L.c[i] = dk(L.c[i], 1); } });
+  else layer(M, (L) => { drawBackHair(L, a); if (X.back) X.back(L); }, { hl: false, post: (L) => { for (let i = 0; i < L.c.length; i++) if (L.c[i]) L.c[i] = dk(L.c[i], 1); if (X.backPost) X.backPost(L); } });
   if (a.top === 'hoodie' && hat !== 'hood') layer(M, (L) => L.ell(48, 55.5, 14.5, 5.5, dk(P.c, 1), (x, y) => y < 58), { hl: false });
   // 脖子
   layer(M, (L) => L.rect(44, 44, 8, 15, skd), {
@@ -773,7 +782,7 @@ function drawPerson(a, o = {}) {
     },
   });
   // 人类 / 萨卡兹的耳朵（在侧发后面）
-  if (hat !== 'hood' && (R === 'sankta' || R === 'vouivre')) {
+  if (hat !== 'hood' && (R === 'sankta' || R === 'vouivre' || a.humanEars)) {
     layer(M, (L) => { L.ell(35, 38, 2.2, 3.4, sk[0]); L.ell(61, 38, 2.2, 3.4, sk[0]); }, { post: (L) => { L.set(35, 38, skd); L.set(35, 39, skd); L.set(60, 38, skd); L.set(60, 39, skd); } });
   }
   if (hat !== 'hood' && R === 'sarkaz') {
@@ -785,8 +794,9 @@ function drawPerson(a, o = {}) {
   M.set(48, 43, mix(sk[0], skd, 0.45)); M.set(48, 44, skd);
   drawMouth(M, sk, expr);
   if (!['sad', 'angry', 'shock'].includes(expr)) drawBrows(M, a, expr);
+  if (X.face) X.face(M, sk, expr);
   // 前发
-  const hair = layer(M, (L) => drawFrontHair(L, a, hat === 'hood', !hat), { post: (L) => hairPost(L, a) });
+  const hair = layer(M, (L) => { drawFrontHair(L, a, hat === 'hood', !hat); if (X.front) X.front(L, hat); }, { post: (L) => { hairPost(L, a); if (X.hair) X.hair(L, hat); } });
   // 刘海在脸上的投影
   for (let y = 22; y < 50; y++) for (let x = 33; x < 63; x++) {
     if (face.get(x, y) && !hair.get(x, y) && (hair.get(x, y - 1) || hair.get(x - 1, y - 1) || (hair.get(x, y - 2) && y < 36))) {
@@ -795,11 +805,11 @@ function drawPerson(a, o = {}) {
     }
   }
   if (['sad', 'angry', 'shock'].includes(expr) || a.style === 'buzz') drawBrows(M, a, expr);
-  if (!hat && (a.style === 'messy' || a.style === 'spiky' || (a.style === 'short' && hash(a) % 3 === 0))) {
+  if (!hat && a.ahoge !== false && (a.style === 'messy' || a.style === 'spiky' || (a.style === 'short' && hash(a) % 3 === 0))) {
     layer(M, (L) => L.curve([49, 15], [50, 6], [56, 6], (t) => 1.2 - 0.5 * t, () => a.hair, 24), { hl: false });
   }
   if (a.style === 'ponytail' || a.style === 'twin') {
-    const tie = P.acc;
+    const tie = a.hairTie || P.acc;
     if (a.style === 'ponytail') { M.rect(63, 18, 2, 4, tie); M.set(63, 18, lt(tie, 2)); }
     else { M.rect(33, 25, 2, 3, tie); M.rect(61, 25, 2, 3, tie); M.set(33, 25, lt(tie, 2)); M.set(61, 25, lt(tie, 2)); }
   }
@@ -808,7 +818,8 @@ function drawPerson(a, o = {}) {
     const w = [170, 220, 250];
     M.set(62, 28, w); M.rect(61, 29, 3, 2, w); M.set(62, 31, [120, 180, 230]); M.set(61, 29, WHITE);
   }
-  if (!hat && TOPF[R]) layer(M, (L) => TOPF[R](L, fc), { post: (L) => topPost(L, R, fc), line: true });
+  if (!hat && X.top) layer(M, (L) => X.top(L, fc), { post: X.topPost, line: true });
+  else if (!hat && TOPF[R]) layer(M, (L) => TOPF[R](L, fc), { post: (L) => topPost(L, R, fc), line: true });
   if (a.acc === 'catband') {
     // 假猫耳发箍：塑料感的粉色细箍 + 没有绒毛的硬三角耳
     const k = [226, 98, 146], ki = [252, 196, 214];
@@ -827,7 +838,8 @@ function drawPerson(a, o = {}) {
     });
   }
   if (hat) layer(M, (L) => drawHat(L, a), { post: (L) => hatPost(L, a, P.acc) });
-  if (R === 'sankta') layer(M, halo, { shade: false });
+  if (X.over) X.over(M, hat, sk);
+  if (R === 'sankta') layer(M, X.halo || halo, { shade: false });
   // 右侧轮廓内一圈冷色边缘光
   const rim = [];
   for (let y = 4; y < PH; y++) for (let x = 50; x < PW - 1; x++) {

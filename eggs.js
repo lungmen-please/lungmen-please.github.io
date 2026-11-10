@@ -51,7 +51,7 @@
 
   // 1. 原作联动：自称哥伦比亚人的 Claude，时区出卖了他
   function claude() {
-    const t = makeTraveler({ nation: 'columbia', race: 'feline', name: '克劳德·奥普斯', app: { hat: null, top: 'suit', glasses: true } });
+    const t = makeTraveler({ nation: 'columbia', race: 'feline', name: '克劳德·奥普斯', app: { hat: null, top: 'suit', glasses: true, skin: 'light', style: 'short', hair: [218, 122, 86], eye: [150, 86, 54], cloth: [60, 56, 62], tie: [218, 122, 86], acc: null } });
     t.docs.permit.nation = 'lungmen';
     t.flaws = ['permit_nation'];
     t.intro = ['Hello, I am 哥伦比亚人。', '（他的终端右下角，时钟显示：东八区。）'];
@@ -71,32 +71,50 @@
   // 2. 企鹅物流的大帝：戴墨镜的帝企鹅，图鉴里查无此族
   function drawPenguin(o = {}) {
     const M = new Pix();
-    const K = [30, 30, 36], W = [240, 240, 236], Y = [252, 222, 128], O = [246, 160, 52];
+    const K = [34, 36, 46], W = [240, 240, 236], Y = [252, 222, 128], O = [246, 160, 52], T = [232, 234, 240];
     layer(M, (L) => {
-      L.poly([[22, 54], [12, 76], [19, 79], [28, 62]], K); L.poly([[74, 54], [84, 76], [77, 79], [68, 62]], K);
+      L.poly([[22, 54], [11, 76], [18, 79], [28, 62]], K); L.poly([[74, 54], [85, 76], [78, 79], [68, 62]], K);
     });
-    layer(M, (L) => { L.ell(48, 60, 26, 28, K); L.ell(48, 30, 17, 16, K); });
+    layer(M, (L) => { L.ell(48, 62, 26, 28, K); L.ell(48, 31, 16.5, 16, K); });
+    // 脸颊和脖子上的橙黄色
     layer(M, (L) => {
-      L.ell(48, 64, 17, 20, W);
-      L.ell(48, 47, 13, 5, Y, (x, y) => y >= 44);
-      L.ell(33, 37, 3.5, 6, O); L.ell(63, 37, 3.5, 6, O);
+      L.ell(33.5, 37, 3.4, 6.4, O); L.ell(62.5, 37, 3.4, 6.4, O);
+      L.ell(33.5, 42, 2.6, 2.4, Y); L.ell(62.5, 42, 2.6, 2.4, Y);
     }, { shade: false, line: false });
-    // 嘴
-    M.poly([[44.5, 34], [51.5, 34], [48, 41]], [44, 44, 50]);
-    M.rect(46, 37, 4, 1, O); M.rect(47, 38, 2, 1, O);
+    // 白 T 恤：胸口印着一张头像
+    layer(M, (L) => {
+      L.poly([[30, 50], [40, 47.4], [56, 47.4], [66, 50], [74, 60], [69, 65], [66, 61.4], [66.6, 80], [29.4, 80], [30, 61.4], [27, 65], [22, 60]], T);
+    }, { post: (L) => {
+      const g = [70, 72, 86];
+      L.ell(48, 66, 6, 6.4, g); L.rect(43, 71, 10, 4, g); L.rect(44, 64, 3, 1, T); L.rect(49, 64, 3, 1, T); L.rect(46, 68, 4, 1, T);
+      L.rect(42, 77, 12, 1, [150, 154, 168]);
+      L.line(40, 48, 44, 52, [200, 204, 214]); L.line(56, 48, 52, 52, [200, 204, 214]);
+    } });
+    // 白头巾
+    layer(M, (L) => {
+      L.ell(48, 26, 17.4, 13, T, (x, y) => y <= 23);
+      L.poly([[62, 17], [70, 15], [72, 20], [66, 24]], T); L.poly([[66, 22], [72, 26], [68, 30], [64, 25]], T);
+    }, { post: (L) => { for (let x = 32; x < 65; x++) if (L.get(x, 23)) L.set(x, 23, [176, 180, 196]); L.line(40, 15, 38, 22, [200, 204, 214]); L.line(54, 14, 57, 22, [200, 204, 214]); } });
+    // 喙
+    M.poly([[42, 33], [54, 33], [48, 45]], [78, 80, 96]);
+    M.rect(43, 33, 10, 1, [112, 114, 130]);
+    M.rect(45, 38, 6, 1, O); M.rect(46, 39, 4, 2, O); M.rect(47, 41, 2, 1, [255, 200, 110]);
     // 墨镜
     const s = [14, 14, 20], hi = [130, 150, 190];
-    M.rect(35, 26, 11, 6, s); M.rect(50, 26, 11, 6, s); M.rect(46, 27, 4, 1, s);
-    M.set(36, 27, hi); M.set(37, 27, hi); M.set(51, 27, hi); M.set(52, 27, hi);
-    // 金链子
+    M.rect(34, 26, 12, 6, s); M.rect(50, 26, 12, 6, s); M.rect(46, 27, 4, 2, s); M.rect(32, 27, 2, 1, s); M.rect(62, 27, 2, 1, s);
+    M.set(35, 27, hi); M.set(36, 27, hi); M.set(36, 28, hi); M.set(51, 27, hi); M.set(52, 27, hi); M.set(52, 28, hi);
+    // 两条金链子
     const G = [240, 200, 70];
-    for (let x = 34; x <= 62; x += 2) {
-      const dx = (x + 0.5 - 48) / 15;
-      const y = 46 + Math.round(5 * Math.sqrt(Math.max(0, 1 - dx * dx)));
-      M.set(x, y, G); M.set(x + 1, y, shade(G, 0.8));
+    for (const [r, d] of [[13, 6], [16, 12]]) {
+      for (let x = 48 - r; x <= 48 + r; x++) {
+        const dx = (x + 0.5 - 48) / r;
+        const y = 48 + Math.round(d * Math.sqrt(Math.max(0, 1 - dx * dx)));
+        M.set(x, y, x % 2 ? G : shade(G, 0.72));
+      }
     }
-    M.rect(46, 52, 4, 4, G); M.set(47, 53, [255, 240, 170]);
-    if (o.expr === 'smile') { M.set(45, 42, [44, 44, 50]); M.set(51, 42, [44, 44, 50]); }
+    M.rect(46, 60, 4, 4, G); M.set(47, 61, [255, 244, 180]); M.set(49, 63, shade(G, 0.7));
+    if (o.expr === 'smile') { M.set(44, 43, [50, 50, 60]); M.set(51, 43, [50, 50, 60]); }
+    M.outline('auto');
     return M;
   }
   function penguin() {
@@ -131,21 +149,35 @@
   // 3. 戴兜帽的“博士”：兜帽永远摘不下来
   function shadowFace(M) {
     const F = face(), d = [22, 20, 26];
-    for (let y = Math.floor(F.cy - F.ry); y <= F.cy + F.ry; y++) {
-      for (let x = Math.floor(F.cx - F.rx); x <= F.cx + F.rx; x++) {
-        if (((x + 0.5 - F.cx) / F.rx) ** 2 + ((y + 0.5 - F.cy) / F.ry) ** 2 <= 1 && M.get(x, y)) M.set(x, y, d);
+    for (let y = Math.floor(F.cy - F.ry) - 2; y <= F.cy + F.ry + 2; y++) {
+      for (let x = Math.floor(F.cx - F.rx) - 2; x <= F.cx + F.rx + 2; x++) {
+        const inF = typeof inFace === 'function' && inFace(x + 0.5, y + 0.5);
+        if ((inF || ((x + 0.5 - F.cx) / (F.rx + 1.5)) ** 2 + ((y + 0.5 - F.cy) / (F.ry + 1.5)) ** 2 <= 1) && M.get(x, y)) M.set(x, y, d);
       }
     }
-    const ex = (r) => Math.round((r[0] + r[1]) / 2);
-    M.set(ex(F.eyeL), F.eyeY, [150, 170, 200]); M.set(ex(F.eyeR), F.eyeY, [150, 170, 200]);
+    // 面罩上的反光：一道斜线，下面一条横缝
+    const hi = [84, 100, 128], x0 = Math.round(F.cx - F.rx * 0.55), y0 = Math.round(F.cy - F.ry * 0.5);
+    M.line(x0, y0 + 4, x0 + 4, y0, hi); M.line(x0 + 2, y0 + 5, x0 + 6, y0 + 1, [52, 60, 80]);
+    M.rect(Math.round(F.cx) - 5, Math.round(F.cy + F.ry * 0.45), 10, 1, [40, 42, 54]);
     return M;
   }
+  // 博士：泰拉上没有的“人类”，没有耳朵、角和尾巴可看，肩上一道青色反光条，左臂一枚橙色菱形臂章
+  const DOC_X = {
+    tail: () => {},
+    body: (L) => {
+      const t = [70, 204, 204], o = [236, 130, 52];
+      for (const s of [0, 1]) for (let x = 25; x <= 32; x++) { const y = Math.round(64 - (x - 25) * 0.36); L.set(s ? 95 - x : x, y, t); L.set(s ? 95 - x : x, y + 1, [40, 130, 136]); }
+      L.poly([[25, 68], [28, 71], [25, 74], [22, 71]], o); L.set(25, 71, [255, 220, 160]);
+      L.line(57, 66, 59, 72, o);
+    },
+  };
   function doctor() {
-    const t = makeTraveler({ nation: 'victoria', race: 'feline', app: { hat: 'hood', hatColor: [44, 46, 54], cloth: [36, 38, 46], top: 'coat', glasses: false } });
+    const t = makeTraveler({ nation: 'victoria', race: 'feline', app: { hat: 'hood', hatColor: [44, 46, 54], cloth: [36, 38, 46], top: 'coat', glasses: false, acc: null, skin: 'light', accent: [70, 204, 204], x: DOC_X } });
     if (S.day >= 4) {
       t.docs.rhodes = { code: '博士', name: t.name, expiry: today() + ri(100, 900) };
       t.app.badge = true;
     }
+    setRace(t, 'human');
     t.drawFn = (o) => shadowFace(drawPerson(t.app, Object.assign({}, o, { hatOff: false })));
     t.photoFn = () => shadowFace(drawPerson(t.app, { hatOff: false }));
     t.hatLine = '……还是算了吧。';
@@ -157,8 +189,10 @@
       deny: '……也好。我再想想，我到底是谁。',
       detain: '……这种感觉，好像在哪里经历过。',
     };
+    t.answers = { race: ['……证件上是这么写的。我自己也不太确定。', '图鉴里没有吗？……那大概，只剩我一个了。'] };
     t.eggAnalyze = (a, b) => {
       if (pair(a, b, 'face', 'id.race') || pair(a, b, 'face', 'id.photo')) return { hint: '兜帽下一片漆黑，什么也看不清。' };
+      if (pair(a, b, 'rule.race', 'id.race') || pair(a, b, 'id.photo', 'id.race')) return { hint: '种族图鉴里没有“人类”这一页。……这个词，你只在很老的书上见过。' };
       return null;
     };
     return t;
@@ -166,7 +200,7 @@
 
   // 4. 近卫局督察的突击抽查：证件昨天刚过期
   function inspector() {
-    const t = makeTraveler({ nation: 'lungmen', race: 'vouivre', name: '周慧敏', app: { hat: null, top: 'uniform', cloth: [40, 50, 72], glasses: false, style: 'bob' } });
+    const t = makeTraveler({ nation: 'lungmen', race: 'vouivre', name: '周慧敏', app: { hat: null, top: 'uniform', cloth: [40, 50, 72], glasses: false, style: 'bob', skin: 'light', hair: [72, 60, 70], eye: [72, 164, 104], scale: [84, 96, 120], eyeShape: 'sharp', acc: null } });
     t.docs.id.expiry = today() - 1;
     t.flaws = ['id_expired'];
     t.inspector = true;
@@ -186,6 +220,7 @@
   // 所有叠加在立绘上的小零件（剑、角、伤疤、Pocky……）都按 FACE 定位，换画风也不会跑偏。
 
   RACES.lung = { name: '龙', desc: '深色的龙角；粗壮的龙尾。页边手写：“别再拦我。——陈”' };
+  RACES.human = { name: '人类', desc: '……图鉴里没有这一页。' };
   RACES.oni = { name: '鬼', desc: '……图鉴里没有这一页。' };
 
   const OLC = [40, 28, 44];
@@ -221,6 +256,374 @@
   const decOf = (k) => flags()['egg_' + k + '_dec'];
   function narrate(ms, text) { if (typeof later === 'function' && D) later(ms, () => say('n', text)); }
 
+
+  // —— 熟面孔的专属造型 ——
+  // 每个角色一套 app（发色、瞳色、服装）加 app.x 自定义图层（角、尾巴、发型、衣服细节），
+  // 由 art.js 的 drawPerson 画进同一套明暗和描边里。
+  SKIN.fur = [[246, 240, 232], [212, 198, 200]];
+  const SKL = [252, 228, 210], BLK = [40, 40, 50], WHT = [238, 238, 242], GOLD = [232, 190, 84];
+  const both = (L, pts, c) => { L.poly(pts, c); L.poly(mir(pts), c); };
+  const eachBody = (L, fn) => { for (let y = 54; y < PH; y++) for (let x = 16; x < 80; x++) { const c = L.get(x, y); if (c) { const n = fn(x, y, c); if (n) L.set(x, y, n); } } };
+  const base = (o) => Object.assign({ hat: null, glasses: false, acc: null, skin: 'light', badge: false }, o);
+  // 一对向上的角：根部 → 尖端
+  function horns(L, p0, p1, p2, r0, cf) {
+    for (const s of [0, 1]) {
+      const f = ([x, y]) => [s ? 96 - x : x, y];
+      L.curve(f(p0), f(p1), f(p2), (t) => r0 * (1 - t) + 0.8, cf);
+    }
+  }
+  function hornLight(L) {
+    const src = L.c.slice();
+    for (let y = L.y0 + 1; y <= L.y1; y++) for (let x = L.x0; x <= L.x1; x++) {
+      const c = src[y * L.w + x];
+      if (c && !src[(y - 1) * L.w + x]) L.set(x, y, mix(c, [255, 236, 210], 0.4));
+    }
+  }
+
+  const LOOK = {
+    // 陈：藏青色头发、两束低马尾，深色的龙角带橙红纹，白衬衫黄领带，黑外套右臂两道白杠
+    chen: base({
+      style: 'short', ahoge: false, hair: [60, 66, 124], eye: [196, 66, 62], top: 'custom', cloth: [42, 44, 56], scale: [52, 54, 88],
+      x: {
+        back: (L) => {
+          for (const s of [-1, 1]) {
+            L.curve([48 + s * 13, 42], [48 + s * 23, 48], [48 + s * 23.4, 70], (t) => 3.3 - 1.8 * t, () => [60, 66, 124]);
+            L.poly([[48 + s * 22, 69], [48 + s * 23.6, 77], [48 + s * 25, 69]], [60, 66, 124]);
+          }
+        },
+        top: (L) => horns(L, [40, 19.5], [38, 11], [32.5, 2.5], 2.9, (t) => (t > 0.3 && Math.floor(t * 10) % 3 === 0 ? [206, 98, 58] : [66, 50, 56])),
+        topPost: hornLight,
+        tail: (L) => {
+          L.curve([72, 80], [97, 79], [89, 52], (t) => 2.6 - t, () => [52, 54, 88]);
+          L.poly([[86.4, 54], [87, 45], [89, 49], [90.6, 41], [92, 48], [93.4, 46], [92, 55]], [200, 60, 52]);
+        },
+        fill: (L) => L.poly([[40.5, 56], [55.5, 56], [58, 80], [38, 80]], WHT),
+        body: (L, P) => {
+          const cd2 = dk(P.c, 2), ty = [238, 198, 74];
+          L.line(40, 57, 37, 80, cd2); L.line(55, 57, 58, 80, cd2);
+          L.line(41, 58, 39, 80, [206, 208, 218]); L.line(54, 58, 56, 80, [206, 208, 218]);
+          L.rect(47, 58, 2, 2, dk(ty, 1)); L.poly([[46.6, 60], [49.4, 60], [50, 72], [48, 75], [46, 72]], ty); L.line(47, 61, 47, 70, lt(ty, 1));
+          for (const y of [67, 68, 71, 72]) L.line(66 + (y - 64) * 0.08, y, 75, y + 1, y % 4 === 3 || y % 4 === 0 ? WHT : [206, 208, 218]);
+          L.rect(31, 66, 4, 3, GOLD); L.set(32, 67, [255, 240, 180]);
+        },
+        collar: (L, P) => {
+          L.poly([[43, 57.5], [44, 52], [48, 55], [52, 52], [53, 57.5], [48, 60]], WHT);
+          both(L, [[35, 59.5], [39, 50], [43.4, 52.6], [42.6, 58.6]], P.c);
+        },
+      },
+    }),
+    // 星熊：墨绿长发，额头右侧一只象牙色的角，黑色无袖高领，左臂扎着黑臂带
+    hoshiguma: base({
+      style: 'long', humanEars: true, hair: [70, 150, 118], eye: [230, 190, 78], top: 'custom', cloth: [42, 44, 52],
+      x: {
+        top: (L) => {
+          L.poly([[50, 24], [55.4, 24], [57.4, 6.4], [56, 5.4]], [238, 218, 194]);
+          L.rect(50, 22, 6, 2, [168, 98, 82]);
+        },
+        topPost: (L) => { L.line(52, 21, 56, 8, [255, 244, 226]); L.line(55, 21, 57, 9, [206, 176, 156]); },
+        fill: (L, P) => {
+          L.poly(BODY, SKL);
+          L.poly([[34.5, 59], [42, 56.2], [54, 56.2], [61.5, 59], [64.6, 68], [66, 80], [30, 80], [31.4, 68]], P.c);
+        },
+        body: (L, P) => {
+          const cd2 = dk(P.c, 2), m = [176, 178, 190];
+          L.line(48, 57, 48, 80, m); L.rect(48, 60, 1, 2, [240, 240, 246]);
+          L.line(38, 60, 34, 72, cd2); L.line(57, 60, 61, 72, cd2);
+          L.line(36, 74, 46, 76, cd2); L.line(50, 76, 60, 74, cd2);
+          L.rect(21, 70, 8, 3, BLK);
+          eachBody(L, (x, y, c) => (c === SKL && x > 66 ? dk(SKL, 1) : null));
+        },
+        collar: (L, P) => L.poly([[41.4, 57.6], [41.8, 50], [48, 51.4], [54.2, 50], [54.6, 57.6]], dk(P.c, 1)),
+        collarPost: (L) => L.line(48, 52, 48, 57, [176, 178, 190]),
+      },
+    }),
+    // 诗怀雅：金色卷发、两束螺旋双马尾，虎耳虎尾带条纹，黑外套橙色内衬，胸前交叉的橙色绑带
+    swire: base({
+      style: 'short', ahoge: false, hair: [244, 210, 132], eye: [100, 184, 108], top: 'custom', cloth: [46, 44, 52],
+      x: {
+        back: (L) => { for (const s of [-1, 1]) for (let i = 0; i < 6; i++) L.ell(48 + s * (21 + (i % 2) * 1.6), 37 + i * 7, 5.6 - i * 0.35, 4.4, [244, 210, 132]); },
+        backPost: (L) => {
+          const d = dk([244, 210, 132], 2), h = [255, 236, 176];
+          for (const s of [-1, 1]) for (let i = 0; i < 6; i++) {
+            const cx = Math.round(48 + s * (21 + (i % 2) * 1.6)), cy = 37 + i * 7;
+            for (let k = -4; k <= 4; k++) if (L.get(cx + k, cy + 3 + Math.round(k * 0.3 * s))) L.set(cx + k, cy + 3 + Math.round(k * 0.3 * s), d);
+            for (let k = -2; k <= 1; k++) if (L.get(cx + k, cy - 2)) L.set(cx + k, cy - 2, h);
+          }
+        },
+        top: (L, fc) => {
+          TOPF.feline(L, fc);
+          const st = [132, 88, 52];
+          for (const [x, y] of [[34, 9], [35, 9], [34, 13], [35, 13], [36, 13], [35, 17], [36, 17]]) { if (L.get(x, y)) L.set(x, y, st); if (L.get(95 - x, y)) L.set(95 - x, y, st); }
+        },
+        tail: (L, fc) => {
+          const cf = (t) => (Math.floor(t * 15) % 3 === 0 ? [132, 88, 52] : fc);
+          L.curve([72, 80], [97, 78], [89, 46], () => 2.5, cf); L.curve([89, 46], [86, 37], [93, 36], () => 2.3, () => [132, 88, 52], 20);
+        },
+        fill: (L) => {
+          L.poly([[41, 56], [55, 56], [58, 80], [38, 80]], [34, 34, 40]);
+          both(L, [[41, 56], [44.6, 57.4], [42.6, 80], [36.6, 80], [35.6, 63]], [234, 122, 54]);
+        },
+        body: (L) => {
+          const o = [234, 122, 54];
+          for (let i = 0; i < 2; i++) { L.line(43 + i, 62, 52 + i, 74, o); L.line(52 + i, 62, 43 + i, 74, o); }
+          for (let y = 60; y < 80; y += 3) { L.set(38, y, [160, 70, 30]); L.set(57, y, [160, 70, 30]); }
+          L.rect(47, 59, 2, 2, GOLD); L.rect(69, 68, 4, 3, o);
+        },
+        collar: (L, P) => both(L, [[34.6, 60], [38.4, 49.4], [43.4, 52.4], [42.6, 58.6]], P.c),
+        collarPost: (L) => { L.line(40, 51, 43, 53, [234, 122, 54]); L.line(55, 51, 52, 53, [234, 122, 54]); },
+        // 歪戴的黑色贝雷帽：压在左耳根上，耳尖从帽子后面露出来
+        over: (M) => layer(M, (L) => { L.ellR(42.5, 15.4, 10.6, 4.8, -0.16, [46, 44, 54]); L.rect(46, 9, 2, 2, [46, 44, 54]); }, {
+          post: (L) => { L.rect(38, 15, 3, 3, GOLD); L.set(38, 15, [255, 240, 180]); for (let x = 34; x < 52; x++) if (L.get(x, 19) && L.get(x, 20)) L.set(x, 19, [28, 28, 34]); },
+        }),
+      },
+    }),
+    // 魏彦吾：白色的兽面、眼周墨绿色的纹路，橙红色的鬃毛和鹿角一样分叉的龙角，红长衫外披着黑大衣
+    wei: base({
+      style: 'long', skin: 'fur', eyeShape: 'sharp', hair: [228, 98, 42], eye: [244, 196, 64], top: 'custom', cloth: [42, 42, 50],
+      x: {
+        face: (M) => {
+          const g = [46, 86, 72], gd = [34, 62, 56];
+          for (let y = 31; y <= 40; y++) for (let x = 33; x < 64; x++) {
+            if (!inFace(x + 0.5, y + 0.5) || !M.get(x, y)) continue;
+            if (y >= 34 && ((x >= 37 && x <= 43) || (x >= 52 && x <= 58))) continue;
+            if (y === 40 && Math.abs(x - 47.5) < 4) continue;
+            M.set(x, y, x > 58 ? gd : g);
+          }
+          M.rect(46, 42, 4, 2, [70, 46, 50]); M.set(46, 42, [120, 90, 92]); M.line(48, 44, 48, 46, [150, 120, 120]);
+          const h = [228, 98, 42];
+          for (const [x, y, w] of [[46, 50, 4], [46, 51, 4], [46, 52, 4], [47, 53, 3], [47, 54, 2], [47, 55, 2], [48, 56, 1]]) M.rect(x, y, w, 1, y > 52 ? dk(h, 1) : h);
+        },
+        top: (L) => {
+          const o = [246, 152, 44];
+          for (const s of [0, 1]) {
+            const f = (x) => (s ? 96 - x : x);
+            L.curve([f(41), 19.5], [f(37), 11], [f(29.5), 4], (t) => 2 - 1.1 * t, () => o);
+            for (const [ax, ay, bx, by] of [[37.6, 12, 41, 5], [34, 8.4, 28, 10.6], [32.4, 6.4, 34.4, 0.6]]) { L.line(f(ax), ay, f(bx), by, o); L.line(f(ax) + 1, ay, f(bx) + 1, by, o); }
+          }
+          both(L, [[36.4, 30], [21.6, 23.6], [26, 32.6], [36.4, 41]], [176, 84, 52]);
+          both(L, [[34, 32], [25, 27.4], [28, 32.6], [34, 37]], [240, 214, 196]);
+          L.rect(68, 33, 2, 2, GOLD); L.rect(68, 35, 2, 5, [200, 50, 44]); L.set(68, 37, WHT);
+        },
+        topPost: hornLight,
+        tail: (L) => {
+          L.curve([70, 80], [98, 80], [90, 54], (t) => 3.2 - 1.6 * t, () => [66, 54, 60]);
+          L.poly([[86, 56], [86.6, 46], [89, 50], [90.6, 42], [92.4, 49], [94, 47], [93, 57]], [236, 112, 42]);
+        },
+        fill: (L) => {
+          L.poly([[40, 56], [56, 56], [59.4, 80], [36.6, 80]], [156, 44, 42]);
+          both(L, [[40, 56], [43, 57.4], [40.6, 80], [35, 80], [35.4, 63]], [234, 224, 202]);
+        },
+        body: (L, P) => {
+          const cd2 = dk(P.c, 2), o = [232, 150, 52];
+          L.line(35, 63, 34, 80, cd2); L.line(60, 63, 61, 80, cd2);
+          L.rect(46, 60, 4, 20, o);
+          for (let y = 61; y < 80; y += 3) { L.rect(47, y, 2, 1, [150, 76, 30]); L.set(46, y + 1, [255, 214, 130]); }
+          for (let k = -5; k <= 5; k++) { const y = 66 - Math.round(Math.abs(k) * 0.9); L.set(48 + k * 1.4, y, k % 2 ? [120, 40, 36] : [206, 150, 60]); }
+          for (const s of [0, 1]) for (let x = 24; x <= 31; x++) L.set(s ? 95 - x : x, Math.round(64 - (x - 24) * 0.34), [84, 84, 98]);
+        },
+        collar: (L, P) => {
+          L.poly([[42, 57.6], [42.4, 51.6], [47.4, 54], [48.6, 54], [53.6, 51.6], [54, 57.6]], [124, 34, 36]);
+          both(L, [[34.6, 60], [38.4, 50], [42.6, 53], [42, 58.6]], P.c);
+        },
+        collarPost: (L) => { for (let x = 43; x <= 53; x++) for (let y = 50; y < 56; y++) if (L.get(x, y)) { L.set(x, y, [232, 150, 52]); break; } },
+      },
+    }),
+    // 德克萨斯：黑色长发、内侧挑染暗红，橙色眼睛，白夹克黑肩，斜挎红色背带
+    texas: base({
+      style: 'long', hair: [48, 48, 66], eye: [226, 150, 66], top: 'custom', cloth: [234, 234, 240],
+      x: {
+        backPost: (L) => { for (let y = 46; y < PH; y++) for (let x = 24; x < 72; x++) if (L.get(x, y) && (x < 36 || x > 60) && (x + (y >> 2)) % 3 === 0) L.set(x, y, [164, 58, 56]); },
+        fill: (L) => {
+          eachBody(L, (x, y) => (y < 66.5 - Math.abs(x - 48) * 0.04 ? BLK : null));
+          L.poly([[44.4, 56], [51.6, 56], [51, 80], [45, 80]], [34, 34, 42]);
+        },
+        body: (L) => {
+          const r = [200, 54, 56];
+          L.line(44, 57, 45, 80, [176, 178, 190]); L.line(52, 57, 51, 80, [176, 178, 190]);
+          for (let i = 0; i < 3; i++) L.line(61 + i, 58, 36 + i, 80, i === 2 ? dk(r, 1) : r);
+          L.rect(47, 68, 3, 3, [196, 198, 208]);
+          L.rect(33, 69, 5, 3, [86, 146, 224]); L.set(34, 70, WHT); L.set(35, 70, WHT);
+          for (const s of [0, 1]) for (let x = 21; x < 30; x++) L.set(s ? 95 - x : x, 75, [200, 202, 212]);
+        },
+        collar: (L) => L.poly([[38.5, 58], [40, 49.4], [44, 51.2], [48, 51.8], [52, 51.2], [56, 49.4], [57.5, 58]], BLK),
+        collarPost: (L) => L.line(48, 52, 48, 57, [196, 198, 208]),
+      },
+    }),
+    // 能天使：酒红色短发，细光环，背后是光做的翼片，白马甲黑袖子、红色滚边
+    exusiai: base({
+      style: 'short', hair: [160, 52, 64], eye: [228, 98, 72], top: 'custom', cloth: [236, 236, 242],
+      x: {
+        halo: (L) => L.fill(34, 2, 62, 12, (x, y) => {
+          const o = ((x - 48) / 11.5) ** 2 + ((y - 7) / 3.2) ** 2, i = ((x - 48) / 9.8) ** 2 + ((y - 7) / 2) ** 2;
+          return o <= 1 && i > 1;
+        }, (x, y) => (y < 7 ? [255, 250, 214] : [250, 226, 150])),
+        wing: (L) => {
+          const a = [255, 251, 226], b = [252, 234, 164];
+          for (const s of [-1, 1]) {
+            const f = (pts) => pts.map(([x, y]) => [48 + s * (48 - x), y]);
+            L.poly(f([[27, 52], [13, 41], [11.4, 43.6], [25, 56]]), a);
+            L.poly(f([[25, 57.4], [9, 52], [8.2, 55], [24, 61.4]]), b);
+            L.poly(f([[25, 62.6], [12, 62.4], [12, 65], [24, 66]]), a);
+          }
+        },
+        fill: (L) => {
+          eachBody(L, (x, y) => ((x < 30.5 - (y - 64) * 0.06 || x > 65.5 + (y - 64) * 0.06) && y > 61 ? BLK : null));
+          L.poly([[45, 56], [51, 56], [48, 63]], [34, 34, 42]);
+        },
+        body: (L) => {
+          const r = [216, 62, 72];
+          L.line(31, 62, 29, 80, r); L.line(64, 62, 66, 80, r);
+          L.line(48, 63, 48, 80, [176, 178, 190]);
+          L.rect(35, 66, 7, 4, WHT); L.rect(35, 66, 7, 1, r); L.set(37, 68, BLK); L.set(39, 68, BLK);
+          L.rect(53, 74, 8, 1, r); L.rect(35, 74, 8, 1, r);
+          for (const y of [70, 73]) { L.line(21, y + 1, 26, y, WHT); L.line(69, y, 74, y + 1, [206, 208, 218]); }
+        },
+        collar: (L, P) => L.poly([[38.5, 58], [40, 49.4], [44, 51.2], [48, 54], [52, 51.2], [56, 49.4], [57.5, 58], [48, 63]], P.c),
+        collarPost: (L) => { for (let x = 40; x <= 55; x++) for (let y = 48; y < 56; y++) if (L.get(x, y)) { L.set(x, y, [216, 62, 72]); break; } },
+      },
+    }),
+    // 拉普兰德：银白长发，灰眼睛，苍白的皮肤，黑色高领大衣，刘海上别着两枚发卡
+    lappland: base({
+      style: 'long', skin: 'pale', hair: [226, 228, 236], eye: [150, 160, 180], top: 'coat', cloth: [42, 42, 50], accent: [214, 216, 226],
+      x: {
+        hair: (L) => { for (const y of [26, 29]) { L.rect(55, y, 4, 1, [36, 36, 44]); L.set(55, y, [120, 120, 132]); } },
+        collar: (L, P) => L.poly([[40, 58.4], [40.6, 48.6], [48, 50.6], [55.4, 48.6], [56, 58.4]], dk(P.c, 1)),
+        collarPost: (L) => { L.line(41, 49, 48, 51, [96, 96, 108]); L.line(48, 51, 55, 49, [96, 96, 108]); L.line(48, 52, 48, 58, [214, 216, 226]); },
+      },
+    }),
+    // 阿米娅：棕色长发和长长的兔耳，蓝眼睛，深蓝外套蓝色内衬，脖子上系着蓝色领巾
+    amiya: base({
+      style: 'long', hair: [114, 78, 58], eye: [72, 150, 200], top: 'coat', cloth: [38, 42, 62], accent: [72, 142, 232],
+      x: {
+        top: (L, fc) => {
+          L.ellR(39, 7, 3.6, 11.6, -0.2, fc); L.ellR(39.3, 8, 1.5, 8.6, -0.2, dk(fc, 2));
+          L.ellR(58, 8, 3.6, 11, 0.42, fc); L.ellR(57.8, 9, 1.5, 8, 0.42, dk(fc, 2));
+        },
+        body: (L) => { L.line(44, 58, 42, 80, [72, 142, 232]); L.line(51, 58, 53, 80, [72, 142, 232]); },
+        collarPost: (L) => {
+          const b = [72, 142, 232];
+          L.poly([[44, 54], [52, 54], [50.4, 59.4], [48, 57], [45.6, 59.4]], b); L.rect(47, 55, 2, 2, lt(b, 2));
+        },
+      },
+    }),
+    // 凯尔希：泛绿的银白短发，猞猁耳尖有黑色簇毛，露肩白大衣、绿色连衣裙、黑色颈带
+    kaltsit: base({
+      style: 'bob', hair: [224, 236, 230], eye: [108, 186, 126], top: 'custom', cloth: [232, 234, 228], badge: true,
+      x: {
+        top: (L, fc) => {
+          TOPF.feline(L, fc);
+          const k = [52, 52, 60];
+          for (let y = 0; y < 9; y++) for (let x = 32; x < 38; x++) if (L.get(x, y) === fc) { L.set(x, y, k); L.set(95 - x, y, k); }
+          for (const [x, y] of [[34, 3], [33, 2], [33, 1], [35, 3]]) { L.set(x, y, k); L.set(95 - x, y, k); }
+        },
+        fill: (L, P) => {
+          L.poly(BODY, SKL);
+          L.poly([[44, 56], [52, 56], [58.6, 62.6], [37.4, 62.6]], BLK);
+          L.poly([[37.4, 62.6], [58.6, 62.6], [61, 80], [35, 80]], [158, 198, 100]);
+          eachBody(L, (x, y) => ((x < 31.6 - (y - 66) * 0.1 || x > 64.4 + (y - 66) * 0.1) && y > 66.5 - Math.abs(x - 48) * 0.02 ? P.c : null));
+        },
+        body: (L) => {
+          const g = dk([158, 198, 100], 2);
+          L.line(48, 63, 48, 80, g); L.line(38, 63, 36, 80, g); L.line(58, 63, 60, 80, g);
+          L.line(22, 68, 31, 67, [190, 194, 186]); L.line(65, 67, 74, 68, [190, 194, 186]);
+          L.rect(42, 67, 1, 5, WHT); L.rect(40, 69, 5, 1, WHT);
+        },
+        collar: (L) => L.rect(44, 52, 8, 2, BLK),
+        collarPost: (L) => L.set(48, 53, [150, 220, 170]),
+      },
+    }),
+    // W：灰白短发挑染红色，黑红相间的短角，橙红色眼睛，黑围巾、灰上衣、黑外套红滚边
+    w: base({
+      style: 'messy', eyeShape: 'sharp', hair: [208, 208, 216], eye: [238, 116, 58], top: 'custom', cloth: [44, 44, 54],
+      x: {
+        // 睁着眼的坏笑：嘴角往一边翘
+        face: (M, sk) => {
+          const ln = [150, 70, 84];
+          for (let x = 45; x <= 50; x++) M.set(x, 47, sk[0]);
+          for (const [x, y] of [[45, 47], [46, 48], [47, 48], [48, 48], [49, 47], [50, 46], [51, 45]]) M.set(x, y, ln);
+        },
+        hair: (L) => {
+          const r = [206, 56, 62];
+          for (let y = 15; y < 36; y++) for (const x of [52, 53]) if (L.get(x, y)) L.set(x, y, y % 5 === 4 ? dk(r, 1) : r);
+          for (let y = 30; y < 48; y++) for (const x of [62, 63]) if (L.get(x, y)) L.set(x, y, r);
+          for (let y = 34; y < 46; y++) if (L.get(33, y)) L.set(33, y, r);
+        },
+        top: (L) => horns(L, [39.6, 19.5], [36, 11], [33.4, 4.5], 2.5, (t) => (t > 0.5 ? [200, 50, 56] : [56, 46, 60])),
+        topPost: hornLight,
+        fill: (L) => L.poly([[40, 56], [56, 56], [58.6, 80], [37.4, 80]], [142, 142, 152]),
+        body: (L, P) => {
+          const r = [206, 56, 62], cd2 = dk(P.c, 2);
+          L.line(39, 58, 36, 80, cd2); L.line(56, 58, 59, 80, cd2);
+          L.line(40, 60, 38, 80, r); L.line(55, 60, 57, 80, r);
+          for (let i = 0; i < 2; i++) L.line(33 + i, 60, 31 + i, 80, i ? dk(r, 1) : r);
+          L.rect(67, 68, 7, 3, r); L.set(69, 69, WHT); L.set(71, 69, WHT);
+          L.line(44, 70, 52, 70, [120, 120, 130]); L.line(45, 76, 51, 76, [120, 120, 130]);
+        },
+        collar: (L) => { L.ell(48, 55, 12.6, 5.2, [50, 50, 60]); L.poly([[52, 57], [58, 57], [57.4, 68], [53, 67]], [50, 50, 60]); },
+        collarPost: (L) => {
+          const f = [84, 84, 96];
+          L.line(39, 53, 45, 57, f); L.line(47, 52, 52, 57, f); L.line(54, 53, 58, 56, f); L.line(54, 60, 56, 66, f);
+        },
+      },
+    }),
+    // 霜星：雪白的短发和兔耳，灰色眼睛，白大衣、橙色滚边，头发上别着黑色发卡
+    frostnova: base({
+      style: 'bob', skin: 'pale', hair: [240, 242, 248], eye: [146, 156, 172], top: 'coat', cloth: [228, 230, 238], accent: [234, 132, 62],
+      x: {
+        hair: (L) => { L.rect(36, 27, 5, 1, [40, 40, 48]); L.rect(37, 29, 4, 1, [40, 40, 48]); L.set(36, 27, [130, 130, 142]); },
+        face: (M) => { M.set(41, 41, [214, 170, 186]); M.set(42, 42, [214, 170, 186]); M.set(40, 40, [214, 170, 186]); },
+      },
+    }),
+    // 弑君者：红褐色短发，黑兜帽，下半张脸罩着黑色面罩
+    crownslayer: base({
+      hat: 'hood', hatColor: [38, 38, 46], style: 'short', hair: [138, 58, 54], eye: [220, 150, 84], top: 'hoodie', cloth: [42, 42, 50], accent: [170, 60, 56],
+      x: {
+        face: (M) => {
+          const k = [36, 36, 44];
+          for (let y = 41; y < 54; y++) for (let x = 33; x < 64; x++) {
+            if (!inFace(x + 0.5, y + 0.5)) continue;
+            M.set(x, y, y === 41 ? [84, 84, 98] : x > 55 ? [28, 28, 34] : k);
+          }
+          M.line(42, 44, 48, 46, [64, 64, 76]); M.line(48, 46, 53, 44, [64, 64, 76]);
+          for (const [x, y] of [[43, 47], [43, 49], [52, 47], [52, 49]]) M.set(x, y, [110, 110, 124]);
+        },
+      },
+    }),
+    // 古米：奶油色的蓬松头发扎成两个团子，巧克力发卡，橙红色眼睛，水手服外面套着灰外套
+    gummy: base({
+      style: 'short', ahoge: false, hair: [248, 224, 166], eye: [234, 118, 74], top: 'custom', cloth: [50, 54, 88],
+      x: {
+        back: (L) => {
+          for (const s of [-1, 1]) {
+            L.ell(48 + s * 20.5, 28, 7.6, 7.4, [248, 224, 166]);
+            for (const [dx, dy] of [[5, -5], [8, 0], [6, 6], [0, 8]]) L.ell(48 + s * (20.5 + dx), 28 + dy, 2.6, 2.6, [248, 224, 166]);
+          }
+        },
+        hair: (L) => {
+          const c = [124, 72, 46];
+          L.rect(36, 25, 4, 2, c); L.set(36, 25, [176, 116, 80]); L.rect(55, 23, 4, 2, c); L.set(55, 23, [176, 116, 80]);
+          L.rect(33, 28, 2, 2, [226, 98, 60]); L.rect(61, 28, 2, 2, [226, 98, 60]);
+        },
+        fill: (L) => eachBody(L, (x, y) => (x < 34 - (y - 60) * 0.12 || x > 62 + (y - 60) * 0.12 ? [122, 110, 110] : null)),
+        body: (L) => {
+          const o = [234, 122, 54];
+          L.line(34, 61, 31, 80, dk([122, 110, 110], 2)); L.line(61, 61, 64, 80, dk([122, 110, 110], 2));
+          L.rect(24, 70, 5, 2, o); L.rect(67, 70, 5, 2, dk(o, 1));
+          L.line(27, 64, 26, 80, o);
+          L.rect(47, 72, 2, 2, GOLD); L.rect(47, 77, 2, 2, GOLD);
+        },
+        collar: (L) => {
+          both(L, [[36, 60.4], [41.6, 51.6], [47.6, 60.6], [44, 67]], WHT);
+          L.poly([[46, 60], [50, 60], [49.4, 69], [48, 71], [46.6, 69]], WHT);
+        },
+        collarPost: (L) => {
+          const n = [50, 54, 88];
+          L.line(38, 61, 44, 65, n); L.line(57, 61, 51, 65, n); L.rect(47, 60, 2, 2, [206, 208, 218]);
+        },
+      },
+    }),
+  };
+
   // —— 小零件 ——
   // 陈的剑「赤霄」：剑柄从肩后露出来
   function chenSword(M) {
@@ -234,36 +637,24 @@
       L.rect(px - 1, py - 2, 3, 3, [232, 190, 82]); L.set(px - 1, py - 2, [255, 232, 160]);
     });
   }
-  // 星熊：额头一只角、人类耳朵、窗口里挤不进来的大盾
-  function oniHead(M) {
-    const F = face(), sk = [250, 222, 200];
-    const top = Math.round(F.cy - F.ry), cx = Math.round(F.cx) + 3;
-    part(M, (L) => {
-      L.ell(F.cx - F.rx + 0.5, F.cy + 2, 2.6, 3.6, sk); L.ell(F.cx + F.rx - 0.5, F.cy + 2, 2.6, 3.6, sk);
-      L.set(Math.round(F.cx - F.rx) + 1, Math.round(F.cy + 2), [222, 180, 160]); L.set(Math.round(F.cx + F.rx) - 1, Math.round(F.cy + 2), [222, 180, 160]);
-    });
-    return part(M, (L) => {
-      L.poly([[cx - 3, top + 7], [cx + 3, top + 7], [cx + 1, top - 6], [cx - 0.5, top - 6]], [228, 120, 96]);
-      L.line(cx - 1, top + 6, cx, top - 4, [255, 184, 160]); L.rect(cx - 3, top + 5, 7, 1, [188, 84, 70]);
-    });
-  }
+  // 星熊的大盾「般若」：黑色的厚钢板，斜切的上沿，盾面嵌着齿轮，窗口里挤不进来
   function oniShield(M) {
-    const F = face(), x0 = Math.round(F.cx + F.rx) + 2, y0 = Math.round(F.cy) - 8;
-    const w = Math.max(14, Math.min(28, PW - 2 - x0)), h = PH - y0;
-    const st = [92, 98, 112], sd = [64, 68, 82], red = [176, 42, 44];
+    const F = face(), x0 = Math.round(F.cx + F.rx) + 5, y0 = Math.round(F.cy) - 12;
+    const w = Math.max(14, Math.min(26, PW - 1 - x0)), h = PH - y0;
+    const st = [70, 72, 84], sd = [46, 48, 58], hi = [132, 136, 152], rim = [100, 104, 118];
     part(M, (L) => {
-      L.rect(x0, y0 + 2, w, h - 2, st); L.rect(x0 + 2, y0, w - 4, 2, st);
-      for (let y = y0 + 4; y < PH; y += 6) { L.set(x0 + 2, y, [150, 156, 172]); L.set(x0 + w - 3, y, [150, 156, 172]); }
-      L.rect(x0 + w - 3, y0 + 2, 2, h - 2, sd);
-      L.rect(x0, y0 + 2, 1, h - 2, [130, 136, 152]);
+      L.poly([[x0, y0 + 11], [x0 + w, y0], [x0 + w, PH], [x0, PH]], st);
+      L.poly([[x0 + w - 5, y0 + 3], [x0 + w, y0], [x0 + w, PH], [x0 + w - 5, PH]], sd);
+      L.line(x0, y0 + 11, x0 + w - 1, y0, hi); L.line(x0, y0 + 12, x0, PH, hi);
+      L.line(x0 + 2, y0 + 14, x0 + w - 6, y0 + 6, sd);
     });
-    // 盾面上的般若面
-    const mx = x0 + Math.floor(w / 2), my = y0 + 14;
-    M.rect(mx - 6, my - 6, 12, 12, red); M.rect(mx - 5, my + 6, 10, 3, red);
-    M.rect(mx - 4, my - 3, 3, 2, [255, 226, 120]); M.rect(mx + 1, my - 3, 3, 2, [255, 226, 120]);
-    M.line(mx - 6, my - 7, mx - 9, my - 11, [232, 220, 196]); M.line(mx + 5, my - 7, mx + 8, my - 11, [232, 220, 196]);
-    for (let i = -4; i <= 3; i += 2) { M.set(mx + i, my + 4, [250, 246, 236]); M.set(mx + i + 1, my + 5, [250, 246, 236]); }
-    M.rect(mx - 4, my + 2, 9, 1, [90, 20, 26]);
+    // 齿轮
+    const gx = x0 + Math.floor(w / 2) - 2, gy = y0 + 30;
+    for (let a = 0; a < 8; a++) { const c = Math.cos(a * Math.PI / 4), s = Math.sin(a * Math.PI / 4); M.rect(Math.round(gx + c * 8.4 - 1), Math.round(gy + s * 8.4 - 1), 2, 2, rim); }
+    M.fill(gx - 9, gy - 9, gx + 9, gy + 9, (x, y) => { const d = Math.hypot(x - gx, y - gy); return d <= 7.6 && d > 5.2; }, (x, y) => (y < gy - 2 ? hi : rim));
+    M.ell(gx, gy, 2.6, 2.6, sd); M.set(gx - 1, gy - 1, hi);
+    for (const [dx, dy] of [[3, 16], [3, h - 6], [w - 8, 12], [w - 8, h - 6]]) { M.set(x0 + dx, y0 + dy, hi); M.set(x0 + dx + 1, y0 + dy + 1, [30, 30, 38]); }
+    for (let y = y0 + 48; y < PH; y += 4) M.rect(x0 + 4, y, w - 12, 1, sd);
     return M;
   }
   // 德克萨斯嘴里叼着的 Pocky
@@ -341,7 +732,7 @@
 
   // —— 角色 ——
   function chen() {
-    const t = makeTraveler({ nation: 'lungmen', race: 'vouivre', name: '陈晖洁', app: { hat: null, style: 'long', hair: [46, 60, 104], eye: [206, 60, 70], top: 'uniform', cloth: [36, 46, 84], scale: [58, 70, 112], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'lungmen', race: 'vouivre', name: '陈晖洁', app: LOOK.chen });
     setRace(t, 'lung');
     t.items = [];
     t.voice = 150;
@@ -360,10 +751,10 @@
   }
 
   function hoshiguma() {
-    const t = makeTraveler({ nation: 'lungmen', race: 'oni', name: '星熊', app: { hat: null, style: 'long', hair: [56, 96, 74], eye: [234, 172, 52], top: 'suit', cloth: [52, 56, 70], tie: [150, 40, 40], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'lungmen', race: 'oni', name: '星熊', app: LOOK.hoshiguma });
     t.items = [];
     t.voice = 110;
-    looks(t, (M) => oniShield(oniHead(M)), oniHead);
+    looks(t, oniShield);
     t.intro = ['（一面巨大的盾牌先挤进了窗口，然后卡住了。）', '……抱歉。星熊，近卫局。', '盾牌就不拿进来了。证件给你。'];
     t.answers = { race: ['鬼。从东边来的，在龙门住了很多年了。', '图鉴里没有？回头让陈补上。'] };
     t.ok = ['approve'];
@@ -378,7 +769,7 @@
   }
 
   function swire() {
-    const t = makeTraveler({ nation: 'lungmen', race: 'feline', name: '诗怀雅', app: { hat: null, style: 'long', hair: [242, 208, 124], eye: [234, 172, 52], top: 'suit', cloth: [204, 162, 74], tie: [150, 40, 40], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'lungmen', race: 'feline', name: '诗怀雅', app: LOOK.swire });
     t.items = ['coins'];
     t.docs.id.expiry = today() - 1;
     t.flaws = ['id_expired'];
@@ -397,12 +788,11 @@
   }
 
   function wei() {
-    const t = makeTraveler({ nation: 'lungmen', race: 'vouivre', name: '魏彦吾', app: { hat: 'cap', hatColor: [36, 36, 42], style: 'short', hair: [64, 64, 76], eye: [206, 60, 70], top: 'suit', cloth: [40, 40, 48], tie: [150, 40, 40], scale: [70, 76, 104], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'lungmen', race: 'vouivre', name: '魏彦吾', app: LOOK.wei });
     setRace(t, 'lung');
     t.items = [];
     t.voice = 95;
     t.intro = ['（一位衣着考究的中年人。不远处，站着两个穿黑衣的人。）', '不必紧张。我只是路过，看看年轻人怎么干活。'];
-    t.hatLine = '……好。规矩就是规矩。';
     t.answers = { race: ['龙。', '这张脸，你在电视上应该见过。'] };
     t.ok = ['approve', 'deny'];
     t.react = {
@@ -416,7 +806,7 @@
   }
 
   function texas() {
-    const t = makeTraveler({ nation: 'siracusa', race: 'lupo', name: '德克萨斯', app: { hat: null, style: 'long', hair: [40, 36, 42], eye: [234, 172, 52], top: 'jacket', cloth: [52, 56, 70], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'siracusa', race: 'lupo', name: '德克萨斯', app: LOOK.texas });
     t.items = ['phone'];
     if (t.docs.permit) t.docs.permit.purpose = '送货';
     t.voice = 120;
@@ -432,7 +822,7 @@
   }
 
   function exusiai() {
-    const t = makeTraveler({ nation: 'laterano', race: 'sankta', name: '能天使', app: { hat: null, style: 'short', hair: [206, 76, 72], eye: [206, 72, 84], top: 'jacket', cloth: [52, 56, 70], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'laterano', race: 'sankta', name: '能天使', app: LOOK.exusiai });
     t.items = ['phone'];
     if (t.docs.permit) t.docs.permit.purpose = '送货';
     t.voice = 240;
@@ -452,7 +842,7 @@
   }
 
   function lappland() {
-    const t = makeTraveler({ nation: 'siracusa', race: 'lupo', name: '拉普兰德', app: { hat: null, style: 'messy', hair: [244, 242, 238], eye: [66, 124, 206], top: 'coat', cloth: [52, 56, 70], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'siracusa', race: 'lupo', name: '拉普兰德', app: LOOK.lappland });
     t.items = [];
     applyFlaw(t, 'permit_expired');
     if (t.docs.permit) t.docs.permit.purpose = '找人';
@@ -472,7 +862,7 @@
   }
 
   function amiya() {
-    const t = makeTraveler({ nation: 'kazdel', race: 'cautus', name: '阿米娅', app: { hat: null, style: 'long', hair: [96, 62, 40], eye: [66, 124, 206], top: 'coat', cloth: [36, 38, 46], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'kazdel', race: 'cautus', name: '阿米娅', app: LOOK.amiya });
     t.items = [];
     makeRhodes(t);
     t.docs.rhodes.code = '阿米娅';
@@ -490,7 +880,7 @@
   }
 
   function kaltsit() {
-    const t = makeTraveler({ nation: 'victoria', race: 'feline', name: '凯尔希', app: { hat: null, style: 'bob', hair: [200, 222, 204], eye: [72, 164, 104], top: 'coat', cloth: [184, 188, 200], glasses: false, acc: null, badge: true } });
+    const t = makeTraveler({ nation: 'victoria', race: 'feline', name: '凯尔希', app: LOOK.kaltsit });
     t.items = [];
     t.docs.rhodes = { code: '凯尔希', name: t.name, expiry: today() + ri(300, 900) };
     t.voice = 130;
@@ -510,12 +900,11 @@
   }
 
   function wBomb() {
-    const t = makeTraveler({ nation: 'kazdel', race: 'sarkaz', name: 'W', app: { hat: null, style: 'bob', hair: [214, 214, 224], eye: [206, 72, 84], skin: 'pale', top: 'jacket', cloth: [112, 40, 48], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'kazdel', race: 'sarkaz', name: 'W', app: LOOK.w });
     t.items = ['egg_bomb'];
     t.detain = true;
     t.flaws = ['smuggle'];
     t.voice = 210;
-    t.expr = 'smile';
     t.scanFn = scanBomb;
     t.intro = ['嗨～', '（她笑眯眯地把证件推过来。指尖有一股火药味。）', '我只是来送个礼物，很快就走～'];
     t.answers = { smuggle: ['这个？礼物而已嘛～', '别那么紧张，它只是在……倒计时。'] };
@@ -533,7 +922,7 @@
   }
 
   function frostnova() {
-    const t = makeTraveler({ nation: 'ursus', race: 'cautus', name: '叶莲娜', app: { hat: null, style: 'long', hair: [244, 242, 238], eye: [66, 124, 206], top: 'coat', cloth: [184, 188, 200], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'ursus', race: 'cautus', name: '叶莲娜', app: LOOK.frostnova });
     t.items = [];
     applyFlaw(t, 'infected');
     applyFlaw(t, 'reunion');
@@ -555,7 +944,7 @@
   }
 
   function crownslayer() {
-    const t = makeTraveler({ nation: 'lungmen', race: 'feline', app: { hat: 'hood', hatColor: [96, 32, 40], style: 'short', hair: [40, 36, 42], top: 'hoodie', cloth: [52, 46, 52], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'lungmen', race: 'lupo', app: LOOK.crownslayer });
     t.items = [];
     applyFlaw(t, 'reunion');
     t.voice = 170;
@@ -574,7 +963,7 @@
   }
 
   function gummy() {
-    const t = makeTraveler({ nation: 'ursus', race: 'ursus', name: '古米', app: { hat: null, style: 'twin', hair: [222, 112, 92], eye: [66, 124, 206], top: 'hoodie', cloth: [178, 152, 114], glasses: false, acc: null } });
+    const t = makeTraveler({ nation: 'ursus', race: 'ursus', name: '古米', app: LOOK.gummy });
     t.items = ['keys'];
     if (t.docs.permit) t.docs.permit.purpose = '探亲';
     applyFlaw(t, 'ursus');
@@ -802,21 +1191,27 @@
     if (E.force === 'slug') { E.force = null; setTimeout(spawnSlug, 300); }
   }
 
+  // 源石虫：黑色多面岩壳，壳上长着源石尖刺，壳底透出橙黄色的光
   function slugCanvas() {
     const cv = document.createElement('canvas');
     cv.width = 22; cv.height = 13;
     const M = new Pix(22, 13);
-    layer(M, (L) => {
-      L.ell(11, 9, 9, 3.6, [214, 142, 76]);
-      L.ell(4, 8, 3, 2.6, [224, 160, 96]);
-      L.rect(1, 3, 1, 4, [190, 120, 60]); L.rect(4, 3, 1, 4, [190, 120, 60]);
-    });
-    layer(M, (L) => {
-      L.poly([[8, 7], [11, 1], [14, 7]], [70, 66, 80]);
-      L.poly([[13, 7], [16, 3], [18, 8]], [84, 80, 96]);
-    });
-    M.set(11, 4, [255, 176, 70]); M.set(16, 5, [255, 176, 70]);
-    M.set(3, 7, [30, 24, 26]);
+    const k = [74, 74, 90], kd = [44, 44, 56], kl = [122, 124, 144], kh = [178, 180, 198];
+    // 尖刺
+    M.poly([[13, 5], [18, 0], [16, 6]], kd); M.set(17, 1, kl);
+    M.poly([[5, 7], [0, 5], [4, 9]], kd); M.set(1, 6, kl);
+    M.poly([[17, 8], [22, 7], [18, 10.4]], kd); M.set(20, 8, kl);
+    M.poly([[7, 5], [6, 1], [9.4, 4]], kd);
+    // 壳
+    M.poly([[3, 11], [4, 7], [7, 4], [12, 3], [16, 5], [19, 8], [19, 11]], k);
+    M.poly([[7, 4], [12, 3], [10, 7]], kl); M.poly([[4, 7], [7, 4], [10, 7], [6, 10]], kd);
+    M.poly([[12, 3], [16, 5], [14, 8], [10, 7]], k); M.poly([[10, 7], [14, 8], [12, 11], [6, 10]], [92, 94, 112]);
+    M.poly([[16, 5], [19, 8], [19, 11], [14, 8]], kd);
+    M.set(8, 5, kh); M.set(9, 4, kh); M.set(11, 4, kh);
+    M.line(10, 7, 14, 8, kd); M.line(10, 7, 6, 10, [24, 24, 30]);
+    // 壳底的光
+    M.rect(5, 11, 13, 1, [255, 196, 56]); M.rect(6, 12, 10, 1, [236, 120, 30]);
+    M.set(4, 11, [236, 120, 30]); M.set(18, 11, [236, 120, 30]); M.set(8, 10, [255, 214, 110]); M.set(13, 10, [255, 170, 50]);
     M.draw(cv);
     return cv;
   }
@@ -964,7 +1359,7 @@
     lateWrapped = true;
     const base = sampleApp;
     sampleApp = function (race) {
-      if (race === 'lung') return Object.assign(base('vouivre'), { hair: [46, 60, 104], eye: [206, 60, 70], scale: [58, 70, 112], style: 'long', top: 'uniform', cloth: [36, 46, 84] });
+      if (race === 'lung') return Object.assign(base('vouivre'), LOOK.chen);
       return base(race);
     };
   }
@@ -1013,15 +1408,15 @@
   const look = (o) => Object.assign({ race: 'feline', hair: [40, 36, 42], cloth: [52, 56, 70], skin: [250, 222, 200], pants: [40, 40, 50], tall: 1, long: false, hat: null, hatColor: [52, 56, 70], bag: null, bagColor: [120, 80, 50], scale: [92, 128, 96], ph: Math.random() * 100 }, o);
   const CAMEOS = [
     { k: 'walk_guard', from: 1, v: 20, figs: [
-      look({ race: 'vouivre', hair: [46, 60, 104], cloth: [36, 46, 84], pants: [30, 32, 44], long: true, guard: true, scale: [58, 70, 112], tall: 1 }),
-      look({ race: 'oni', hair: [56, 96, 74], cloth: [52, 56, 70], pants: [30, 32, 44], long: true, tall: 2, shield: true }),
+      look({ race: 'vouivre', hair: [60, 66, 124], cloth: [42, 44, 56], pants: [34, 36, 48], long: true, guard: true, scale: [52, 54, 88], tall: 1 }),
+      look({ race: 'oni', hair: [70, 150, 118], cloth: [42, 44, 52], pants: [34, 36, 44], long: true, tall: 2, shield: true }),
     ] },
     { k: 'walk_penguin', from: 1, v: 26, figs: [
-      look({ race: 'lupo', hair: [40, 36, 42], long: true, bag: 'case', bagColor: [200, 160, 90] }),
-      look({ race: 'sankta', hair: [206, 76, 72], tall: 0, bag: 'pack', bagColor: [52, 56, 70] }),
+      look({ race: 'lupo', hair: [48, 48, 66], cloth: [234, 234, 240], pants: [36, 36, 46], long: true, bag: 'case', bagColor: [200, 160, 90] }),
+      look({ race: 'sankta', hair: [160, 52, 64], cloth: [236, 236, 242], pants: [36, 36, 46], tall: 0, bag: 'pack', bagColor: [52, 56, 70] }),
     ] },
     { k: 'walk_rhodes', from: 4, v: 18, figs: [
-      look({ race: 'cautus', hair: [96, 62, 40], cloth: [36, 38, 46], tall: 0, long: true }),
+      look({ race: 'cautus', hair: [114, 78, 58], cloth: [38, 42, 62], pants: [40, 44, 60], tall: 0, long: true }),
       look({ race: 'feline', hat: 'hood', hatColor: [44, 46, 54], cloth: [36, 38, 46], pants: [36, 38, 46], tall: 2 }),
     ] },
     { k: 'walk_chase', from: 4, v: 62, dir: 1, gap: 26, figs: [
@@ -1066,10 +1461,10 @@
       if (L.shield) {
         const sx = w.dir < 0 ? x - 8 : x + 4;
         ctx.fillStyle = 'rgb(22,17,22)'; ctx.fillRect(sx - 1, head + 3, 6, 15);
-        ctx.fillStyle = 'rgb(92,98,112)'; ctx.fillRect(sx, head + 4, 4, 13);
-        ctx.fillStyle = 'rgb(176,42,44)'; ctx.fillRect(sx + 1, head + 8, 2, 3);
+        ctx.fillStyle = 'rgb(70,72,84)'; ctx.fillRect(sx, head + 4, 4, 13);
+        ctx.fillStyle = 'rgb(132,136,152)'; ctx.fillRect(sx + 1, head + 8, 2, 2);
         // 星熊的角
-        ctx.fillStyle = 'rgb(228,120,96)'; ctx.fillRect(x + (w.dir < 0 ? -1 : 0), head - 3, 1, 2);
+        ctx.fillStyle = 'rgb(238,218,194)'; ctx.fillRect(x + (w.dir < 0 ? -1 : 0), head - 3, 1, 3);
       }
       if (L.mask) {
         ctx.fillStyle = 'rgb(244,244,244)'; ctx.fillRect(x + (w.dir > 0 ? -2 : -3), head + 1, 5, 4);
@@ -1180,9 +1575,10 @@
   E._addPocky = addPocky;
   // 第 1 天的教学来客（gen.js 的 tutorChen / visitHoshiguma）：这里只负责换上专属立绘
   E.dress = function (k, t) {
+    if (LOOK[k]) Object.assign(t.app, LOOK[k]);
     if (k === 'chen') looks(t, chenSword);
     if (k === 'hoshiguma') {
-      looks(t, (M) => oniShield(oniHead(M)), oniHead);
+      looks(t, oniShield);
       t.eggAnalyze = raceHint('种族图鉴里没有“鬼”这一页。……不过近卫局的人都认识她。');
       t.eggKey = 'hoshiguma';
       mark('hoshiguma');

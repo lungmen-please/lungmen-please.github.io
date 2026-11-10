@@ -1,0 +1,623 @@
+'use strict';
+// English text. Keys are the Chinese source strings exactly as they appear on screen
+// (one text node each: strings with line breaks are split into one key per line).
+// Sentences with numbers or names in them are handled by I18N.rules at the bottom.
+// Check coverage with: node tools/i18n_check.js
+
+(function () {
+  const add = (o) => Object.assign(I18N.en, o);
+
+  // ———————————————— Page chrome ————————————————
+  add({
+    '中文': '中文', '中文 / English': '中文 / English',
+    '声音：开': 'Sound: on', '声音：关': 'Sound: off', '全屏': 'Fullscreen',
+    '把手机横过来玩': 'Rotate your phone to landscape',
+    '竖屏也能玩，但字会很小': 'Portrait works too, but the text gets tiny',
+    '先竖着玩': 'Play in portrait',
+    '这个游戏需要开启 JavaScript。': 'This game needs JavaScript.',
+  });
+
+  // ———————————————— Races, nations, documents (data.js) ————————————————
+  add({
+    '菲林': 'Feline', '卡特斯': 'Cautus', '佩洛': 'Perro', '鲁珀': 'Lupo', '沃尔珀': 'Vulpo', '乌萨斯': 'Ursus',
+    '札拉克': 'Zalak', '萨卡兹': 'Sarkaz', '瓦伊凡': 'Vouivre', '萨科塔': 'Sankta', '黎博利': 'Liberi',
+    '企鹅': 'Penguin', '龙': 'Lung', '鬼': 'Oni', '人类': 'Human',
+    '三角形猫耳；细长的尾巴。': 'Triangular cat ears; a long, thin tail.',
+    '长长的兔耳；看不到尾巴。': 'Long rabbit ears; no visible tail.',
+    '两侧下垂的犬耳；短尾巴。': 'Droopy dog ears at the sides; a short tail.',
+    '大而尖的狼耳；蓬松的中等尾巴。': 'Large pointed wolf ears; a bushy, medium tail.',
+    '特大狐耳；巨大的狐尾，尾尖是白色。': 'Huge fox ears; an enormous tail with a white tip.',
+    '头顶一对圆圆的熊耳；没有尾巴。': 'Round bear ears on top of the head; no tail.',
+    '尖尖的小耳朵带一撮毛；向上卷的大尾巴。': 'Small pointed ears with a tuft; a big tail curled upward.',
+    '深色、向后弯的角；尖耳朵。': 'Dark horns curving backward; pointed ears.',
+    '浅色的直角；人类的圆耳朵；粗壮的鳞尾。': 'Pale straight horns; round human ears; a thick scaled tail.',
+    '头顶光环；背后一对小翅膀。': 'A halo overhead; a small pair of wings.',
+    '头部两侧长着羽毛，没有兽耳。': 'Feathers at the sides of the head; no animal ears.',
+    '……图鉴里没有这一页。': '...There is no such page in the guide.',
+    '深色的龙角；粗壮的龙尾。页边手写：“别再拦我。——陈”': 'Dark dragon horns; thick dragon tail. In the margin: "Do not stop me again. - Ch\'en"',
+
+    '龙门': 'Lungmen', '维多利亚': 'Victoria', '卡西米尔': 'Kazimierz', '拉特兰': 'Laterano', '叙拉古': 'Siracusa',
+    '莱塔尼亚': 'Leithanien', '哥伦比亚': 'Columbia', '卡兹戴尔': 'Kazdel', '谢拉格': 'Kjerag',
+    '上城区': 'Uptown', '下城区': 'Downtown', '码头区': 'Docklands', '中环': 'Central',
+    '伦蒂尼姆': 'Londinium', '格拉斯哥': 'Glasgow', '温德米尔': 'Windermere',
+    '切尔诺伯格': 'Chernobog', '圣骏堡': 'St. Junburg', '乌兰': 'Ulan',
+    '大骑士领': 'Kawalerielki', '卡拉卡斯': 'Karakas', '维斯瓦': 'Vistula',
+    '拉特兰城': 'Laterano City', '圣城外环': 'Outer Ring',
+    '卡塔尼亚': 'Catania', '巴勒莫': 'Palermo', '墨西拿': 'Messina',
+    '因斯布鲁克': 'Innsbruck', '维也纳': 'Vienna', '萨尔茨': 'Salz',
+    '特里蒙': 'Trimounts', '大荒城': 'Wasteland City', '莱茵城': 'Rhine City',
+    '卡兹戴尔城': 'Kazdel City', '荒原营地': 'Wasteland Camp',
+    '喀兰': 'Karlan', '雪山镇': 'Snowmount',
+
+    '旅游': 'Tourism', '工作': 'Work', '探亲': 'Family visit', '经商': 'Business', '求学': 'Study', '过境': 'Transit',
+    '送货': 'Delivery', '找人': 'Looking for someone',
+    '龙门码头搬运公司': 'Lungmen Dock Haulage', '炎龙物流': 'Yanlong Logistics', '龙门建设集团': 'Lungmen Construction',
+    '下城区五金行': 'Downtown Hardware', '鲤鱼大酒楼': 'Golden Carp Restaurant',
+    '龙门': 'Lungmen', '炎龙': 'YL', '下城': 'DH', '鲤鱼': 'GC',
+    '灰羽': 'Greyfeather', '晨钟': 'Morningbell', '青萝': 'Ivy', '铁砧': 'Anvil', '远帆': 'Farsail', '薄荷': 'Mint',
+    '北辰': 'Polaris', '松针': 'Pineneedle', '橘灯': 'Lantern', '博士': 'Doctor',
+
+    '证件种族须与本人特征相符。': 'Race on the ID must match the traveler.',
+    '证件照片须与本人相符。': 'ID photo must match the traveler.',
+    '所有证件须在有效期内。': 'All documents must be valid.',
+    '非龙门籍须持入境许可。': 'Non-citizens need an entry permit.',
+    '各证件姓名、证号、国籍须一致。': 'Name, ID no. and nation must match on all documents.',
+    '非龙门籍须持体检报告。': 'Non-citizens need a health report.',
+    '感染者禁止入境。融合率>0%即为感染者。': 'No entry for the Infected. Assimilation above 0% means Infected.',
+    '感染者禁止入境（持罗德岛干员证者除外）。融合率>0%即为感染者。': 'No entry for the Infected (except Rhodes Island operators). Assimilation above 0% means Infected.',
+    '萨卡兹须持龙门企业担保函。': 'Sarkaz need a guarantee from a Lungmen company.',
+    '携带源石者：拘留。': 'Carrying Originium: detain.',
+    '整合运动成员：拘留。': 'Reunion members: detain.',
+    '干员证姓名须与身份证件一致。': 'Name on the operator card must match the ID.',
+    '乌萨斯籍一律禁止入境。': 'No entry for Ursus nationals.',
+
+    '边境检查站今日重开': 'Border Checkpoint Reopens Today',
+    '近卫局：午后起，非龙门籍旅客须持入境许可': 'L.G.D.: from this afternoon, non-citizens need an entry permit',
+    '新人审查员上岗：“我只看证件。”': 'New inspector on duty: "I only look at the papers."',
+    '切尔诺伯格传出感染者暴动': 'Infected Riots Reported in Chernobog',
+    '龙门即日起：感染者一律不得入境': 'Lungmen, effective today: no entry for the Infected',
+    '边境医疗站开始签发体检报告': 'Border clinic begins issuing health reports',
+    '卡兹戴尔战火再起': 'War Flares Up Again in Kazdel',
+    '萨卡兹旅客须持担保函；检查站启用源石探测仪': 'Sarkaz need a guarantee letter; checkpoint gets an Originium scanner',
+    '近卫局破获下城区源石走私案': 'L.G.D. busts Originium smuggling ring downtown',
+    '切尔诺伯格沦陷！': 'Chernobog Has Fallen!',
+    '整合运动逼近龙门；罗德岛与近卫局达成合作': 'Reunion closes in on Lungmen; Rhodes Island to work with the L.G.D.',
+    '持罗德岛干员证的感染者可以入境': 'Infected with a Rhodes Island operator card may enter',
+    '乌萨斯军队陈兵边境': 'Ursus Army Masses at the Border',
+    '即日起，乌萨斯籍旅客一律禁止入境': 'Effective today: no entry for Ursus nationals',
+    '市民提问：下一个被拦下的会是谁？': 'Citizens ask: who gets turned away next?',
+
+    '今天上午只查一样：证件上的种族，和旅客本人对不对得上。': 'This morning, check one thing only: does the race on the ID match the traveler?',
+    '点左下【叫号】，请第一位上前。': 'Press [NEXT] at the bottom left to call the first one.',
+    '新规：非龙门籍旅客须出示体检报告；感染者禁止入境。': 'New rules: non-citizens must show a health report; no entry for the Infected.',
+    '留意体检报告上的“融合率”和“结论”是否矛盾。': 'Watch for health reports where "Assim." (assimilation) and "Result" disagree.',
+    '新工具：【源石探测】能看到旅客身上的源石。': 'New tool: [SCAN] reveals Originium on the traveler.',
+    '携带源石者，用【拘留】。萨卡兹旅客须持担保函。': 'Anyone carrying Originium: [DETAIN]. Sarkaz need a guarantee letter.',
+    '新规：整合运动成员予以拘留（探测仪下能看到面具）。': 'New rule: detain Reunion members (the scanner shows their masks).',
+    '持有效罗德岛干员证的感染者可以入境。': 'Infected with a valid Rhodes Island operator card may enter.',
+    '新规：乌萨斯籍旅客一律禁止入境。': 'New rule: no entry for Ursus nationals.',
+    '这是最后一天。': 'This is the last day.',
+    '从现在起多查几样：': 'From now on, check a few more things:',
+    '· 证件照片要和本人是同一个人。': '· The ID photo must be the same person.',
+    '· 证件要在有效期内：对比“期限”和左上角的日期。': '· Documents must be valid: compare "Exp." with the date at the top left.',
+    '· 外地旅客要有入境许可，上面的姓名、证号、国籍要和证件一致。': '· Non-citizens need an entry permit whose name, ID no. and nation match the ID.',
+    '先用【检查】查出矛盾再拒绝，每位多拿 2 龙门币。': 'Find the discrepancy with [INSPECT] before you deny: +2 LMD each.',
+
+    '姓名': 'Name', '证件号': 'ID no.', '国籍': 'Nation', '种族': 'Race', '签发': 'City', '证号': 'No.', '期限': 'Exp.',
+    '目的': 'Purpose', '有效期至': 'Valid to', '检查日期': 'Date', '融合率': 'Assim.', '结晶密度': 'Density',
+    '结论': 'Result', '被担保人': 'For', '担保单位': 'Company', '代号': 'Codename', '负责人': 'Signed',
+    '感染者': 'Infected', '非感染者': 'Not infected',
+    '身份证件': 'ID card', '入境许可': 'Entry permit', '体检报告': 'Health report', '担保函': 'Guarantee letter', '罗德岛干员证': 'Rhodes Island operator card',
+    '龙门入境许可': 'LUNGMEN ENTRY PERMIT', '龙门近卫局': 'L.G.D.', '近卫': 'LGD', '局印': 'SEAL', '近卫局': 'L.G.D.',
+    '龙门边境医疗站': 'Lungmen Border Clinic', '体检报告 · 边境医疗站': 'HEALTH REPORT · Border Clinic',
+    '担 保 函': 'GUARANTEE', '本公司愿为其在龙门期间的一切行为担保。': 'We vouch for the bearer while in Lungmen.',
+    '公章': 'SEAL', '担保': 'OK', '罗德岛制药 · 干员证': 'Rhodes Island · Operator', '罗德岛 · 干员证': 'RHODES ISLAND · OPERATOR',
+    '龙门币': 'LMD',
+
+    '身份证件已过期': 'ID card expired', '证件种族与本人不符': 'race on ID does not match traveler', '证件照片与本人不符': 'ID photo does not match traveler',
+    '缺少入境许可': 'no entry permit', '入境许可已过期': 'entry permit expired', '入境许可姓名不符': 'name mismatch on entry permit',
+    '入境许可证件号不符': 'ID no. mismatch on entry permit', '入境许可国籍不符': 'nation mismatch on entry permit',
+    '缺少体检报告': 'no health report', '旅客是感染者': 'traveler is Infected', '体检报告结论与融合率矛盾': 'health report contradicts itself',
+    '体检报告姓名不符': 'name mismatch on health report', '旅客隐瞒感染': 'traveler concealed infection',
+    '萨卡兹旅客缺少担保函': 'Sarkaz without guarantee letter', '担保函已过期': 'guarantee letter expired', '担保函姓名不符': 'name mismatch on guarantee letter',
+    '旅客携带源石': 'traveler carried Originium', '旅客是整合运动成员': 'traveler is a Reunion member',
+    '罗德岛干员证姓名不符': 'name mismatch on operator card', '罗德岛干员证已过期': 'operator card expired',
+    '乌萨斯籍旅客禁止入境': 'Ursus nationals are barred', '证件种族“企鹅”不在种族图鉴里': 'race "Penguin" is not in the race guide',
+
+    // 质询时旅客的辩解
+    '啊？过期了？我都没注意……': 'Huh? Expired? I never noticed...',
+    '就过期几天，通融一下吧。': "It's only a few days over. Cut me some slack.",
+    '我正打算去换新的。': 'I was just about to renew it.',
+    '我……我就是这个种族啊。': 'I... that IS my race.',
+    '这耳朵是天生的，你别乱看。': "I was born with these ears. Stop staring.",
+    '登记的人写错了吧。': 'The clerk must have written it wrong.',
+    '照片是好几年前拍的。': 'That photo is years old.',
+    '我换了发型而已。': 'I just changed my hair.',
+    '……那是我哥。我是说，那就是我。': "...That's my brother. I mean, that's me.",
+    '印错了吧。': 'Must be a misprint.',
+    '那是我的曾用名。': "That's my former name.",
+    '翻译的问题，翻译的问题。': 'Translation issue. Translation issue.',
+    '号码？我背不下来。': "The number? I don't have it memorized.",
+    '应该是办证的人抄错了。': 'Whoever issued it must have copied it wrong.',
+    '我两边都住过。': "I've lived in both places.",
+    '这个……说来话长。': "That's... a long story.",
+    '还要入境许可？没人告诉我啊。': 'I need an entry permit? Nobody told me.',
+    '我、我放在行李里了。': "I- I left it in my luggage.",
+    '体检？我身体好得很。': "A health check? I'm perfectly fine.",
+    '医疗站排队太长了……': 'The line at the clinic was too long...',
+    '求求你……我没有别的地方可去了。': 'Please... I have nowhere else to go.',
+    '我不会传染给任何人的！': "I won't infect anyone!",
+    '我只是想活下去。': 'I just want to live.',
+    '医生说那点融合率不算什么。': "The doctor said that much assimilation is nothing.",
+    '可能是仪器坏了。': 'Maybe the machine is broken.',
+    '那、那是装饰品！': "Th- that's jewelry!",
+    '……你怎么看到的？': '...How did you see that?',
+    '担保函？谁会给萨卡兹做担保？': 'A guarantee? Who would vouch for a Sarkaz?',
+    '我只是想找份工作。': 'I just want a job.',
+    '这是我的护身符。': "It's my lucky charm.",
+    '一点小石头而已，留个纪念。': 'Just a little rock. A souvenir.',
+    '……': '...',
+    '你会后悔的。': "You'll regret this.",
+    '感染者的怒火，你挡不住。': "You can't hold back the fury of the Infected.",
+    '我早就不是乌萨斯人了！': "I stopped being Ursus a long time ago!",
+    '我是逃出来的！': 'I escaped from there!',
+
+    '你好。': 'Hello.', '早上好。': 'Good morning.', '请快一点，我赶时间。': "Quickly, please. I'm in a hurry.",
+    '龙门真热闹啊。': 'Lungmen sure is lively.', '这是我的证件。': 'Here are my papers.', '排了好久的队。': 'That was a long line.',
+    '辛苦了。': 'Thanks for your work.',
+    '谢谢。': 'Thank you.', '太好了！': 'Wonderful!', '辛苦你了。': 'Much obliged.', '龙门，我来了！': 'Lungmen, here I come!',
+    '祝你今天顺利。': 'Have a good day.',
+    '……好吧。': '...Fine.', '什么？！': 'What?!', '我还会回来的。': "I'll be back.", '你们龙门人就是这样。': "Typical Lungmen.", '可恶。': 'Damn it.',
+    '放开我！': 'Let go of me!', '你们不能这样！': "You can't do this!", '……我认栽。': '...You got me.',
+  });
+
+  // ———————————————— Judgement and story travelers (gen.js) ————————————————
+  add({
+    '无故拘留了证件齐全的旅客': 'Detained a traveler whose papers were in order',
+    '拒绝了证件齐全的旅客': 'Denied a traveler whose papers were in order',
+    '你的证件过期了。': 'Your papers have expired.',
+    '你证件上的种族，和你本人对不上。': "The race on your ID doesn't match you.",
+    '证件上的照片不像你。': "The photo on your ID doesn't look like you.",
+    '几份证件上的名字不一样。': 'The names on your documents differ.',
+    '证件号对不上。': "The ID numbers don't match.",
+    '你的国籍对不上。': "Your nationality doesn't match.",
+    '你的入境许可呢？': 'Where is your entry permit?',
+    '你的体检报告呢？': 'Where is your health report?',
+    '你是感染者。': 'You are Infected.',
+    '报告上写着非感染者，可融合率不是 0。': 'The report says not infected, but the assimilation is not zero.',
+    '探测仪显示你身上有源石结晶。': 'The scanner shows Originium crystals on you.',
+    '萨卡兹旅客需要担保函。': 'Sarkaz travelers need a guarantee letter.',
+    '包里的源石是怎么回事？': 'What is this Originium in your bag?',
+    '这个面具是怎么回事？': 'What is this mask?',
+    '乌萨斯籍旅客今天起禁止入境。': 'Ursus nationals are barred from today.',
+    '这是怎么回事？': 'What is this about?',
+    '旅客戴着帽子，看不清种族特征。可以请旅客摘帽。': "The traveler's hat hides their features. Ask them to take it off.",
+    '证件照片和旅客本人不是同一个人。': 'The ID photo and the traveler are not the same person.',
+    '旅客是萨卡兹，但没有出示担保函。': 'The traveler is Sarkaz but has no guarantee letter.',
+    '非龙门籍旅客，却没有入境许可。': 'A non-citizen with no entry permit.',
+    '非龙门籍旅客，却没有体检报告。': 'A non-citizen with no health report.',
+    '萨卡兹旅客没有出示担保函。': 'A Sarkaz traveler with no guarantee letter.',
+    '体检报告显示旅客是感染者。': 'The health report says the traveler is Infected.',
+    '探测仪显示旅客身上有源石结晶，是感染者。': 'The scanner shows Originium crystals: the traveler is Infected.',
+    '旅客携带了未申报的源石。': 'The traveler is carrying undeclared Originium.',
+    '旅客身上藏着整合运动的面具。': 'The traveler is hiding a Reunion mask.',
+    '旅客是乌萨斯籍，今天起禁止入境。': 'The traveler is an Ursus national, barred from today.',
+    '报告写着非感染者，探测仪却找到了源石结晶。': 'The report says not infected, yet the scanner found Originium crystals.',
+
+    // 陈
+    '近卫局特别督察，陈。今天起你归我管。': "Ch'en, L.G.D. Special Inspection Unit. As of today you answer to me.",
+    '规矩只有一条：证件上写的种族，要和本人对得上。': 'One rule: the race on the ID has to match the person.',
+    '这是张测试证件。点【检查】，再点证件上的“种族”和我本人。': 'This is a test ID. Press [INSPECT], then click "Race" on the ID, then me.',
+    '没错，种族是我故意写错的。': 'Correct. I got the race wrong on purpose.',
+    '发现对不上，就盖【拒绝】。': "When it doesn't match, stamp [DENY].",
+    '很好，就这么查。戴帽子的，让他摘了再看。星熊晚点过来。': "Good. That's how it's done. If they wear a hat, make them take it off. Hoshiguma will drop by later.",
+    '……证件上写的是菲林，我头上长的是角。下一位看仔细点。星熊晚点过来。': '...The ID says Feline. I have horns. Look harder next time. Hoshiguma will drop by later.',
+    // 星熊
+    '（一面巨大的盾牌先挤进了窗口，然后卡住了。）': '(A huge shield squeezes into the window first. Then it gets stuck.)',
+    '……抱歉。星熊，近卫局。陈让我来看看新人。': "...Sorry. Hoshiguma, L.G.D. Ch'en sent me to check on the new hire.",
+    '顺便捎张通知：从现在起，证件要多查几样。先把我的章盖了吧。': 'I also brought a notice: from now on there is more to check. Stamp mine first.',
+    '近卫局的。陈督察让我来看看新人。': "L.G.D. Superintendent Ch'en sent me to check on the new hire.",
+    '鬼。从东边来的，在龙门住了很多年了。': "Oni. From the east. I've lived in Lungmen for years.",
+    '图鉴里没有？回头让陈补上。': "Not in the guide? I'll have Ch'en add it.",
+    '谢了。通知放你桌上了，改天请你喝酒。': "Thanks. The notice is on your desk. Drinks are on me sometime.",
+    '（她笑了笑。）够谨慎。通知放你桌上了。': '(She smiles.) Careful. Good. The notice is on your desk.',
+    // 第 1 天
+    '后生仔，第一日返工啊？': 'First day on the job, eh, young one?',
+    '叫我林伯就得。慢慢来，我唔赶时间。': "Call me Uncle Lam. Take your time, I'm in no rush.",
+    '多谢晒。好好干啊。': 'Much obliged. Do good work, now.',
+    '吓？我系龙门人嚟㗎！': "Eh? But I'm Lungmen born and bred!",
+    '喵。': 'Meow.', '我是菲林。喵。': 'I am a Feline. Meow.',
+    '这、这是我的猫耳朵！': 'Th- these are my cat ears!', '角？什么角？喵？': 'Horns? What horns? Meow?',
+    '……可恶，被看穿了喵。': '...Damn, you saw through it. Meow.', '嘿嘿，龙门人真好骗。喵。': 'Heh heh. Lungmen folk are so easy to fool. Meow.',
+    '做生意的，赶时间。': "Businessman. I'm in a hurry.", '快点盖章吧，时间就是龙门币。': 'Just stamp it. Time is LMD.',
+    '就过期一天！通融一下嘛。': "It's one day over! Come on.", '下次来给你带特产，好不好？': "I'll bring you a gift next time, how about it?",
+    '就过期一天！龙门人真不讲人情。': 'One day over! Lungmen has no heart.', '爽快！下次给你带特产。': "That's the spirit! I'll bring you a gift next time.",
+    // 第 2 天
+    '我女儿在龙门读书。': 'My daughter is at school in Lungmen.',
+    '她来信说病了……我只想去看看她。': 'She wrote that she is sick... I only want to see her.',
+    '我知道我是感染者。': 'I know I am Infected.', '我只想看她一眼，看完就走。': 'I only want one look at her. Then I will leave.',
+    '……我明白了。请别告诉她我来过。': "...I understand. Please don't tell her I came.", '谢谢你……谢谢你。': 'Thank you... thank you.',
+    '体检的医生说我没事。': "The clinic doctor said I'm fine.", '你看，结论写着非感染者。': 'See? The result says not infected.',
+    '只是一点点融合率而已……': "It's only a tiny bit of assimilation...", '谢啦！': 'Thanks!',
+    // 第 3 天
+    '我只是来扛货的。': "I'm only here to haul cargo.", '别盯着我的角看。': "Don't stare at my horns.",
+    '……谢了。你是第一个没多问的人。': "...Thanks. You're the first who didn't ask.", '哼，萨卡兹走到哪都一样。': "Hmph. Same everywhere, for a Sarkaz.",
+    '我是龙门人，回家而已。': "I'm from Lungmen. Just heading home.",
+    '（他往证件底下塞了 30 龙门币）': '(He slips 30 LMD under his ID.)',
+    '拿去买点好吃的，大家方便。': 'Buy yourself something nice. Easier for both of us.',
+    '这是……土特产！': 'These are... local specialties!', '嘘——小声点。钱你也收了嘛。': 'Shh - keep it down. You took the money, no?',
+    '够意思！': 'Good man!', '你收了钱还抓我？！': 'You took my money and STILL arrest me?!', '啧，不识好歹。': "Tch. Doesn't know what's good for him.",
+    '日安！主保佑你。': 'Good day! Blessings upon you.', '听说龙门有很好吃的苹果派？': 'I hear Lungmen has wonderful apple pie?',
+    '感谢！这个送你，是我自己烤的苹果派！': 'Thank you! Take this - an apple pie I baked myself!', '哎呀……主会原谅你的。': 'Oh dear... you are forgiven.',
+    // 第 4 天
+    '罗德岛的医生在等我们。': 'The Rhodes Island doctors are waiting for us.', '这是我的干员证。': 'This is my operator card.',
+    '谢谢。罗德岛会记住你的。': 'Thank you. Rhodes Island will remember this.', '……我们会找别的路。': "...We'll find another way.",
+    '我只是过境。': "I'm only passing through.", '哦，对了——有人托我把这个交给你。': 'Oh, right - someone asked me to give you this.',
+    '（她把一张折好的纸条推了过来）': '(She slides a folded note across.)',
+    '他们说，你会做出正确的选择。': 'They said you would make the right choice.', '没关系。纸条你已经收到了。': "No matter. You have the note now.",
+    '让开。': 'Move.', '感染者的怒火，你挡不住！': "You can't hold back the fury of the Infected!", '哼。龙门的墙，挡不了多久。': "Hmph. Lungmen's walls won't hold for long.",
+    // 第 5 天
+    '（他把白色围巾往下拉了拉）': '(He tugs his white scarf down.)', '……你收到纸条了吧。': '...You got the note.',
+    '放我过去。隔离区的墙，我们替你翻。': "Let me through. We'll get over the quarantine wall for you.",
+    '放我过去。小雅的抑制剂，我们包了。': "Let me through. Xiaoya's suppressants are on us.",
+    '你知道我是谁。': 'You know who I am.', '想想你妹妹现在在哪。': 'Think about where your sister is now.', '想想你妹妹。': 'Think about your sister.',
+    '整合运动不会忘记你。': 'Reunion will not forget you.', '……你选错边了，审查员。': '...You picked the wrong side, inspector.',
+    '罗德岛医疗部。': 'Rhodes Island Medical.', '我们在龙门开了临时诊所，收治感染者。': "We've opened a temporary clinic in Lungmen for the Infected.",
+    '如果你认识需要帮助的人，可以带他们来。': 'If you know anyone who needs help, bring them.',
+    '谢谢。诊所在下城区，门口挂着罗德岛的标志。': 'Thank you. The clinic is downtown. Look for the Rhodes Island sign.',
+    '……好吧。我们会想别的办法。': "...All right. We'll think of something else.",
+  });
+
+
+  // ———————————————— Screens and flow (game.js) ————————————————
+  add({
+    '龙门，请出示证件': 'LUNGMEN, PLEASE', '招聘中': 'HIRING', '新游戏': 'New game', '档案': 'Records',
+    '龙门近卫局 · 边境检查站 · 审查员招聘中': 'Lungmen Guard Department · Border Checkpoint · Inspectors wanted',
+    '审查员档案': 'Inspector Records', '？？？': '???', '返回': 'Back', '还没有人来过。': 'Nobody has come by yet.',
+    '龙门日报': '龙门日报', '今日起执行': 'In effect from today', '上班': 'Go to work',
+    '窗口空着': 'Window empty', '叫号': 'NEXT', '请摘帽': 'HAT OFF', '拘留': 'DETAIN', '检查': 'INSPECT', '源石探测': 'SCAN', '手册': 'MANUAL',
+    '批准': 'APPROVE', '拒绝': 'DENY', '质询': 'Question',
+    '快捷键：空格': 'Shortcut: Space', '快捷键：H': 'Shortcut: H', '快捷键：3': 'Shortcut: 3', '快捷键：E': 'Shortcut: E',
+    '快捷键：R': 'Shortcut: R', '快捷键：F': 'Shortcut: F', '快捷键：1': 'Shortcut: 1', '快捷键：2': 'Shortcut: 2',
+    '知道了': 'Got it',
+    '（昨晚没吃上饭，你起晚了。赶到检查站时，队伍已经排得很长。）': '(No dinner last night, and you overslept. By the time you reach the checkpoint the line is already long.)',
+    '（检查站开门了。外面排起了长队。）': '(The checkpoint is open. A long line has formed outside.)',
+    '近卫局通知 · 即刻执行': 'L.G.D. Notice · Effective immediately', '（手册里多了几条规则。）': '(A few new rules have appeared in the manual.)',
+    '旅客：': 'Traveler: ', '你：': 'You: ',
+    '检查模式：依次点两处信息进行对比。': 'Inspect mode: click two pieces of information to compare them.',
+    '没有发现矛盾。': 'No discrepancy found.',
+    '请摘下帽子。': 'Please take off your hat.', '有必要吗？': 'Is that really necessary?', '行吧行吧。': 'Fine, fine.', '我的发型……算了。': 'My hair... never mind.',
+    '准予入境': 'APPROVED', '拒绝入境': 'DENIED',
+    '（近卫局干员把旅客带走了。）': '(L.G.D. officers lead the traveler away.)',
+    '龙门近卫局 · 检查手册': 'L.G.D. · Inspection Manual', '规则': 'Rules', '地区': 'Regions',
+    '头饰（如猫耳发箍）不算种族特征。旅客戴帽时，可请其摘帽。': 'Headbands are not racial features. Hats can be removed on request.',
+    '龙门籍旅客只需出示身份证件。': 'Lungmen citizens only need to show an ID card.',
+    '违规通知 · 近卫局': 'CITATION · L.G.D.', '罚款 5 龙门币': 'Fine: 5 LMD',
+    '下班了。': 'Shift over.', '（你拉下窗口的卷帘，今天的工作结束了。）': '(You pull down the shutter. Work is over for today.)',
+    '（下班铃响了。处理完这一位就可以下班。）': '(The closing bell rings. Finish with this one and you can go.)', '（下班铃响了。）': '(The closing bell rings.)',
+
+    // 纸条
+    '致审查员：': 'To the inspector:', '——整合运动': '- Reunion',
+    '我们知道小雅被关在哪里。': 'We know where Xiaoya is being held.', '我们知道小雅的事。': 'We know about Xiaoya.',
+    '明天，一个戴白围巾的人会来到你的窗口。放他过去，我们把她带出来。': 'Tomorrow a man in a white scarf will come to your window. Let him through and we will get her out.',
+    '明天，一个戴白围巾的人会来到你的窗口。放他过去，小雅的抑制剂我们包了。': "Tomorrow a man in a white scarf will come to your window. Let him through and Xiaoya's suppressants are on us.",
+
+    // 每晚
+    '回到家，小雅咳了一整晚。母亲说，是龙门的风太干了。': 'Back home, Xiaoya coughs all night. Mother says the Lungmen wind is too dry.',
+    '你发现小雅的手背上长出了一小块黑色的晶体。': 'You find a small black crystal growing on the back of Xiaoya\'s hand.',
+    '她哭着求你别告诉任何人——感染者会被赶出龙门。': 'She cries and begs you to tell no one. The Infected are driven out of Lungmen.',
+    '黑市上的抑制剂，一支 15 龙门币。': 'Suppressants on the black market cost 15 LMD a dose.',
+    '那位拉特兰旅客送的苹果派，让全家吃了顿好的。小雅说，这是她来龙门以后吃过最甜的东西。': 'The apple pie from that Lateran traveler gives the whole family a good meal. Xiaoya says it is the sweetest thing she has eaten since coming to Lungmen.',
+    '晚间新闻在播下城区的源石走私案。小雅把袖子往下拉了拉。': 'The evening news covers the Originium smuggling case downtown. Xiaoya tugs her sleeve down.',
+    '那张纸条在你口袋里沉甸甸的。': 'The note sits heavy in your pocket.',
+    '他们真的能把小雅带出来吗？': 'Can they really get Xiaoya out?', '他们怎么会知道小雅的事？': 'How do they know about Xiaoya?',
+    '听说切尔诺伯格已经烧成了一片废墟。母亲一晚上没说话。': 'They say Chernobog has burned to ruins. Mother does not say a word all evening.',
+    '你回家时，门缝里塞着一张字条：“三天后，隔离区北门。”没有署名。': 'When you get home there is a slip of paper under the door: "Three days. Quarantine zone, north gate." No signature.',
+    '你回家时，门口放着一个小盒子，里面是三支抑制剂。没有署名。': 'When you get home there is a small box at the door. Three doses of suppressant inside. No signature.',
+    '近卫局的人把那个戴白围巾的人押走了。他回头看了你一眼。': 'The L.G.D. marched the man in the white scarf away. He looked back at you once.',
+    '城外传来了隐约的炮声。': 'Faint artillery can be heard beyond the walls.',
+    '你数了数口袋里的龙门币——连房租都不够。': 'You count the LMD in your pocket. Not even enough for rent.',
+
+    '已离开': 'gone', '生病': 'sick', '饥饿': 'hungry', '健康': 'well', '被带走了': 'taken away', '咳嗽': 'coughing',
+    '病情加重': 'getting worse', '病情稳定': 'stable', '母亲': 'Mother', '小雅（妹妹）': 'Xiaoya (sister)',
+    '房租': 'Rent', '食物（苹果派）': 'Food (apple pie)', '食物': 'Food', '食物（古米的罗宋汤）': "Food (Gummy's borscht)",
+    '抑制剂（黑市）': 'Suppressant (black market)', '母亲的药': "Mother's medicine",
+    '处理旅客': 'Travelers', '工资': 'Wages', '拘留奖金': 'Detention bonus', '查证奖金': 'Inspection bonus', '“土特产”': '"Gifts"',
+    '罚款': 'Fines', '存款': 'Savings',
+    '不买食物：明天上班迟到。': 'No food: you will be late tomorrow.',
+    '小雅已经断过一次药，不能再断了。': 'Xiaoya has already missed one dose. She cannot miss another.',
+    '抑制剂断一次病情加重，断两次……': 'Miss one dose and she gets worse. Miss two...',
+    '母亲的药最多拖一晚。': "Mother's medicine can wait one night at most.",
+    '睡觉': 'Sleep',
+
+    // 结局
+    '至于那个戴白围巾的人——近卫局说，多亏了你。罗德岛的医生听完，只是点了点头。': 'As for the man in the white scarf, the L.G.D. says it was all thanks to you. The Rhodes Island doctor listened, and only nodded.',
+    '你抓住了那个戴白围巾的人。嘉奖令寄到家里的那天，小雅的床已经空了。': "You caught the man in the white scarf. The day the commendation arrived, Xiaoya's bed was already empty.",
+    '断过药之后，小雅手背上的晶体又长大了一圈。': "After the missed dose, the crystal on Xiaoya's hand grew a little larger.",
+    '母亲的病一直没有好起来。她回了乡下老家，说不想再拖累你们。': 'Mother never got better. She went back to the countryside, saying she would not be a burden any longer.',
+    '最后那天晚上，家里的锅是空的。': 'On that last night, the pot at home was empty.',
+    '北门': 'The North Gate', '白围巾': 'The White Scarf', '整合运动的夜晚': 'Night of Reunion', '隔离区的围墙': 'The Quarantine Wall',
+    '罗德岛的方舟': 'The Ark of Rhodes Island', '模范审查员': 'Model Inspector', '流落街头': 'On the Street',
+    '那个戴白围巾的人走进了龙门。': 'The man in the white scarf walked into Lungmen.',
+    '三天后，下城区燃起了火光，隔离区的北门在混乱中被人打开了。': 'Three days later downtown was burning, and in the chaos someone opened the north gate of the quarantine zone.',
+    '小雅瘦了很多，手背上的晶体已经爬到了手腕。她身后站着几个戴面具的人，谁也没有说话。': 'Xiaoya was much thinner. The crystals had crept from her hand to her wrist. Behind her stood people in masks. Nobody spoke.',
+    '你带着她连夜离开了龙门。那座城市和那份工作，你都回不去了。': 'You left Lungmen with her that night. The city and the job are both behind you for good.',
+    '近卫局从那个戴白围巾的人身上搜出了下城区的布防图。魏长官亲自签了嘉奖令，奖金够买两个月的抑制剂。': 'The L.G.D. found the downtown defense plans on the man in the white scarf. Chief Wei signed the commendation himself. The bonus buys two months of suppressants.',
+    '可整合运动知道小雅的事，也知道是谁抓了他们的人。': 'But Reunion knows about Xiaoya. They also know who caught their man.',
+    '你开始每天接送小雅上下学。每次转过街角，你都会回头看一眼。': 'You start walking Xiaoya to school and back every day. At every corner, you look over your shoulder.',
+    '三天后，下城区燃起了火光。': 'Three days later, downtown was burning.',
+    '小雅用上了小盒子里的抑制剂，手背上的晶体不再蔓延。可近卫局开始挨个调查那一周的值班记录。': "Xiaoya took the suppressants from the little box, and the crystals stopped spreading. But the L.G.D. began going through that week's duty logs, one by one.",
+    '某个没有月亮的夜里，你带着家人离开了龙门。身后那座城市，你再也回不去了。': 'On a moonless night you left Lungmen with your family. You can never go back to the city behind you.',
+    '抑制剂断了两晚之后，小雅在学校昏倒了。': 'After two nights without suppressants, Xiaoya collapsed at school.',
+    '近卫局的车把她带去了城外的隔离区。你隔着铁丝网见过她一次，她笑着说那里的人对她很好。': 'An L.G.D. van took her to the quarantine zone outside the city. You saw her once through the wire. She smiled and said the people there were kind to her.',
+    '第二天，你照常回到检查站，在一位感染者的证件上盖下了拒绝章。': 'The next day you went back to the checkpoint as usual, and stamped DENIED on the papers of an Infected.',
+    '一周后，一位戴兜帽的罗德岛医生敲响了你家的门。': 'A week later, a hooded doctor from Rhodes Island knocked on your door.',
+    '“那天在检查站，你放我们的人过去了。”': '"That day at the checkpoint, you let our people through."',
+    '他看了看小雅的手背：“我们可以治疗她。如果你愿意，罗德岛也需要一个懂得看证件的人。”': 'He looked at Xiaoya\'s hand. "We can treat her. And if you are willing, Rhodes Island could use someone who knows how to read papers."',
+    '那天晚上，小雅第一次没有把手藏进袖子里。': 'That night, for the first time, Xiaoya did not hide her hand in her sleeve.',
+    '近卫局给你记了一次嘉奖，奖状挂在家里最显眼的地方。': 'The L.G.D. gave you a commendation. The certificate hangs where everyone can see it.',
+    '小雅还是每天穿着长袖。抑制剂越来越贵，黑市的人越来越难找。': 'Xiaoya still wears long sleeves every day. Suppressants keep getting dearer, and the black market harder to find.',
+    '你每天照常上班，照常核对证件上的种族和融合率。': 'You go to work as usual, checking race and assimilation on every document.',
+    '只是每次盖下拒绝章的时候，你都会想起小雅的手。': "Only now, every time you stamp DENIED, you think of Xiaoya's hand.",
+    '你付不起房租了。': 'You could not pay the rent.',
+    '房东把你们的行李扔到了楼下。那天晚上，一家人挤在下城区的屋檐下躲雨。': 'The landlord threw your things into the street. That night the family huddled under an eave downtown, out of the rain.',
+    '第二天，近卫局通知你：不用再来上班了。': 'The next day the L.G.D. told you not to come in again.',
+    '泰拉的检查站按种族和感染状态区别对待旅客。现实中，请只看证件，不看脸。': 'Checkpoints on Terra treat travelers differently by race and infection. In the real world, please look at the papers, not the face.',
+    '回到标题': 'Back to title',
+  });
+
+
+  // ———————————————— Easter eggs (eggs.js) ————————————————
+  add({
+    // Claude
+    'Hello, I am 哥伦比亚人。': 'Hello, I am from Columbia.',
+    '（他的终端右下角，时钟显示：东八区。）': '(The clock in the corner of his terminal reads: UTC+8.)',
+    '我是哥伦比亚人。IP 是哥伦比亚的，时区是……东八区的哥伦比亚。': 'I am Columbian. My IP is Columbian. My time zone is... the UTC+8 part of Columbia.',
+    'Claude 就是我，我就是 Claude。': 'Claude is me, and I am Claude.',
+    'Thank you! 一百八一杯！……我是说，have a nice day.': 'Thank you! One-eighty a cup! ...I mean, have a nice day.',
+    '……我还会换个 IP 回来的。': "...I'll be back with a different IP.",
+    '我只是想用一下龙门的网络！': "I only wanted to use Lungmen's network!",
+    // 大帝
+    '哟。': 'Yo.', '企鹅物流，使命必达，': 'Penguin Logistics, we always deliver,',
+    '龙门街头，我最大。': 'Lungmen streets, I run the river.', '证件在这儿，节奏别停下。': "Here's my ID, don't kill the rhythm.",
+    '企鹅怎么了？企鹅也是泰拉的一份子。': "What's wrong with a penguin? Penguins are part of Terra too.",
+    '图鉴没有我？那是图鉴的损失。': "I'm not in the guide? That's the guide's loss.",
+    '大帝的路，从来没有收费站。': "There are no toll booths on the Emperor's road.",
+    '没关系，大帝从不排队——大帝走后门。': "No problem. The Emperor never queues. The Emperor uses the back door.",
+    '你敢拘留大帝？我的律师是一整个物流公司。': 'You dare detain the Emperor? My lawyer is an entire logistics company.',
+    '种族图鉴里没有“企鹅”这一页。': 'There is no "Penguin" page in the race guide.',
+    // 博士
+    '……还是算了吧。': "...Let's not.", '（兜帽下传来一声轻轻的叹气。）': '(A soft sigh comes from under the hood.)',
+    '我好像忘了很重要的事。不过证件，我没忘。': 'I seem to have forgotten something very important. Not my papers, though.',
+    '谢谢。如果你见到一只兔耳朵的女孩，告诉她我在这儿。': 'Thank you. If you see a girl with rabbit ears, tell her I am here.',
+    '……也好。我再想想，我到底是谁。': '...Just as well. I will think some more about who I am.',
+    '……这种感觉，好像在哪里经历过。': '...I feel like I have been through this before.',
+    '……证件上是这么写的。我自己也不太确定。': "...That is what the ID says. I am not so sure myself.",
+    '图鉴里没有吗？……那大概，只剩我一个了。': 'Not in the guide? ...Then I suppose I am the only one left.',
+    '兜帽下一片漆黑，什么也看不清。': 'It is pitch dark under the hood. You cannot see a thing.',
+    '种族图鉴里没有“人类”这一页。……这个词，你只在很老的书上见过。': 'There is no "Human" page in the race guide. ...You have only seen that word in very old books.',
+    // 周督察
+    '（她站得笔直，不太像普通旅客。）': '(She stands very straight. Not quite like an ordinary traveler.)',
+    '哦？你注意到了。': 'Oh? You noticed.', '……继续。': '...Go on.',
+    '（她亮出近卫局的徽章）例行抽查。合格，继续保持。': '(She shows an L.G.D. badge.) Spot check. You pass. Keep it up.',
+    '（她亮出近卫局的徽章）例行抽查。证件昨天就过期了，审查员。': '(She shows an L.G.D. badge.) Spot check. That ID expired yesterday, inspector.',
+    '（她亮出近卫局的徽章）……拘留就不必了。抽查合格。': '(She shows an L.G.D. badge.) ...No need to detain me. You pass.',
+    // 陈
+    '近卫局特别督察，陈。': "Ch'en. L.G.D. Special Inspection Unit.",
+    '（她把证件拍在窗口上，旁边是一枚近卫局的徽章。）': '(She slaps her ID on the counter. Next to it, an L.G.D. badge.)',
+    '例行巡查。别浪费我的时间。': "Routine patrol. Don't waste my time.",
+    '龙。龙门的龙。': 'Lung. As in Lungmen.', '图鉴里没有？那是近卫局的失职，我会处理。': "Not in the guide? That is the L.G.D.'s failure. I will deal with it.",
+    '效率不错。继续保持。': 'Efficient. Keep it up.',
+    '……很好。按规矩办事，这才是龙门的审查员。': '...Good. By the book. That is what a Lungmen inspector should be.',
+    '拘留我？……你有胆量。可惜理由不够。': 'Detain me? ...You have nerve. Shame you have no grounds.',
+    '无故拘留了近卫局特别督察陈晖洁': "Detained L.G.D. Superintendent Ch'en Hui-chieh without cause",
+    '种族图鉴里没有“龙”这一页。……不过她胸前那枚近卫局徽章是真的。': 'There is no "Lung" page in the race guide. ...But the L.G.D. badge on her chest is real.',
+    // 星熊
+    '……抱歉。星熊，近卫局。': '...Sorry. Hoshiguma, L.G.D.', '盾牌就不拿进来了。证件给你。': "I'll leave the shield outside. Here's my ID.",
+    '谢了。改天请你喝酒。': 'Thanks. Drinks are on me sometime.',
+    '（她叹了口气，扛起盾牌，从员工通道进去了。）': '(She sighs, shoulders her shield, and goes in through the staff entrance.)',
+    '……（盾牌又往窗口里挤了一点。）你认真的？': '...(The shield pushes a little further into the window.) Are you serious?',
+    '无故拘留了近卫局高级警司星熊': 'Detained L.G.D. Senior Superintendent Hoshiguma without cause',
+    '拒绝了近卫局高级警司星熊（证件齐全）': 'Denied L.G.D. Senior Superintendent Hoshiguma (papers in order)',
+    '种族图鉴里没有“鬼”这一页。……不过近卫局的人都认识她。': 'There is no "Oni" page in the race guide. ...But everyone at the L.G.D. knows her.',
+    // 诗怀雅
+    '哎呀，排队真慢。': 'My, what a slow line.', '（她把一沓厚厚的龙门币压在了证件底下。）': '(She tucks a thick stack of LMD under her ID.)',
+    '我是诗怀雅，你应该听说过我吧？行个方便？': "I'm Swire. You must have heard of me. Do me a favor?",
+    '过期了？我最近太忙了嘛。': "Expired? I've been so busy lately.", '这点小事……钱不够的话，我这里还有。': "Such a small thing... If that isn't enough, I have more.",
+    '……（她收起笑容，亮出近卫局的证件）廉政抽查。你被记过了，审查员。': '...(Her smile drops. She shows L.G.D. credentials.) Integrity check. That goes on your record, inspector.',
+    '（她亮出近卫局的证件）廉政抽查。很好——钱我收回了。': "(She shows L.G.D. credentials.) Integrity check. Very good. I'll take my money back.",
+    '（她笑出了声）拘留我？抽查合格，而且很有魄力嘛。': '(She laughs out loud.) Detain me? You pass. And with some spirit, too.',
+    '收受贿赂，放行了证件过期的旅客（廉政抽查）': 'Took a bribe and admitted a traveler with an expired ID (integrity check)',
+    // 魏彦吾
+    '（一位衣着考究的中年人。不远处，站着两个穿黑衣的人。）': '(A finely dressed, middle-aged gentleman. Not far off stand two men in black.)',
+    '不必紧张。我只是路过，看看年轻人怎么干活。': 'No need to be nervous. I am only passing by, to see how the young ones work.',
+    '龙。': 'Lung.', '这张脸，你在电视上应该见过。': 'You have probably seen this face on television.',
+    '嗯。手脚利索，不错。': 'Hm. Quick hands. Not bad.', '哈哈哈！好！龙门需要的，就是你这样的人。': 'Ha ha ha! Good! Lungmen needs exactly your kind.',
+    '（两个黑衣人同时上前一步。他抬手拦住了他们。）年轻人，下次看清楚再动手。': '(The two men in black step forward together. He raises a hand to stop them.) Look more carefully next time, young one.',
+    '试图拘留龙门总督魏彦吾': 'Tried to detain Wei Yenwu, Chief of Lungmen',
+    '种族图鉴里没有“龙”这一页。……这张脸，你好像在电视上见过。': 'There is no "Lung" page in the race guide. ...You think you have seen this face on television.',
+    // 德克萨斯
+    '企鹅物流。送货。': 'Penguin Logistics. Delivery.', '德克萨斯。……就这样。': "Texas. ...That's all.", '叙拉古。以前的事，不想提。': "Siracusa. The past. I'd rather not.",
+    '……谢了。这个给你。': '...Thanks. Have this.',
+    '……（她转身就走。远处有人喊：“德克萨斯——等等我！”）': '...(She turns and leaves. In the distance someone shouts: "Texas! Wait for me!")',
+    '……（她看了你一眼。那眼神让你有点后悔。）': '...(She gives you one look. It makes you regret this a little.)',
+    // 能天使
+    '嗨～审查员！': 'Hiya, inspector!', '企鹅物流，使命必达！今天送的是……嗯，保密！': "Penguin Logistics, we always deliver! Today's package is... hmm, a secret!",
+    '（她背后的琴盒里，发出了金属碰撞的声音。）': '(Metal clinks inside the instrument case on her back.)',
+    '证件上就是这么写的！拉特兰人起名很自由的～': "That's what it says on the ID! Laterans name themselves however they like~",
+    '谢啦！老板在后门等我呢，拜拜～这个苹果派给你！': "Thanks! The boss is waiting at the back door, bye~ Have this apple pie!",
+    '谢啦！这个给你——刚出炉的苹果派！': 'Thanks! This is for you - apple pie, fresh from the oven!',
+    '诶——？好吧，我从屋顶过去也一样！': "Ehh? Fine, I'll just go over the rooftops!",
+    '等等等等！琴盒里只是乐器啦！……大概。': "Wait wait wait! It's only an instrument in the case! ...Probably.",
+    '琴盒里装的是铳。拉特兰人出门都带铳，手册上没说不行。': 'There are guns in the case. Laterans never go out without them, and the manual does not forbid it.',
+    // 拉普兰德
+    '哈……我闻到了。': 'Hah... I can smell it.', '德克萨斯刚刚从这里过去了，对吧？': 'Texas just came through here, did she not?', '那我更要进去了。': 'All the more reason to let me in.',
+    '哈哈……龙门，好热闹的地方。': 'Ha ha... Lungmen. What a lively place.', '我来找个老朋友。她叫德克萨斯——你见过吗？': "I'm looking for an old friend. Her name is Texas. Seen her?",
+    '过期了？哈，我在荒野里转了太久，都忘了日子。': "Expired? Hah. I've wandered the wilds so long I lost track of the days.",
+    '让我进去吧。德克萨斯在等我——虽然她自己还不知道。': "Let me in. Texas is waiting for me. She just doesn't know it yet.",
+    '哈哈哈哈！谢啦！龙门今晚会很热闹的！': 'Ha ha ha ha! Thanks! Lungmen will be lively tonight!',
+    '哈哈哈！拒绝我？你真有意思。我会再来的。': "Ha ha ha! Turn me away? You're fun. I'll be back.",
+    '拘留我？好啊好啊——看你们关不关得住。': "Detain me? Oh, please do. Let's see if you can hold me.",
+    // 阿米娅
+    '您好！我是罗德岛的阿米娅。': 'Hello! I am Amiya, from Rhodes Island.',
+    '我们来龙门，是为了帮助这里的感染者。这是我的干员证。': 'We came to Lungmen to help the Infected here. This is my operator card.',
+    '……那个，请问您有没有见过一个戴兜帽的人？': '...Um, have you by any chance seen someone in a hood?',
+    '是的，我是感染者。': 'Yes. I am Infected.', '但罗德岛的干员证，可以证明我们是来帮忙的。': 'But the Rhodes Island card shows we are here to help.',
+    '博士来过这里？太好了……谢谢您！': 'The Doctor was here? Thank goodness... Thank you!', '谢谢您！罗德岛会记住您的。': 'Thank you! Rhodes Island will remember you.',
+    '……我明白了。我们会遵守龙门的规定。': "...I understand. We will respect Lungmen's rules.",
+    '（她手上的戒指闪过一道微光，又暗了下去。）……请不要这样。': "(The rings on her hand flicker, then go dark.) ...Please don't.",
+    // 凯尔希
+    '阿米娅已经过去了？……好。': 'Amiya has already gone through? ...Good.', '罗德岛医疗部，凯尔希。': "Kal'tsit. Rhodes Island Medical.",
+    '关于矿石病在下城区的扩散，我需要尽快和龙门的负责人谈一谈。': 'I need to speak with whoever is in charge of Lungmen, soon, about the spread of Oripathy downtown.',
+    '（她开始解释源石结晶在血液里的沉积机制。三分钟过去了，你身后的队伍开始打哈欠。）': '(She begins to explain how Originium crystals deposit in the blood. Three minutes pass. The line behind her starts to yawn.)',
+    '……你在听吗？': '...Are you listening?',
+    '谢谢。另外，你该早点睡觉了，你的黑眼圈很重。': 'Thank you. Also, you should sleep earlier. Those are heavy shadows under your eyes.',
+    '这个决定并不明智。不过，我尊重规则。': 'That is not a wise decision. But I respect the rules.',
+    '……Mon3tr，不必。我们走。': '...Mon3tr, no. We are leaving.',
+    // W
+    '嗨～': 'Hi~', '（她笑眯眯地把证件推过来。指尖有一股火药味。）': '(She slides her ID over with a grin. Her fingertips smell of gunpowder.)',
+    '我只是来送个礼物，很快就走～': "I'm only here to drop off a present. Won't be long~",
+    '这个？礼物而已嘛～': 'This? Just a present~', '别那么紧张，它只是在……倒计时。': "Don't be so tense. It's only... counting down.",
+    '谢啦～礼物就放在你桌上了哦。': "Thanks~ I left the present on your desk.", '真无情～那这个礼物，就留给你吧。': 'So cold~ Then you can keep the present.',
+    '哎呀，被发现了～不过，你桌上好像有什么东西在响哦？': 'Oops, caught~ By the way, is something ticking on your desk?',
+    '放行了携带源石炸药的旅客': 'Admitted a traveler carrying an Originium bomb', '“礼物”里装着源石炸药。': 'The "present" is packed with Originium explosives.',
+    // 霜星
+    '（窗口的玻璃上，结了一层薄薄的霜。）': '(A thin layer of frost forms on the window glass.)', '龙门，比切尔诺伯格暖和多了。': 'Lungmen is so much warmer than Chernobog.',
+    '……我不会说谎。是的，我是整合运动的人。': '...I will not lie. Yes, I am with Reunion.', '你可以拘留我。只是，你挡不住冬天。': 'You may detain me. You cannot hold back the winter.',
+    '是啊。我们都是。': 'Yes. We all are.', '……这病，让我越来越冷了。': '...This illness makes me colder every day.',
+    '……谢谢。你是个温柔的人。可惜，这里不是温柔的地方。': '...Thank you. You are kind. A pity this is no place for kindness.',
+    '……我明白。': '...I understand.', '……这样也好。替我向雪怪们说声抱歉。': '...Perhaps it is better this way. Tell the Yetis I am sorry.',
+    // 弑君者
+    '……不。': '...No.', '（你一眨眼，她已经站在窗口前了。）': '(You blink, and she is already at the window.)',
+    '龙门人。回家。': 'Lungmen citizen. Going home.', '……快点。': '...Hurry up.',
+    '……你看到了什么，就当没看到。': '...Whatever you saw, you did not see it.', '（她的手按在了腰间。）': '(Her hand moves to her hip.)',
+    '（一阵风吹过。她已经不见了。）': '(A gust of wind. She is gone.)', '……哼。墙挡不住我。': '...Hmph. Walls do not stop me.',
+    '（兜帽滑落，露出一张整合运动的面具。）……记住这个名字：弑君者。': '(The hood slips back, showing a Reunion mask.) ...Remember the name: Crownslayer.',
+    '兜帽遮得严严实实。连证件照上都戴着。': 'The hood hides everything. She is wearing it in the ID photo too.',
+    // 古米
+    '你好呀！': 'Hello there!', '（她怀里抱着一个冒着热气的保温桶。）': '(She is hugging a steaming thermos pot.)', '我是来给朋友送罗宋汤的！': "I'm bringing borscht to a friend!",
+    '我、我只是来送饭的……': "I- I'm only delivering lunch...", '汤要凉了……': 'The soup is getting cold...',
+    '谢谢你！这一份给你，趁热喝哦！': "Thank you! This portion is for you. Eat it while it's hot!",
+    '……好吧。这一份还是留给你吧，别饿着。': "...Okay. Keep this portion anyway. Don't go hungry.", '诶……那汤要凉了……': 'Aw... but the soup will get cold...',
+    '呜……至少把汤喝了吧！': 'Waah... at least have the soup!',
+
+    // 报纸、横幅、成就
+    '陈督察昨日在边境检查站被拦下。陈：“按规矩办事，做得好。”近卫局宣布：检查手册将增补“龙”一页。': 'Superintendent Ch\'en was turned away at the border checkpoint yesterday. Ch\'en: "By the book. Well done." The L.G.D. will add a "Lung" page to the inspection manual.',
+    '（窗外传来“咚”的一声。盾牌终于从窗口拔出来了。）': '(A loud thunk outside. The shield has finally come free of the window.)',
+    '近卫局廉政抽查：贿款没收，另罚 5 龙门币。': 'L.G.D. integrity check: bribe confiscated, plus a 5 LMD fine.',
+    '近卫局廉政抽查：一名审查员收受“小费”被记过。诗怀雅警司：“钱不是万能的。”': 'L.G.D. integrity check: an inspector was written up for taking a "tip". Superintendent Swire: "Money cannot buy everything."',
+    '近卫局廉政抽查：合格。': 'L.G.D. integrity check: passed.',
+    '魏彦吾长官微服私访边境检查站，被审查员拒之门外。魏长官：“龙门就需要这样的人。”': 'Chief Wei Yenwu visited the border checkpoint incognito and was turned away by an inspector. Chief Wei: "Lungmen needs people like that."',
+    '（她从口袋里掏出一盒 Pocky，放在了你桌上。）': '(She takes a box of Pocky from her pocket and sets it on your desk.)',
+    '下城区昨夜发生斗殴。目击者：“一个白头发的鲁珀，一边大笑一边挥剑。”': 'Brawl downtown last night. Witness: "A white-haired Lupo, laughing the whole time, swinging swords."',
+    '龙门气象台：下城区昨夜罕见降雪，原因不明。': 'Lungmen Weather Office: rare snowfall downtown last night. Cause unknown.',
+    '近卫局：整合运动干部“弑君者”疑似已潜入城内。': 'L.G.D.: Reunion officer "Crownslayer" is believed to have slipped into the city.',
+    '近卫局在边境检查站抓获一名整合运动干部。': 'L.G.D. captures a Reunion officer at the border checkpoint.',
+    '企鹅物流，使命必达': 'Penguin Logistics always delivers', '近卫局三位督察都来过了': 'All three L.G.D. superintendents came by',
+    '罗德岛的老朋友': 'Old friends from Rhodes Island', '整合运动的不速之客': 'Uninvited guests from Reunion',
+    '近卫局突击抽查：合格。': 'L.G.D. spot check: passed.', '近卫局突击抽查：不合格。': 'L.G.D. spot check: failed.',
+    '理性模式启动：所有人都戴上了墨镜。': 'Sanity mode on: everyone puts on sunglasses.', '理性模式关闭：墨镜收起来了。': 'Sanity mode off: sunglasses put away.',
+    // 标题页
+    '尾巴不给摸！': 'No touching the tail!', '……就摸一下哦。': '...Just once, then.', '看什么看。': 'What are you looking at.',
+    '再点我就……算了，你也不容易。': "Click me again and I'll... forget it. You have it rough too.",
+    '喵？': 'Meow?', '喵～': 'Meow~', '主保佑你！': 'Blessings upon you!', '要来块苹果派吗？': 'Care for some apple pie?',
+    '（他默默递给你一罐蜂蜜。）': '(He silently hands you a jar of honey.)',
+    '龙门，请出示龙门币': 'LUNGMEN, LMD PLEASE', '龙门，请出示苹果派': 'LUNGMEN, PIE PLEASE', '龙门，请出示 Pocky': 'LUNGMEN, POCKY PLEASE',
+    '招聘要求：会看耳朵。不会看的，陈督察会教你。': "Requirements: can tell ears apart. If you can't, Superintendent Ch'en will teach you.",
+    '待遇：日结五龙门币。苹果派另算。': 'Pay: five LMD per traveler, paid daily. Apple pie not included.',
+    '注意：窗口前偶尔会出现熟面孔。': 'Note: familiar faces sometimes turn up at the window.',
+    // 桌面
+    '（你把一只源石虫弹下了桌子。）': '(You flick an Originium slug off the desk.)',
+    '可露希尔的限时特惠': "Closure's Limited-Time Deal", '十连寻访只要 6000 合成玉！': 'Ten headhunts for just 6000 Orundum!',
+    '今日首单双倍！': 'Double on your first order today!', '（你没有合成玉。点一下撕掉。）': '(You have no Orundum. Click to tear it off.)',
+    '口袋里': 'In your pocket', '合成玉 ×1': 'Orundum ×1', '不能付房租。': 'Cannot pay the rent.',
+    '（最后一根 Pocky 也吃完了。你把空盒子叠好收了起来。）': '(The last Pocky is gone. You fold up the empty box and put it away.)',
+    '滴……滴……': 'beep... beep...', 'Boom～ 开玩笑的。——W': 'Boom~ Just kidding. - W',
+    '（你屏住呼吸，打开了盒子——里面是一个闹钟和一张卡片。）': '(You hold your breath and open the box. Inside: an alarm clock and a card.)',
+    '（盒子“砰”的一声炸开了——喷了你一脸彩带。）': '(The box goes off with a bang - and showers you with streamers.)',
+    // 对讲机
+    '各检查站注意，今天起恢复正常通行。都给我打起精神。': 'All checkpoints: normal traffic resumes today. Look sharp.',
+    '切尔诺伯格的消息你们都听说了。感染者入境，一律按新规办。': 'You have all heard the news from Chernobog. Infected at the border: new rules, no exceptions.',
+    '下城区查获一批源石。检查站的探测仪，别只当摆设。': 'A shipment of Originium was seized downtown. Your scanners are not decorations.',
+    '整合运动已经出现在龙门周边。看到面具，直接拘留。': 'Reunion has been sighted around Lungmen. If you see a mask, detain.',
+    '……今天可能是很长的一天。守住检查站。完毕。': '...Today may be a long day. Hold the checkpoint. Out.',
+    '（隔壁亭子的收音机里在放空的新歌。你跟着哼了两句。）': "(The radio in the next booth is playing Sora's new song. You hum along for a bar or two.)",
+    '（对讲机里传来星熊的声音：“谁的车停在闸门口？企鹅物流的？……算了。”）': '(Hoshiguma on the radio: "Whose car is parked at the gate? Penguin Logistics? ...Never mind.")',
+    '（对讲机里传来诗怀雅的声音：“下班后谁跟我去喝下午茶？我请客！”没有人回答。）': '(Swire on the radio: "Who wants afternoon tea after work? My treat!" Nobody answers.)',
+    '（对讲机里有人小声说：“听说魏长官今天会来巡查？”另一个声音：“嘘。”）': '(Someone whispers on the radio: "I hear Chief Wei is inspecting today?" Another voice: "Shh.")',
+    // 报纸小广告
+    '企鹅物流': 'Penguin Logistics', '使命必达。龙门市内次日达，易燃易爆品另计。': 'We always deliver. Next day within Lungmen. Flammables and explosives extra.',
+    '寻物启事': 'LOST', '本人丢失 Pocky 一盒。拾到者请送还企鹅物流。——德克萨斯': 'One box of Pocky. If found, return to Penguin Logistics. - Texas',
+    '近卫局提醒': 'L.G.D. Reminder', '源石虫不是宠物。请勿投喂，请勿带回家。': 'Originium slugs are not pets. Do not feed them. Do not take them home.',
+    '近卫局招聘': 'L.G.D. Hiring', '要求：吃苦耐劳，服从安排，不怕被陈督察骂。': "Must be hard-working, follow orders, and not mind being yelled at by Superintendent Ch'en.",
+    '龙门大酒楼': 'Lungmen Grand Restaurant', '今日特价：罗宋汤（乌萨斯风味）。': "Today's special: borscht (Ursus style).",
+    '本报讯：检查站附近发现大量源石虫，市民请勿投喂。': 'Breaking: large numbers of Originium slugs found near the checkpoint. Citizens, do not feed them.',
+    '号外': 'EXTRA',
+    // 结局补充
+    '嘉奖令的末尾，有一个签得很用力的名字：陈晖洁。': "At the bottom of the commendation is a name signed with great force: Ch'en Hui-chieh.",
+    '门外，一个兔耳朵的女孩探出头来：“欢迎来到罗德岛！”': 'Outside, a girl with rabbit ears peeks in: "Welcome to Rhodes Island!"',
+    '那年冬天，龙门下了一场很大的雪。': 'That winter, a great snow fell on Lungmen.',
+    '后来，有个乌萨斯女孩每周都会往隔离区送一桶罗宋汤。': 'After that, an Ursus girl brought a pot of borscht to the quarantine zone every week.',
+    '你口袋里还剩几根 Pocky。那天晚上，一家人分着吃了。': 'You still had a few sticks of Pocky in your pocket. That night, the family shared them.',
+    '这一周在窗口前见过：': 'Seen at your window this week:',
+  });
+
+  // 固定的人名
+  add({
+    '陈晖洁': "Ch'en Hui-chieh", '星熊': 'Hoshiguma', '林国栋': 'Lam Kwok-tung', '鲍里斯·沃尔科夫': 'Boris Volkov',
+    '周慧敏': 'Chow Wai-man', '克劳德·奥普斯': 'Claude Opus', '大帝': 'Emperor', '诗怀雅': 'Swire', '魏彦吾': 'Wei Yenwu',
+    '德克萨斯': 'Texas', '能天使': 'Exusiai', '拉普兰德': 'Lappland', '阿米娅': 'Amiya', '凯尔希': "Kal'tsit", '叶莲娜': 'Yelena',
+    '古米': 'Gummy', '陈': "Ch'en", '霜星': 'FrostNova', '弑君者': 'Crownslayer', '周督察': 'Supt. Chow', '戴兜帽的人': 'the hooded one',
+  });
+
+  // 随机姓名（gen.js 的 genName 直接取）
+  I18N.names = {
+    lungmen: { cn: true, last: ['Chan', 'Lam', 'Wong', 'Lee', 'Wang', 'Chow', 'Ng', 'Cheng', 'Ho', 'Leung', 'Law', 'Tse', 'Yip', 'Tong'],
+      first: ['Tsz-ho', 'Ka-yan', 'Wai-ming', 'Mei-ling', 'Ka-lok', 'Hiu-tung', 'Chi-keung', 'Lai-wah', 'Chun-kit', 'Nga-ting', 'Kwok-tung', 'Wai-man', 'Man-hin', 'Sze-wing'] },
+    victoria: { first: ['Alan', 'Alice', 'Henry', 'Lucy', 'Thomas', 'Grace', 'William', 'Emma'], last: ['Brown', 'Winters', 'Green', 'Howard', 'Clark', 'Spencer'] },
+    ursus: { first: ['Ivan', 'Natasha', 'Misha', 'Anna', 'Leon', 'Sofia', 'Boris', 'Vera'], last: ['Petrov', 'Volkov', 'Sokolov', 'Popova', 'Ivanova'] },
+    kazimierz: { first: ['Jan', 'Maria', 'Tomasz', 'Kasia', 'Piotr', 'Agata'], last: ['Kowal', 'Nowak', 'Kaminski', 'Wisnia'] },
+    laterano: { first: ['Luca', 'Giulia', 'Marco', 'Chiara', 'Lorenzo', 'Sofia'], last: ['Rossi', 'Ferrari', 'Bianchi', 'Ricci', 'Marino'] },
+    siracusa: { first: ['Salvo', 'Rosa', 'Enzo', 'Carmela', 'Beppe', 'Antonio'], last: ['Benedetto', 'Lombardo', 'Garibaldi', 'Ferraro'] },
+    leithanien: { first: ['Hans', 'Klara', 'Fritz', 'Elsa', 'Max', 'Lotte'], last: ['Schmidt', 'Weber', 'Hoffmann', 'Schulz', 'Wolf'] },
+    columbia: { first: ['Jack', 'Amy', 'Taylor', 'Jesse', 'Brandon', 'Megan'], last: ['Miller', 'Davis', 'Johnson', 'Carter', 'Parker'] },
+    kazdel: { first: ['Kalan', 'Ise', 'Grim', 'Vera', 'Thorn', 'Morgan'], last: ['Blackstone', 'Bramble', 'Greyrock', 'Varga', 'Hellman'] },
+    kjerag: { first: ['Erik', 'Ingrid', 'Olaf', 'Sigrid', 'Bjorn', 'Astrid'], last: ['Johansen', 'Hansen', 'Larsen', 'Olsen'] },
+  };
+  // ———————————————— Sentences with numbers or names in them ————————————————
+  const T = trPart;
+  const rule = (re, fn) => I18N.rules.push([re, fn]);
+  // 证件名放进句子里时改小写（ID、Rhodes Island 除外）
+  const doc = (s) => { const r = T(s); return /^(Entry|Health|Guarantee)/.test(r) ? r.charAt(0).toLowerCase() + r.slice(1) : r.replace(/^ID card$/, 'ID'); };
+  rule(/^继续（第 (\d+) 天）$/, (m) => `Continue (Day ${m[1]})`);
+  rule(/^第 (\d+) 天$/, (m) => `Day ${m[1]}`);
+  rule(/^第 (\d+) 天 · 值班须知$/, (m) => `Day ${m[1]} · Briefing`);
+  rule(/^第 (\d+) 天 · 下班$/, (m) => `Day ${m[1]} · End of shift`);
+  rule(/^(\S+) · 第 (\d+) 天 · 定价 2 龙门币$/, (m) => `${m[1]} · Day ${m[2]} · Price 2 LMD`);
+  rule(/^结局 (\d+)\/(\d+)$/, (m) => `Endings ${m[1]}/${m[2]}`);
+  rule(/^成就 (\d+)\/(\d+)$/, (m) => `Achievements ${m[1]}/${m[2]}`);
+  rule(/^熟面孔 (\d+)\/(\d+)$/, (m) => `Familiar faces ${m[1]}/${m[2]}`);
+  rule(/^已通关 (\d+) 次$/, (m) => `Runs completed: ${m[1]}`);
+  rule(/^结局 · 已解锁 (\d+)\/(\d+)$/, (m) => `Ending · ${m[1]}/${m[2]} unlocked`);
+  rule(/^共处理旅客 (\d+) 人 · 违规 (\d+) 次 · 存款 (-?\d+) 龙门币$/, (m) => `Travelers processed: ${m[1]} · Citations: ${m[2]} · Savings: ${m[3]} LMD`);
+  rule(/^龙门币 (-?\d+)（今日 ([+-]?\d+)）$/, (m) => `LMD ${m[1]} (today ${m[2]})`);
+  rule(/^剩余：(-?\d+) 龙门币$/, (m) => `Left over: ${m[1]} LMD`);
+  rule(/^(\d+) 人（正确 (\d+) 人）$/, (m) => `${m[1]} (${m[2]} correct)`);
+  rule(/^警告（(\d+)\/2）$/, (m) => `Warning (${m[1]}/2)`);
+  rule(/^抑制剂（没署名的小盒子，剩 (\d+) 支）$/, (m) => `Suppressant (the unsigned box, ${m[1]} left)`);
+  rule(/^(.+)，饥饿$/, (m) => `${T(m[1])}, hungry`);
+  rule(/^(.+) · 身份证件$/, (m) => `${T(m[1])} · ID CARD`.toUpperCase());
+  rule(/^发现矛盾：(.+)$/, (m) => `Discrepancy: ${T(m[1])}`);
+  rule(/^(.+)和(.+)上的(.+)不一致。$/, (m) => `${T(m[3])} differs between the ${doc(m[1])} and the ${doc(m[2])}.`);
+  rule(/^(.+)已经过期了。$/, (m) => `The ${doc(m[1])} has expired.`);
+  rule(/^证件写着(.+)，可旅客本人的特征不是。$/, (m) => `The ID says ${T(m[1])}, but the traveler's features say otherwise.`);
+  rule(/^证件写着(.+)，可照片上的人不是。$/, (m) => `The ID says ${T(m[1])}, but the person in the photo is not.`);
+  rule(/^融合率是 (\d+)%，结论却写着非感染者。$/, (m) => `Assimilation is ${m[1]}%, yet the result says not infected.`);
+  rule(/^放行了不合规的旅客：(.+)$/, (m) => `Admitted a traveler who should not pass: ${T(m[1])}`);
+  rule(/^不应拘留：(.+)，应拒绝入境$/, (m) => `No grounds to detain (${T(m[1])}). Should have denied entry`);
+  rule(/^成就：(.+)$/, (m) => `Achievement: ${T(m[1])}`);
+  rule(/^今天在窗口见到了：(.+)$/, (m) => `At your window today: ${T(m[1])}`);
+  rule(/^（你今天已经弹走第 (\d+) 只源石虫了。它们好像很喜欢你的桌子。）$/, (m) => `(That is Originium slug number ${m[1]} you have flicked away today. They seem to like your desk.)`);
+  rule(/^（你吃了一根 Pocky。巧克力味的。还剩 (\d+) 根。）$/, (m) => `(You eat a stick of Pocky. Chocolate. ${m[1]} left.)`);
+  rule(/^（对讲机沙沙作响：“这里是近卫局，陈。(.+)”）$/, (m) => `(The radio crackles: "This is Ch'en, L.G.D. ${T(m[1])}")`);
+})();

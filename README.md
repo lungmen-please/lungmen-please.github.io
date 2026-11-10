@@ -1,7 +1,9 @@
 # 龙门，请出示证件 · LUNGMEN, PLEASE
 
+**中文** | [English](README.en.md)
+
 《明日方舟》同人小游戏，Papers, Please 式的检查站玩法。
-**基于 [IP, PLEASE · 请出示你的 IP](https://ip-please.github.io) 修改。** 在线玩：<https://chenziqiadam.github.io/lungmen-please/>（需在仓库 Settings → Pages 开启）。 本作是粉丝同人作品，与鹰角网络无关。
+**基于 [IP, PLEASE · 请出示你的 IP](https://ip-please.github.io) 修改。** 在线玩：<https://chenziqiadam.github.io/lungmen-please/>。 本作是粉丝同人作品，与鹰角网络无关。
 
 切尔诺伯格出事前后，你在龙门边境检查站当审查员。工作只有一项：核对证件，决定谁能进入龙门。
 证件上写着种族，旅客头上长着耳朵、角、光环，身后拖着尾巴。它们得对得上。
@@ -17,6 +19,7 @@
 - 下班后要付房租、买食物，还有……小雅的抑制剂。不买食物，第二天会迟到；抑制剂断一次病情加重，断第二次小雅就会被带走。
 
 - **档案**：标题页的【档案】记录解锁过的结局、成就和见过的熟面孔，通关后不会清空。
+- **语言**：支持中文和英文，点右上角的【EN / 中文】随时切换；首次打开时按浏览器语言选择，也可以在网址后加 `?lang=en` 或 `?lang=zh`。
 - **快捷键**（桌面端）：空格 叫号，1 批准，2 拒绝，3 拘留，E 检查，R 源石探测，F 手册，H 请摘帽，Q 质询。
 
 ### 种族图鉴（游戏里手册第 2 页有图）
@@ -69,6 +72,7 @@ python -m http.server
 | 文件 | 内容 |
 |---|---|
 | `index.html` / `style.css` | 页面与样式 |
+| `i18n.js` / `lang-en.js` | 中英双语：翻译层和英文词典（游戏源码里的文字一律写中文） |
 | `data.js` | 种族、国家、规则、报纸、台词 |
 | `art.js` | 像素立绘（逐像素画耳朵、尾巴、角、光环）和源石探测视图 |
 | `sfx.js` | 音效（WebAudio 现场合成） |
@@ -78,8 +82,19 @@ python -m http.server
 | `px.woff2` / `px.ttf` | 像素字体子集（网页优先加载 woff2，ttf 是后备） |
 | `favicon.png` / `og.png` | 网站图标和分享预览图，由 `tools/make_share_images.py` 生成 |
 | `tools/sim_test.js` | 旅客模拟测试：`node tools/sim_test.js`，检查没有“无解旅客”、剧情角色都会出场 |
+| `tools/i18n_check.js` | 英文覆盖率检查：`node tools/i18n_check.js`，列出还没有英文的句子 |
 | `tools/art-variants/` | 另外两套备选立绘画风（动漫半身 / 3/4 侧身），覆盖 `art.js` 即可换画风 |
 | `tools/subset_font.py` | 重新生成字体子集（源字体在 `tools/fonts/`） |
+
+## 改文字、加英文
+
+游戏里的文字都直接用中文写在各个 `.js` 里，显示时由 `i18n.js` 查 `lang-en.js` 换成英文：
+
+- 整句对应的，在 `lang-en.js` 里加一条 `'中文原文': 'English'`（带换行的文字按行拆开，一行一条）。
+- 带数字或名字的句子，在文件末尾加一条正则规则。
+- 加完跑一次 `node tools/i18n_check.js`，没有英文的句子会被列出来；漏掉的句子在英文版里会原样显示中文。
+
+随机旅客的英文姓名在 `lang-en.js` 的 `I18N.names` 里。
 
 ## 重新生成字体
 

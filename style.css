@@ -469,3 +469,15 @@ table.sum td:last-child { text-align: right; color: var(--yellow); }
 #title .btns { margin: 8px 0 2px; }
 #title .sub { margin: 0; color: var(--dim); }
 @media (prefers-reduced-motion: reduce) { #title .tstripe, #title h1, #title .tstamp { animation: none; } }
+
+/* ———————————————— English ———————————————— */
+html[lang=en] #title .en { font-size: 0; }
+html[lang=en] #title .en::after { content: '龙门，请出示证件'; font-size: 12px; letter-spacing: 4px; }
+html[lang=en] .ln { word-break: normal; overflow-wrap: break-word; }
+html[lang=en] .dx-id .dl { width: 38px; }
+html[lang=en] .dx .dh .dt { text-transform: uppercase; }
+html[lang=en] .fam span { width: 100px; }
+html[lang=en] .dx-guar .ttl { letter-spacing: 3px; }
+html[lang=en] .book .racebtn { display: block; }
+html[lang=en] .book .rlist { width: 50px; }
+html[lang=en] .doc[data-doc=cite] { width: 210px; }
