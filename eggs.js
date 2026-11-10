@@ -766,7 +766,7 @@
       const line = lines[Math.min(lines.length - 1, Math.floor((clicks[i] - 3) / 2))];
       const ctx = cv.getContext('2d');
       ctx.clearRect(i * 96, 0, 96, 80);
-      drawPerson(sampleApp(race), { expr: TITLE_EXPR[race] }).draw(cv, i * 96, 0);
+      drawPerson((typeof titleApp === 'function' ? titleApp : sampleApp)(race), { expr: TITLE_EXPR[race] }).draw(cv, i * 96, 0);
       SFX.mumble(line, race === 'ursus' ? 90 : 190);
       const old = cv.parentNode.querySelector(`.egg-bubble[data-i="${i}"]`);
       if (old) old.remove();
@@ -781,7 +781,7 @@
         b.remove();
         if (!document.body.contains(cv)) return;
         ctx.clearRect(i * 96, 0, 96, 80);
-        drawPerson(sampleApp(race), { expr: i === 2 ? 'smile' : 'neutral' }).draw(cv, i * 96, 0);
+        drawPerson((typeof titleApp === 'function' ? titleApp : sampleApp)(race), { expr: i === 2 ? 'smile' : 'neutral' }).draw(cv, i * 96, 0);
       }, 1800);
     });
   }

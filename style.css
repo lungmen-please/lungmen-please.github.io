@@ -423,3 +423,49 @@ table.sum td:last-child { text-align: right; color: var(--yellow); }
 .arc-runs { text-align: center; color: var(--teal); margin-top: 8px; }
 #archive .btn { display: block; margin: 8px auto 0; }
 #summary .exphint { margin-top: 6px; color: var(--dim); line-height: 14px; }
+
+/* ———————————————— 标题页：外景动画 + 标题 + 排队的立绘 ———————————————— */
+#title {
+  display: block;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.14) 0 2px, transparent 2px 4px),
+    linear-gradient(#2b2421, #1b1615);
+}
+#title .thero { position: absolute; left: 0; top: 0; width: 640px; height: 144px; overflow: hidden; background: #1a1420; }
+#title #tOut { width: 1280px; height: 144px; }
+#title .tfade {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to right, transparent 82%, rgba(22, 19, 19, 0.7)),
+    linear-gradient(to bottom, rgba(22, 19, 19, 0.35), transparent 22%, transparent 78%, rgba(22, 19, 19, 0.5));
+}
+#title .tstripe {
+  position: absolute; left: 0; top: 144px; width: 640px; height: 6px;
+  background: repeating-linear-gradient(-45deg, var(--yellow) 0 6px, #1a1614 6px 12px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5);
+  animation: tstripe 1.2s steps(6) infinite;
+}
+@keyframes tstripe { to { background-position: 17px 0; } }
+#title .tbody { position: absolute; left: 0; right: 0; top: 150px; bottom: 0; text-align: center; padding-top: 8px; }
+#title .thead { position: relative; display: inline-block; }
+#title h1 {
+  margin: 0; font-size: 36px; line-height: 40px; letter-spacing: 3px; color: var(--yellow);
+  text-shadow: 3px 3px 0 #000, 0 0 12px rgba(232, 184, 74, 0.25);
+  animation: tdrop 0.5s steps(5) both;
+}
+@keyframes tdrop { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+#title .tstamp {
+  position: absolute; right: -52px; top: -2px; padding: 0 5px; border: 2px solid #c8483a; color: #e0675a;
+  line-height: 16px; letter-spacing: 1px; transform: rotate(9deg); background: rgba(43, 36, 33, 0.6);
+  animation: tstamp 0.25s steps(3) 0.7s both;
+}
+@keyframes tstamp { from { opacity: 0; transform: rotate(9deg) scale(2.2); } to { opacity: 1; transform: rotate(9deg) scale(1); } }
+#title .en { margin: 0 0 4px; color: var(--teal); letter-spacing: 8px; text-indent: 8px; }
+#title .tline {
+  width: 520px; height: 80px; margin: 0 auto;
+  background: linear-gradient(#262021, #3a2f2a 70%, #46382f);
+  border-bottom: 2px solid var(--desk-l); box-shadow: inset 0 0 0 1px #151110, 0 2px 0 #151110;
+}
+#title .btns { margin: 8px 0 2px; }
+#title .sub { margin: 0; color: var(--dim); }
+@media (prefers-reduced-motion: reduce) { #title .tstripe, #title h1, #title .tstamp { animation: none; } }

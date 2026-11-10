@@ -84,6 +84,16 @@ function sampleApp(race) {
   };
 }
 
+// 标题页那一排人：每人一套不同的打扮
+const TITLE_LOOK = {
+  vulpo: { style: 'long', top: 'coat', cloth: [168, 148, 116], eye: [72, 164, 104] },
+  sarkaz: { style: 'messy', top: 'jacket', cloth: [56, 54, 66], eye: [206, 72, 84] },
+  feline: { style: 'bob', top: 'hoodie', cloth: [62, 96, 104], eye: [234, 172, 52] },
+  sankta: { style: 'twin', top: 'uniform', cloth: [60, 68, 94], eye: [66, 124, 206] },
+  ursus: { style: 'short', top: 'suit', cloth: [128, 66, 68], eye: [150, 86, 54], glasses: true },
+};
+function titleApp(race) { return Object.assign(sampleApp(race), TITLE_LOOK[race] || {}); }
+
 // 室外场景用的固定伪随机
 function lcg(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
 
@@ -93,25 +103,47 @@ function showTitle() {
   scene = 'title'; D = null; cur = null;
   const sv = load();
   const canCont = sv && sv.day >= 1 && sv.day <= LAST_DAY;
-  stage.innerHTML = `<div class="scene" id="title"><div class="panel">
-    <h1>龙门，请出示证件</h1>
-    <div class="en">LUNGMEN, PLEASE</div>
-    <canvas id="tArt" width="480" height="80"></canvas>
-    <p class="sub">龙门近卫局 · 边境检查站 · 审查员招聘中</p>
-    <div class="btns">
-      <button class="btn" id="tNew" type="button">新游戏</button>
-      ${canCont ? `<button class="btn" id="tCont" type="button">继续（第 ${sv.day} 天）</button>` : ''}
-      <button class="btn alt" id="tArc" type="button">档案</button>
+  stage.innerHTML = `<div class="scene" id="title">
+    <div class="thero"><canvas id="tOut" width="640" height="72"></canvas><div class="tfade"></div></div>
+    <div class="tstripe"></div>
+    <div class="tbody">
+      <div class="thead"><h1>龙门，请出示证件</h1><span class="tstamp">招聘中</span></div>
+      <div class="en">LUNGMEN, PLEASE</div>
+      <div class="tline"><canvas id="tArt" width="480" height="80"></canvas></div>
+      <div class="btns">
+        <button class="btn" id="tNew" type="button">新游戏</button>
+        ${canCont ? `<button class="btn" id="tCont" type="button">继续（第 ${sv.day} 天）</button>` : ''}
+        <button class="btn alt" id="tArc" type="button">档案</button>
+      </div>
+      <p class="sub">龙门近卫局 · 边境检查站 · 审查员招聘中</p>
     </div>
-  </div></div>`;
+  </div>`;
+  drawTitleScene(performance.now());
   const cv = $('#tArt');
   const ctx = cv.getContext('2d');
   ctx.clearRect(0, 0, cv.width, cv.height);
-  ['vulpo', 'sarkaz', 'feline', 'sankta', 'ursus'].forEach((r, i) => drawPerson(sampleApp(r), { expr: i === 2 ? 'smile' : 'neutral' }).draw(cv, i * 96, 0));
+  ['vulpo', 'sarkaz', 'feline', 'sankta', 'ursus'].forEach((r, i) => drawPerson(titleApp(r), { expr: i === 2 ? 'smile' : 'neutral' }).draw(cv, i * 96, 0));
   hook('scene', 'title');
   $('#tNew').onclick = () => { SFX.init(); SFX.click(); S = newSave(); save(); showNews(); };
   $('#tArc').onclick = () => { SFX.init(); SFX.paper(); showArchive(); };
   if (canCont) $('#tCont').onclick = () => { SFX.init(); SFX.click(); S = Object.assign(newSave(), sv); showNews(); };
+}
+
+// 标题页顶部的动画：检查站外景放大两倍，队伍不停往前挪，天色在清晨和夜晚之间来回
+let TITLE = null;
+function drawTitleScene(ts) {
+  const cv = $('#tOut');
+  if (!cv) return;
+  if (!(window.SCENE && SCENE.draw)) { cv.parentNode.style.display = 'none'; return; }
+  const t = ts / 1000;
+  if (!TITLE) TITLE = { D: { t: 0, over: false, title: true }, queue: Array.from({ length: 10 }, () => newLook()), next: t + 2.5 };
+  TITLE.D.t = 300 * (0.5 - 0.5 * Math.cos(t * Math.PI * 2 / 100 + 1.2));
+  if (t > TITLE.next) {
+    TITLE.next = t + 3 + Math.random() * 3;
+    TITLE.queue.shift();
+    TITLE.queue.push(newLook());
+  }
+  try { SCENE.draw(cv, TITLE.queue, t, TITLE.D); } catch (e) { console.error(e); }
 }
 
 // ———————————————————— 档案 ————————————————————
@@ -974,6 +1006,7 @@ function loop(ts) {
   lastTs = ts;
   if (scene === 'booth' && D && !D.paused && !D.ended && !document.hidden) tick(dt);
   if (scene === 'booth' && D && window.SCENE && ts - (loop.outT || 0) > 66) { loop.outT = ts; drawOutside(); }
+  if (scene === 'title' && !document.hidden && ts - (loop.outT || 0) > 66) { loop.outT = ts; drawTitleScene(ts); }
   requestAnimationFrame(loop);
 }
 
