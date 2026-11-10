@@ -1,0 +1,155 @@
+/* 证件外观（配合 docs.js）。像素风：硬边、硬阴影。 */
+.dx { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.dx svg { display: block; flex: none; image-rendering: pixelated; }
+.dx .dh { display: flex; align-items: center; gap: 4px; height: 18px; padding: 0 4px; color: #fff; white-space: nowrap; overflow: hidden; }
+.dx .dh .dt { text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35); }
+.dx .dh .dc { margin-left: auto; opacity: 0.75; }
+.dx .dr { display: flex; align-items: center; height: 14px; line-height: 14px; white-space: nowrap; }
+.dx .dl { flex: none; color: #6d6058; }
+.dx .dr .f { flex: 1; min-width: 0; overflow: hidden; }
+.dx .seal {
+  position: absolute; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; text-align: center;
+  line-height: 12px; border: 2px solid rgba(190, 40, 30, 0.72); border-radius: 50%; color: rgba(190, 40, 30, 0.8);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.0), inset 0 0 0 3px rgba(190, 40, 30, 0.45);
+  transform: rotate(-14deg); pointer-events: none; mix-blend-mode: multiply;
+}
+
+/* —— 身份证件 —— */
+.doc[data-doc=id] {
+  width: 206px; height: 120px; padding: 0; border: 1px solid #3a2f28; border-radius: 0; background: #e9e1cc;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+.dx-id {
+  background:
+    repeating-linear-gradient(45deg, color-mix(in srgb, var(--nc) 10%, transparent) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(-45deg, color-mix(in srgb, var(--nc) 10%, transparent) 0 1px, transparent 1px 5px),
+    linear-gradient(#f0e9d8, #dcd1b6);
+}
+.dx-id .dh { background: var(--nc); border-bottom: 2px solid #f1d27a; height: 18px; }
+.dx-id .wm { position: absolute; right: 6px; top: 26px; opacity: 0.14; pointer-events: none; }
+.dx-id .idb { position: relative; display: flex; gap: 5px; padding: 3px 4px 0; }
+.dx-id .pf { position: relative; flex: none; width: 58px; height: 66px; border: 1px solid #3a2f28; background: #aab4be; }
+.dx-id .photo { width: 56px; height: 64px; border: none; box-shadow: none; background: transparent; }
+.dx-id .photo canvas { width: 56px; height: 64px; }
+.dx-id .holo {
+  position: absolute; right: -4px; bottom: -4px; width: 14px; height: 14px; pointer-events: none; opacity: 0.55;
+  background: repeating-linear-gradient(135deg, #f7d26a 0 2px, #8fd3e8 2px 4px, #e79ad0 4px 6px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+.dx-id .flds { flex: 1; min-width: 0; }
+.dx-id .dl { width: 28px; color: color-mix(in srgb, var(--nc) 55%, #6d6058); }
+.dx-id .dr .f { color: #1d1815; }
+.dx-id .mrz {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 13px; padding: 0 3px; line-height: 13px; white-space: nowrap; overflow: hidden;
+  color: #3a2f28; background: rgba(255, 255, 255, 0.4); border-top: 1px solid color-mix(in srgb, var(--nc) 40%, transparent);
+}
+
+/* —— 入境许可 —— */
+.doc[data-doc=permit] {
+  width: 162px; height: 114px; min-height: 0; padding: 0; border: 1px solid #5a1c14; background: #f2e7cd;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+.dx-permit { background: repeating-linear-gradient(90deg, rgba(140, 59, 46, 0.05) 0 1px, transparent 1px 6px), linear-gradient(#f4ead2, #e6d8b8); }
+.dx-permit .dh { background: #8c3b2e; border-bottom: 2px solid #d9a441; height: 20px; }
+.dx-permit .sub { display: flex; justify-content: space-between; height: 14px; line-height: 14px; padding: 0 4px; color: #8c3b2e; border-bottom: 1px solid #8c3b2e; }
+.dx-permit .sub .no { color: #5a1c14; }
+.dx-permit .dr { padding: 0 4px; border-bottom: 1px dotted rgba(90, 28, 20, 0.35); }
+.dx-permit .dl { width: 50px; color: #8a5a48; }
+.dx-permit .seal { right: 10px; bottom: 5px; }
+.dx-permit .qf { position: absolute; right: -15px; top: 38px; width: 30px; height: 30px; border: 2px solid rgba(190, 40, 30, 0.55); border-radius: 50%; pointer-events: none; }
+
+/* —— 体检报告 —— */
+.doc[data-doc=health] {
+  width: 162px; height: 122px; min-height: 0; padding: 0; border: 1px solid #1f4f4b; background: #eef2ea;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+.dx-health { background: linear-gradient(#f3f6ef, #e3ebe0); }
+.dx-health .dh { background: #2a6f6a; border-bottom: 2px solid #9fd8d2; }
+.dx-health .dh svg { background: #c94a3e; outline: 1px solid #fff; }
+.dx-health .sub { height: 14px; line-height: 14px; padding: 0 4px; color: #2a6f6a; }
+.dx-health .tb { margin: 1px 4px 0; border: 1px solid #2a6f6a; background: #fbfcf8; }
+.dx-health .dr { height: 15px; border-bottom: 1px solid rgba(42, 111, 106, 0.35); padding-right: 2px; }
+.dx-health .dr:last-child { border-bottom: none; }
+.dx-health .dl { width: 54px; height: 100%; padding-left: 3px; margin-right: 4px; color: #2a5a56; background: rgba(42, 111, 106, 0.1); border-right: 1px solid rgba(42, 111, 106, 0.35); }
+.dx-health .ic { margin-left: 2px; }
+.dx-health .st .f { flex: none; padding: 0 4px; }
+.dx-health .st.ok .f { color: #2f6a2a; }
+.dx-health .st.inf .f { color: #fff; background: #b33a2e; }
+
+/* —— 担保函 —— */
+.doc[data-doc=guar] {
+  width: 162px; height: 116px; min-height: 0; padding: 0; border: 1px solid #6b4a24; background: #f3e7cc;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+.dx-guar {
+  background:
+    linear-gradient(90deg, transparent 0 6px, rgba(179, 58, 46, 0.3) 6px 7px, transparent 7px),
+    repeating-linear-gradient(0deg, transparent 0 13px, rgba(107, 74, 36, 0.12) 13px 14px),
+    #f5ead2;
+}
+.dx-guar .lh { display: flex; align-items: center; gap: 4px; height: 20px; padding: 0 4px; color: #4a3014; background: #e8d2a4; border-bottom: 3px double #6b4a24; white-space: nowrap; }
+.dx-guar .lh .f { flex: 1; min-width: 0; overflow: hidden; }
+.dx-guar .ttl { height: 16px; line-height: 16px; text-align: center; color: #4a3014; letter-spacing: 2px; }
+.dx-guar .dr { padding: 0 4px 0 10px; }
+.dx-guar .dl { width: 50px; color: #7a5a36; }
+.dx-guar .txt { height: 28px; padding: 0 4px 0 10px; line-height: 14px; color: #5a4a38; white-space: normal; }
+.dx-guar .sg { display: flex; align-items: center; gap: 4px; height: 14px; padding: 0 4px 0 10px; color: #7a5a36; }
+.dx-guar .seal { right: 6px; bottom: 3px; }
+
+/* —— 罗德岛干员证 —— */
+.doc[data-doc=rhodes] {
+  width: 164px; height: 104px; min-height: 0; padding: 0; background: transparent; border: none; box-shadow: none; overflow: visible;
+}
+.dx-rhodes { overflow: visible; }
+.dx-rhodes .rs, .dx-rhodes .rc {
+  position: absolute; inset: 0;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+.dx-rhodes .rs { transform: translate(2px, 2px); background: rgba(0, 0, 0, 0.45); }
+.dx-rhodes .rc {
+  color: #f2f2ef;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 4px),
+    linear-gradient(135deg, #26272b, #17181b);
+}
+.dx-rhodes .ry { position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: repeating-linear-gradient(-45deg, #e8b84a 0 4px, #17181b 4px 8px); }
+.dx-rhodes .dh { margin: 0 14px 0 6px; padding-left: 4px; border-bottom: 1px solid #e8b84a; }
+.dx-rhodes .dh .dt { letter-spacing: 1px; }
+.dx-rhodes .sub { height: 14px; line-height: 14px; padding-left: 10px; color: #9a9a9a; }
+.dx-rhodes .dr { padding-left: 10px; }
+.dx-rhodes .dl { width: 50px; color: #8a8a8a; }
+.dx-rhodes .dr .f { color: #f2f2ef; }
+.dx-rhodes .dr.cd .f { color: #e8b84a; }
+.dx-rhodes .bc { position: absolute; left: 10px; right: 16px; bottom: 5px; display: flex; align-items: flex-end; gap: 4px; height: 12px; }
+.dx-rhodes .bc span { color: #8a8a8a; line-height: 12px; white-space: nowrap; }
+
+/* —— 纸条、钞票、违规单、手册 —— */
+.doc[data-doc=note] { overflow: visible; }
+.doc[data-doc=note]::before {
+  content: ''; position: absolute; left: 50%; top: -5px; width: 44px; height: 12px; margin-left: -22px; transform: rotate(4deg);
+  background: rgba(236, 228, 196, 0.8); border-left: 1px dashed rgba(0, 0, 0, 0.18); border-right: 1px dashed rgba(0, 0, 0, 0.18);
+}
+.doc[data-doc=money] { outline: 1px solid #b9d4a0; outline-offset: -5px; }
+.doc[data-doc=money]::before, .doc[data-doc=money]::after {
+  content: ''; position: absolute; top: 14px; width: 12px; height: 12px; border: 1px solid #b9d4a0; border-radius: 50%;
+  background: repeating-linear-gradient(45deg, #2c4a25 0 1px, transparent 1px 3px);
+}
+.doc[data-doc=money]::before { left: 8px; }
+.doc[data-doc=money]::after { right: 8px; }
+.doc[data-doc=cite] {
+  background: repeating-linear-gradient(0deg, transparent 0 13px, rgba(179, 58, 46, 0.12) 13px 14px), #f3ece0;
+}
+.doc[data-doc=cite]::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  background: repeating-linear-gradient(90deg, var(--desk, #5a4636) 0 3px, transparent 3px 6px);
+}
+.doc.book {
+  background:
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.06) 0 1px, transparent 1px 3px),
+    #2f4a3a;
+}
+.doc.book::before { content: ''; position: absolute; inset: 2px; border: 1px solid rgba(232, 184, 74, 0.45); pointer-events: none; }
+.doc.book > .hd { position: relative; color: #e8d39a; }
+.doc.book > .hd::before {
+  content: ''; display: inline-block; width: 7px; height: 7px; margin: 0 5px 0 1px; vertical-align: 1px; background: #e8b84a; transform: rotate(45deg);
+}

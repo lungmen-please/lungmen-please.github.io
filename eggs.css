@@ -1,0 +1,94 @@
+/* 彩蛋的样式 */
+
+/* 标题页立绘的对话气泡 */
+.egg-bubble {
+  position: absolute; transform: translate(-50%, -100%); z-index: 5; pointer-events: none; white-space: nowrap;
+  padding: 2px 6px; background: var(--paper); color: var(--ink); border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5); animation: eggPop 0.15s steps(2);
+}
+.egg-bubble::after {
+  content: ''; position: absolute; left: 50%; bottom: -6px; margin-left: -3px;
+  border: 3px solid transparent; border-top-color: var(--ink);
+}
+@keyframes eggPop { from { transform: translate(-50%, -80%) scale(0.6); opacity: 0; } }
+
+/* 不在检查亭时的提示条 */
+.egg-toast {
+  position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 2000; white-space: nowrap;
+  padding: 3px 10px; background: #6b5320; color: #fbe7b0; border: 2px solid #120f0e; box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+  transition: opacity 0.5s;
+}
+.egg-toast.out { opacity: 0; }
+
+/* 源石虫：从桌面左边慢慢爬到右边 */
+.egg-slug {
+  position: absolute; left: -26px; z-index: 960; width: 22px; height: 13px; cursor: pointer;
+  transition: left 14s linear;
+}
+.egg-slug canvas { width: 22px; height: 13px; transform: scaleX(-1); animation: eggCrawl 0.5s steps(2) infinite; }
+.egg-slug.go { left: 440px; }
+.egg-slug.flee { left: 470px !important; top: -20px !important; transition: left 0.6s ease-in, top 0.6s ease-in; }
+.egg-slug.flee canvas { animation: eggSpin 0.3s linear infinite; }
+@keyframes eggCrawl { 50% { transform: scaleX(-1) translateY(-1px) scaleY(0.92); } }
+@keyframes eggSpin { to { transform: scaleX(-1) rotate(360deg); } }
+
+/* 可露希尔的广告单 */
+.egg-ad {
+  position: absolute; right: -12px; top: -16px; width: 150px; z-index: 6; cursor: pointer;
+  padding: 4px 6px; background: #fff3c4; color: #3a2a12; border: 2px dashed #c0392b; line-height: 14px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45); transform: rotate(5deg); transition: transform 0.4s, opacity 0.4s;
+}
+.egg-ad b { display: block; color: #c0392b; font-weight: normal; }
+.egg-ad small { display: block; margin-top: 2px; color: #7a6a52; font-size: 12px; }
+.egg-ad.torn { transform: rotate(40deg) translate(60px, 120px); opacity: 0; }
+
+/* 合成玉 */
+.egg-jade { color: #e8b84a; }
+.egg-jade span { display: inline-block; width: 88px; color: var(--dim); }
+
+/* ———— 龙门篇的熟面孔 ———— */
+
+/* 桌上的小东西：Pocky、W 的礼物 */
+.doc.egg-item {
+  width: auto; padding: 2px 4px 1px; background: #efe6d2; border: 1px solid #6d6058; text-align: center; cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+.doc.egg-item canvas { display: block; margin: 0 auto; image-rendering: pixelated; }
+.egg-pk canvas { width: 30px; height: 18px; }
+.egg-gb canvas { width: 26px; height: 22px; }
+.egg-pkn, .egg-gt { display: block; font-size: 12px; line-height: 13px; color: var(--ink-l); white-space: nowrap; }
+.egg-led { position: absolute; right: 3px; top: 3px; width: 3px; height: 3px; background: #ff4a3a; animation: eggBlink 1s steps(1) infinite; }
+.doc.egg-item.open .egg-led { display: none; }
+.doc.egg-item.open .egg-gt { color: #b33a2e; }
+.doc.egg-item.boom { animation: eggBoom 0.4s steps(4); }
+@keyframes eggBlink { 50% { opacity: 0; } }
+@keyframes eggBoom { 25% { transform: translate(-2px, 1px) scale(1.15); } 50% { transform: translate(2px, -1px); } 75% { transform: translate(-1px, 0) scale(1.05); } }
+
+/* 报纸上的号外 / 小广告 */
+.egg-extra {
+  position: absolute; right: -26px; bottom: 34px; width: 132px; z-index: 6; padding: 3px 6px 4px;
+  background: #f1e9d4; color: var(--ink); border: 1px solid #8a7c66; line-height: 14px; text-align: left;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.4); transform: rotate(4deg); cursor: pointer; transition: transform 0.3s;
+}
+.egg-extra b { display: block; color: #b33a2e; font-weight: normal; border-bottom: 1px solid #b33a2e; margin-bottom: 2px; }
+.egg-extra p { margin: 0 0 2px; }
+.egg-extra.ad { cursor: default; transform: rotate(-3deg); border-style: dashed; background: #fbf4dc; }
+.egg-extra.ad b { border: none; }
+.egg-extra.flip { transform: rotate(-2deg) translate(-150px, 0); }
+
+/* 结局的熟面孔 */
+.egg-faces { margin: 4px 0 0; text-align: center; color: #e8b84a; line-height: 15px; white-space: normal; }
+
+/* 图鉴增补“龙”一页后，种族列表多了一行 */
+.book .rlist:has(.racebtn[data-race="lung"]), .book .rlist:has(.racebtn[data-race="lung"]) .racebtn { height: auto; line-height: 12px; }
+
+/* 结局右上角：本周见过的熟面孔 */
+.egg-badge {
+  position: absolute; right: 8px; top: 8px; z-index: 5; padding: 1px 6px; cursor: pointer;
+  color: #1b1714; background: #e8b84a; border: 2px solid #1b1714; transform: rotate(4deg); box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+.egg-badge .pop {
+  display: none; position: absolute; right: -4px; top: 22px; width: 220px; padding: 4px 6px; line-height: 15px; text-align: left;
+  color: var(--light); background: #1b1714; border: 2px solid #e8b84a; transform: rotate(-4deg);
+}
+.egg-badge.on .pop { display: block; }
