@@ -3,7 +3,7 @@
 **中文** | [English](README.en.md)
 
 《明日方舟》同人小游戏，Papers, Please 式的检查站玩法。
-**基于 [IP, PLEASE · 请出示你的 IP](https://ip-please.github.io) 修改。** 在线玩：<https://chenziqiadam.github.io/lungmen-please/>。 本作是粉丝同人作品，与鹰角网络无关。
+**基于 [IP, PLEASE · 请出示你的 IP](https://ip-please.github.io) 修改。** 在线玩：<https://lungmen-please.github.io/>。 本作是粉丝同人作品，与鹰角网络无关。
 
 切尔诺伯格出事前后，你在龙门边境检查站当审查员。工作只有一项：核对证件，决定谁能进入龙门。
 证件上写着种族，旅客头上长着耳朵、角、光环，身后拖着尾巴。它们得对得上。
