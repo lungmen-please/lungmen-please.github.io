@@ -41,7 +41,7 @@ for (const f of FILES) {
           if (!CJK.test(fr) || !HAN.test(fr)) continue;
           total++;
           const probe = fr.replace(/\u0001/g, '3');
-          if (/^放他过去|^明天，一个戴白围巾|^我们把她带出来|^小雅的抑制剂我们包了/.test(fr)) continue;   // 这几段在页面上拼成一句
+          if (/^放他过去|^明天，一个戴白围巾|^我们把她带出来|^阿米娅的抑制剂我们包了/.test(fr)) continue;   // 这几段在页面上拼成一句
           if (ctx.trCore(probe) == null) { miss++; console.log(`${f}:${i + 1}: ${fr.replace(/\u0001/g, '${…}')}`); }
         }
       }

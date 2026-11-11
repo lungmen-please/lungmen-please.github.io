@@ -867,13 +867,11 @@
     makeRhodes(t);
     t.docs.rhodes.code = '阿米娅';
     t.voice = 230;
-    const doc = met('doctor');
-    t.intro = ['您好！我是罗德岛的阿米娅。', '我们来龙门，是为了帮助这里的感染者。这是我的干员证。'];
-    if (doc) t.intro.push('……那个，请问您有没有见过一个戴兜帽的人？');
-    t.answers = { infected: ['是的，我是感染者。', '但罗德岛的干员证，可以证明我们是来帮忙的。'] };
+    t.intro = ['博士！……啊，上班时间要叫审查员先生。', '凯尔希医生让我来给您送饭。这是罗德岛发给我的干员证，他们说拿着它就能过关。'];
+    t.answers = { infected: ['……您知道的。', '但罗德岛的干员证，可以证明我没有问题。'] };
     t.react = {
-      approve: doc ? '博士来过这里？太好了……谢谢您！' : '谢谢您！罗德岛会记住您的。',
-      deny: '……我明白了。我们会遵守龙门的规定。',
+      approve: '谢谢博士！晚上见，记得早点下班。',
+      deny: '……我明白了。规定就是规定，对吧。饭我放窗台上了。',
       detain: '（她手上的戒指闪过一道微光，又暗了下去。）……请不要这样。',
     };
     return t;
@@ -886,13 +884,13 @@
     t.voice = 130;
     t.scanFn = scanMon3tr;
     t.intro = [
-      met('amiya') ? '阿米娅已经过去了？……好。' : '罗德岛医疗部，凯尔希。',
+      met('amiya') ? '阿米娅已经来过了？……好。' : '是我。别摆出那副表情，公事公办。',
       '关于矿石病在下城区的扩散，我需要尽快和龙门的负责人谈一谈。',
       '（她开始解释源石结晶在血液里的沉积机制。三分钟过去了，你身后的队伍开始打哈欠。）',
       '……你在听吗？',
     ];
     t.react = {
-      approve: '谢谢。另外，你该早点睡觉了，你的黑眼圈很重。',
+      approve: '谢谢。另外，今晚早点回家，你的黑眼圈很重。',
       deny: '这个决定并不明智。不过，我尊重规则。',
       detain: '……Mon3tr，不必。我们走。',
     };
@@ -1520,9 +1518,144 @@
     if (today.length) setTimeout(() => toast(`今天在窗口见到了：${today.map((x) => eggName(x.k)).join('、')}`), 600);
   }
 
+  // ———————————————— 结算：捡来的旧终端 ————————————————
+  // 下班路上的三条消息：阿米娅（女儿）、凯尔希（老婆）、普瑞赛斯（前任？）。
+  // 只是彩蛋，不影响存款和剧情。
+
+  const PHONE = [
+    {
+      k: 'amiya', name: '阿米娅', rel: '女儿',
+      msg: [
+        '博士，您还有许多事情需要处理。现在还不能休息哦。',
+        '博士……今天的事，谢谢您替我保密。桌上的理智顶液只能喝一瓶哦。',
+        '博士，我在练小提琴。隔壁的干员问是不是有源石虫在叫……真的有那么难听吗？',
+        '博士，今天检查站的队都排到街角了。您一定很累吧？我给您留了一块苹果派。',
+        '不管明天发生什么，我都会和您一起走下去的。晚安，博士。',
+      ],
+      seen: '博士，今天在窗口看到您工作的样子了。很帅，就是黑眼圈有点重。',
+      lost: '（消息未送达：隔离区没有信号。）',
+      replies: [
+        ['马上回家', '嗯！饭在锅里热着呢。'],
+        ['摸摸头', '博、博士！……下次请当面摸。'],
+      ],
+    },
+    {
+      k: 'kaltsit', name: '凯尔希', rel: '老婆',
+      msg: [
+        '你的作息、饮食和工资，我都会过问。这不是关心，是医嘱。（后面还有 2847 字，已折叠）',
+        '阿米娅问我你是不是又熬夜了。我说：是。不必解释，Mon3tr 都看见了。',
+        '今天没有出错。别得意，这只是你本来就该做到的。',
+        '家长会我替你去了。老师问阿米娅的父亲为什么总戴着兜帽，我说：他见不得光。',
+        '明天小心行事。无论你选哪条路，记得回来。这条不用回复。',
+      ],
+      fined: '听说你今天又判断失误了。失忆不是借口。罚款从你的零花钱里扣。',
+      seen: '今天在窗口，你倒是公事公办。很好。黑眼圈的账回家再算。',
+      lost: '诊所这边一切都好。按时吃饭，照顾好阿米娅。不必来找我。',
+      replies: [
+        ['工资上交', '嗯。零花钱明天给你。'],
+        ['收到', '（对方已读。）'],
+      ],
+    },
+    {
+      k: 'priestess', name: '普瑞赛斯', rel: '前任？',
+      msg: [
+        '找到你了。你换了终端，换了名字，连脸都藏起来了。没关系，我认得出来。',
+        '那个医生还是把你管得那么严吗？以前，你的日程可都是我排的。',
+        '我看见那孩子了。她的眼睛很像……算了。你把她照顾得很好。',
+        '你答应过我的事，还记得吗？忘了也没关系。我替你记了一万年。',
+        '去睡吧。无论文明存续还是毁灭，我都在终点等你。',
+      ],
+      replies: [
+        ['拉黑', '（拉黑失败：该联系人不在任何通讯录里。）'],
+        ['你是谁？', '（消息已送达。对方正在输入……一直在输入。）'],
+      ],
+    },
+  ];
+
+  function phoneFace(k) {
+    const cv = document.createElement('canvas');
+    cv.width = 28; cv.height = 28;
+    const app = LOOK[k] || base({ style: 'long', skin: 'pale', hair: [34, 34, 46], eye: [150, 200, 220], top: 'coat', cloth: [228, 230, 236] });
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = k === 'kaltsit' ? '#3d5a4a' : '#3a4a66';
+    ctx.fillRect(0, 0, 28, 28);
+    drawPerson(app, { noShades: true }).draw(cv, -34, k === 'amiya' ? -20 : -26);
+    if (k === 'priestess') {            // 信号不好：只剩一个轮廓
+      ctx.fillStyle = 'rgba(8, 14, 22, 0.82)'; ctx.fillRect(0, 0, 28, 28);
+      ctx.fillStyle = '#7fd6d0';
+      for (const [x, y, w] of [[0, 6, 9], [17, 11, 11], [3, 19, 14], [20, 24, 8]]) ctx.fillRect(x, y, w, 1);
+    }
+    return cv;
+  }
+
+  function summaryPhone(d) {
+    const sc = document.querySelector('#summary');
+    if (!sc || !S || sc.querySelector('.egg-phone')) return;
+    const day = Math.min(Math.max(S.day, 1), 5) - 1;
+    const metToday = (k) => S.flags['egg_' + k + '_day'] === S.day;
+    const textOf = (c) => {
+      if (c.lost && (c.k === 'amiya' ? S.fam.sisterLost : S.fam.momLost)) return c.lost;
+      if (c.seen && metToday(c.k)) return c.seen;
+      if (c.fined && d && (d.fines > 0 || d.total - d.correct >= 3)) return c.fined;
+      return c.msg[day];
+    };
+    const read = new Set();
+    const ph = document.createElement('div');
+    ph.className = 'egg-phone';
+    ph.innerHTML = '<div class="ph-top"><b>PRTS</b><span class="ph-n"></span></div><div class="ph-body"></div>';
+    const body = ph.querySelector('.ph-body'), count = ph.querySelector('.ph-n');
+    const el = (tag, cls, text) => { const e = document.createElement(tag); e.className = cls; if (text != null) e.textContent = text; return e; };
+    const upd = () => { const n = PHONE.length - read.size; count.textContent = n ? `未读 ${n}` : '已读'; ph.classList.toggle('new', n > 0); };
+
+    function list() {
+      body.textContent = '';
+      for (const c of PHONE) {
+        const row = el('div', 'ph-row' + (read.has(c.k) ? '' : ' unread'));
+        row.appendChild(phoneFace(c.k));
+        const who = el('div', 'ph-who');
+        who.appendChild(el('b', '', c.name)); who.appendChild(el('small', '', c.rel));
+        row.appendChild(who); row.appendChild(el('i', 'ph-dot'));
+        row.addEventListener('pointerdown', () => { SFX.click(); chat(c); });
+        body.appendChild(row);
+      }
+      body.appendChild(el('p', 'ph-note', '下班路上，终端响了三声。'));
+    }
+
+    function chat(c) {
+      const first = !read.has(c.k);
+      read.add(c.k); upd();
+      body.textContent = '';
+      const back = el('div', 'ph-back');
+      back.appendChild(el('span', '', '← ')); back.appendChild(el('b', '', c.name)); back.appendChild(el('small', '', c.rel));
+      back.addEventListener('pointerdown', () => { SFX.click(); list(); });
+      body.appendChild(back);
+      const text = textOf(c), sys = text.startsWith('（');
+      body.appendChild(el('div', sys ? 'ph-sys' : 'ph-msg', text));
+      if (c.k === 'priestess') body.appendChild(el('div', 'ph-time', '发送时间：■■■■ 年前'));
+      const ops = el('div', 'ph-ops');
+      for (const [q, a] of sys ? [] : c.replies) {
+        const b = el('button', 'ph-op', q);
+        b.type = 'button';
+        b.addEventListener('click', () => {
+          SFX.paper();
+          ops.remove();
+          body.appendChild(el('div', 'ph-msg me', q));
+          setTimeout(() => { if (body.contains(back)) { body.appendChild(el('div', a.startsWith('（') ? 'ph-sys' : 'ph-msg', a)); body.scrollTop = body.scrollHeight; } }, 500);
+        });
+        ops.appendChild(b);
+      }
+      body.appendChild(ops);
+      if (first && read.size === PHONE.length) setTimeout(() => toast('三条消息全部已读。理智 -3。'), 300);
+    }
+
+    upd(); list();
+    sc.classList.add('with-phone');
+    sc.appendChild(ph);
+  }
+
   const ENDING_X = {
     citizen: () => (decOf('chen') === 'approve' ? '嘉奖令的末尾，有一个签得很用力的名字：陈晖洁。' : ''),
-    rhodes: () => (met('amiya') ? '门外，一个兔耳朵的女孩探出头来：“欢迎来到罗德岛！”' : ''),
+    rhodes: () => (met('amiya') ? '阿米娅把那张干员证举得高高的：“博士，这下我们都是罗德岛的人了！”' : ''),
     reunion: () => (decOf('frostnova') === 'approve' ? '那年冬天，龙门下了一场很大的雪。' : ''),
     lost: () => (met('gummy') ? '后来，有个乌萨斯女孩每周都会往隔离区送一桶罗宋汤。' : ''),
     evicted: () => (S.flags.egg_pocky ? '你口袋里还剩几根 Pocky。那天晚上，一家人分着吃了。' : ''),
@@ -1594,7 +1727,7 @@
     if (name === 'title') { titleEggs(); titleMore(); }
     else if (name === 'news') newsEggs();
     else if (name === 'booth') { syncLungPage(); boothEggs(); addPocky(); }
-    else if (name === 'summary') { summaryEggs(); summaryMore(); }
+    else if (name === 'summary') { summaryEggs(); summaryMore(); summaryPhone(arg); }
     else if (name === 'ending') endingEggs(arg);
   };
 })();

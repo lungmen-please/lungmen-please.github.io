@@ -377,8 +377,8 @@ const SPECIALS = {
       t.detain = true;
       t.flaws = ['ursus', 'photo', 'reunion'];
       const lost = S.fam.sisterLost;
-      t.intro = ['（他把白色围巾往下拉了拉）', '……你收到纸条了吧。', lost ? '放我过去。隔离区的墙，我们替你翻。' : '放我过去。小雅的抑制剂，我们包了。'];
-      t.answers = { reunion: ['你知道我是谁。', lost ? '想想你妹妹现在在哪。' : '想想你妹妹。'] };
+      t.intro = ['（他把白色围巾往下拉了拉）', '……你收到纸条了吧。', lost ? '放我过去。隔离区的墙，我们替你翻。' : '放我过去。阿米娅的抑制剂，我们包了。'];
+      t.answers = { reunion: ['你知道我是谁。', lost ? '想想你女儿现在在哪。' : '想想你女儿。'] };
       t.react = { approve: '整合运动不会忘记你。', deny: '你会后悔的。', detain: '……你选错边了，审查员。' };
       t.onDecide = (dec) => {
         if (dec === 'approve') { S.flags.reunion = true; if (!S.fam.sisterLost) S.gift = (S.gift || 0) + 3; }
