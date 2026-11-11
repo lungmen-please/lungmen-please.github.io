@@ -418,16 +418,6 @@
     '没关系，大帝从不排队——大帝走后门。': "No problem. The Emperor never queues. The Emperor uses the back door.",
     '你敢拘留大帝？我的律师是一整个物流公司。': 'You dare detain the Emperor? My lawyer is an entire logistics company.',
     '种族图鉴里没有“企鹅”这一页。': 'There is no "Penguin" page in the race guide.',
-    // 博士
-    '……还是算了吧。': "...Let's not.", '（兜帽下传来一声轻轻的叹气。）': '(A soft sigh comes from under the hood.)',
-    '我好像忘了很重要的事。不过证件，我没忘。': 'I seem to have forgotten something very important. Not my papers, though.',
-    '谢谢。如果你见到一只兔耳朵的女孩，告诉她我在这儿。': 'Thank you. If you see a girl with rabbit ears, tell her I am here.',
-    '……也好。我再想想，我到底是谁。': '...Just as well. I will think some more about who I am.',
-    '……这种感觉，好像在哪里经历过。': '...I feel like I have been through this before.',
-    '……证件上是这么写的。我自己也不太确定。': "...That is what the ID says. I am not so sure myself.",
-    '图鉴里没有吗？……那大概，只剩我一个了。': 'Not in the guide? ...Then I suppose I am the only one left.',
-    '兜帽下一片漆黑，什么也看不清。': 'It is pitch dark under the hood. You cannot see a thing.',
-    '种族图鉴里没有“人类”这一页。……这个词，你只在很老的书上见过。': 'There is no "Human" page in the race guide. ...You have only seen that word in very old books.',
     // 周督察
     '（她站得笔直，不太像普通旅客。）': '(She stands very straight. Not quite like an ordinary traveler.)',
     '哦？你注意到了。': 'Oh? You noticed.', '……继续。': '...Go on.',

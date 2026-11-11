@@ -1,7 +1,7 @@
 'use strict';
 // 彩蛋：低频出现的特别旅客、标题页互动、墨镜模式、源石虫、可露希尔的广告。
 // 通过 game.js 的 hook() 调用：EGGS.scene / EGGS.traveler / EGGS.decide。
-// 测试时可设 EGGS.force = 'claude' | 'penguin' | 'doctor' | 'inspector' | 'ad' | 'jade' | 'slug'，
+// 测试时可设 EGGS.force = 'claude' | 'penguin' | 'inspector' | 'ad' | 'jade' | 'slug'，
 // 或龙门篇的熟面孔（见 EGGS.TRAVELERS），路过的人（见 EGGS.CAMEOS），'radio' | 'news' | 'news_ad'。
 
 (function () {
@@ -146,58 +146,6 @@
     return t;
   }
 
-  // 3. 戴兜帽的“博士”：兜帽永远摘不下来
-  function shadowFace(M) {
-    const F = face(), d = [22, 20, 26];
-    for (let y = Math.floor(F.cy - F.ry) - 2; y <= F.cy + F.ry + 2; y++) {
-      for (let x = Math.floor(F.cx - F.rx) - 2; x <= F.cx + F.rx + 2; x++) {
-        const inF = typeof inFace === 'function' && inFace(x + 0.5, y + 0.5);
-        if ((inF || ((x + 0.5 - F.cx) / (F.rx + 1.5)) ** 2 + ((y + 0.5 - F.cy) / (F.ry + 1.5)) ** 2 <= 1) && M.get(x, y)) M.set(x, y, d);
-      }
-    }
-    // 面罩上的反光：一道斜线，下面一条横缝
-    const hi = [84, 100, 128], x0 = Math.round(F.cx - F.rx * 0.55), y0 = Math.round(F.cy - F.ry * 0.5);
-    M.line(x0, y0 + 4, x0 + 4, y0, hi); M.line(x0 + 2, y0 + 5, x0 + 6, y0 + 1, [52, 60, 80]);
-    M.rect(Math.round(F.cx) - 5, Math.round(F.cy + F.ry * 0.45), 10, 1, [40, 42, 54]);
-    return M;
-  }
-  // 博士：泰拉上没有的“人类”，没有耳朵、角和尾巴可看，肩上一道青色反光条，左臂一枚橙色菱形臂章
-  const DOC_X = {
-    tail: () => {},
-    body: (L) => {
-      const t = [70, 204, 204], o = [236, 130, 52];
-      for (const s of [0, 1]) for (let x = 25; x <= 32; x++) { const y = Math.round(64 - (x - 25) * 0.36); L.set(s ? 95 - x : x, y, t); L.set(s ? 95 - x : x, y + 1, [40, 130, 136]); }
-      L.poly([[25, 68], [28, 71], [25, 74], [22, 71]], o); L.set(25, 71, [255, 220, 160]);
-      L.line(57, 66, 59, 72, o);
-    },
-  };
-  function doctor() {
-    const t = makeTraveler({ nation: 'victoria', race: 'feline', app: { hat: 'hood', hatColor: [44, 46, 54], cloth: [36, 38, 46], top: 'coat', glasses: false, acc: null, skin: 'light', accent: [70, 204, 204], x: DOC_X } });
-    if (S.day >= 4) {
-      t.docs.rhodes = { code: '博士', name: t.name, expiry: today() + ri(100, 900) };
-      t.app.badge = true;
-    }
-    setRace(t, 'human');
-    t.drawFn = (o) => shadowFace(drawPerson(t.app, Object.assign({}, o, { hatOff: false })));
-    t.photoFn = () => shadowFace(drawPerson(t.app, { hatOff: false }));
-    t.hatLine = '……还是算了吧。';
-    t.ok = ['approve', 'deny'];
-    t.voice = 140;
-    t.intro = ['……', '（兜帽下传来一声轻轻的叹气。）', '我好像忘了很重要的事。不过证件，我没忘。'];
-    t.react = {
-      approve: '谢谢。如果你见到一只兔耳朵的女孩，告诉她我在这儿。',
-      deny: '……也好。我再想想，我到底是谁。',
-      detain: '……这种感觉，好像在哪里经历过。',
-    };
-    t.answers = { race: ['……证件上是这么写的。我自己也不太确定。', '图鉴里没有吗？……那大概，只剩我一个了。'] };
-    t.eggAnalyze = (a, b) => {
-      if (pair(a, b, 'face', 'id.race') || pair(a, b, 'face', 'id.photo')) return { hint: '兜帽下一片漆黑，什么也看不清。' };
-      if (pair(a, b, 'rule.race', 'id.race') || pair(a, b, 'id.photo', 'id.race')) return { hint: '种族图鉴里没有“人类”这一页。……这个词，你只在很老的书上见过。' };
-      return null;
-    };
-    return t;
-  }
-
   // 4. 近卫局督察的突击抽查：证件昨天刚过期
   function inspector() {
     const t = makeTraveler({ nation: 'lungmen', race: 'vouivre', name: '周慧敏', app: { hat: null, top: 'uniform', cloth: [40, 50, 72], glasses: false, style: 'bob', skin: 'light', hair: [72, 60, 70], eye: [72, 164, 104], scale: [84, 96, 120], eyeShape: 'sharp', acc: null } });
@@ -220,7 +168,6 @@
   // 所有叠加在立绘上的小零件（剑、角、伤疤、Pocky……）都按 FACE 定位，换画风也不会跑偏。
 
   RACES.lung = { name: '龙', desc: '深色的龙角；粗壮的龙尾。页边手写：“别再拦我。——陈”' };
-  RACES.human = { name: '人类', desc: '……图鉴里没有这一页。' };
   RACES.oni = { name: '鬼', desc: '……图鉴里没有这一页。' };
 
   const OLC = [40, 28, 44];
@@ -981,7 +928,6 @@
     { k: 'claude', from: 1, p: 0.02, make: claude },
     { k: 'penguin', from: 2, p: 0.02, make: penguin },
     { k: 'inspector', from: 2, p: 0.02, make: inspector },
-    { k: 'doctor', from: 3, p: 0.02, make: doctor },
     { k: 'chen', from: 1, p: 0.008, op: 1, name: '陈', make: chen },
     { k: 'texas', from: 1, p: 0.008, op: 1, name: '德克萨斯', make: texas },
     { k: 'gummy', from: 1, p: 0.008, op: 1, name: '古米', make: gummy },
@@ -1076,7 +1022,7 @@
   const ACHV = [
     { k: 'penguin_all', need: ['penguin', 'texas', 'exusiai'], text: '成就：企鹅物流，使命必达' },
     { k: 'guard_all', need: ['chen', 'hoshiguma', 'swire'], text: '成就：近卫局三位督察都来过了' },
-    { k: 'rhodes_all', need: ['doctor', 'amiya', 'kaltsit'], text: '成就：罗德岛的老朋友' },
+    { k: 'rhodes_all', need: ['amiya', 'kaltsit'], text: '成就：罗德岛的老朋友' },
     { k: 'reunion_all', need: ['frostnova', 'crownslayer', 'w'], text: '成就：整合运动的不速之客' },
   ];
   function checkAchv() {
