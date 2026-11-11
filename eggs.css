@@ -92,3 +92,32 @@
   color: var(--light); background: #1b1714; border: 2px solid #e8b84a; transform: rotate(-4deg);
 }
 .egg-badge.on .pop { display: block; }
+
+/* 结算：捡来的旧终端（阿米娅 / 凯尔希 / 普瑞赛斯的消息） */
+#summary.with-phone { flex-direction: row; gap: 10px; }
+.egg-phone {
+  flex: none; width: 150px; height: 236px; display: flex; flex-direction: column; text-align: left;
+  background: #10181c; color: #cfe6e2; border: 2px solid #0c0a0a; border-radius: 6px;
+  box-shadow: 0 0 0 2px #4a5a60, 4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+.egg-phone.new { animation: eggBuzz 2.4s steps(1) infinite; }
+@keyframes eggBuzz { 0%, 8%, 100% { transform: none; } 2%, 6% { transform: translateX(-1px); } 4% { transform: translateX(1px); } }
+.ph-top { flex: none; display: flex; justify-content: space-between; padding: 2px 6px; background: #1d3a3c; color: #7fd6d0; border-radius: 4px 4px 0 0; }
+.ph-top b { font-weight: normal; letter-spacing: 1px; }
+.egg-phone.new .ph-n { color: #ffb34a; }
+.ph-body { flex: 1; min-height: 0; padding: 4px 5px; overflow-y: auto; scrollbar-width: thin; touch-action: pan-y; }
+.ph-row { position: relative; display: flex; align-items: center; gap: 6px; padding: 3px 2px; border-bottom: 1px solid #24343a; cursor: pointer; }
+.ph-row:hover, .ph-back:hover { background: #1a2a30; }
+.ph-row canvas { flex: none; width: 28px; height: 28px; border: 1px solid #4a5a60; }
+.ph-who b, .ph-back b { display: block; font-weight: normal; color: #e4dfd4; }
+.ph-who small, .ph-back small { font-size: 12px; color: #7fa8a4; }
+.ph-dot { display: none; position: absolute; right: 4px; top: 50%; width: 6px; height: 6px; margin-top: -3px; background: #ff5a4a; animation: eggBlink 1s steps(1) infinite; }
+.ph-row.unread .ph-dot { display: block; }
+.ph-note { margin: 6px 2px 0; color: #6f8a88; line-height: 14px; white-space: normal; }
+.ph-back { display: flex; align-items: baseline; gap: 4px; padding: 1px 2px 3px; border-bottom: 1px solid #24343a; cursor: pointer; color: #7fd6d0; }
+.ph-msg { margin: 5px 14px 0 0; padding: 3px 5px; background: #23363a; border-left: 2px solid #7fd6d0; line-height: 14px; white-space: normal; overflow-wrap: anywhere; }
+.ph-msg.me { margin: 5px 0 0 34px; background: #5a4a22; color: #fbe7b0; border-left: none; border-right: 2px solid #e8b84a; }
+.ph-time, .ph-sys { margin-top: 3px; color: #6f8a88; line-height: 14px; white-space: normal; }
+.ph-ops { display: flex; gap: 4px; margin-top: 6px; }
+#stage .ph-op { flex: 1; padding: 1px 2px; color: #cfe6e2; background: #1d3a3c; border: 1px solid #4a8a86; white-space: nowrap; }
+#stage .ph-op:hover { background: #2a5456; }

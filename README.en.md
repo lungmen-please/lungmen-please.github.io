@@ -16,7 +16,7 @@ Call the next traveler → they hand over their papers → check them against th
 - **HAT OFF**: hats and hoods hide ears and horns. If you cannot see, ask the traveler to take it off.
 - **SCAN** (from day 3): shows Originium crystals on the body, smuggled Originium, and Reunion masks.
 - Each correct decision pays 5 LMD. Find the discrepancy with INSPECT before you deny or detain and you get 2 LMD more. The first two mistakes each day are warnings; after that, every mistake is a fine.
-- After work you pay rent, buy food, and... Xiaoya's suppressants. Skip food and you are late the next day. Miss one dose and she gets worse; miss a second and she is taken away.
+- After work you pay rent, buy food, and... Amiya's suppressants. Skip food and you are late the next day. Miss one dose and she gets worse; miss a second and she is taken away.
 - **Records**: the Records page on the title screen keeps the endings, achievements and familiar faces you have unlocked. It survives finishing the game.
 - **Language**: Chinese and English. Use the EN / 中文 button at the top right at any time. The first visit follows your browser language; you can also add `?lang=en` or `?lang=zh` to the URL.
 - **Shortcuts** (desktop): Space next, 1 approve, 2 deny, 3 detain, E inspect, R scan, F manual, H hat off, Q question.
