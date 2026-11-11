@@ -3,7 +3,7 @@
 [中文](README.md) | **English**
 
 An *Arknights* fan game in the style of *Papers, Please*.
-**Based on [IP, PLEASE](https://ip-please.github.io).** Play online: <https://chenziqiadam.github.io/lungmen-please/>. This is a non-commercial fan work and is not affiliated with Hypergryph.
+**Based on [IP, PLEASE](https://ip-please.github.io).** Play online: <https://lungmen-please.github.io/>. This is a non-commercial fan work and is not affiliated with Hypergryph.
 
 Around the fall of Chernobog, you work as an inspector at the Lungmen border checkpoint. The job is one thing: check the papers and decide who gets into Lungmen.
 The ID states a race. The traveler has ears, horns or a halo on their head, and maybe a tail behind them. The two have to match.
